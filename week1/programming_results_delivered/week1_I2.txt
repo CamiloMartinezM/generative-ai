@@ -1,0 +1,9 @@
+<s> i want to spend ten dollars only </s>
+
+<s> it should not cost more than six dollars each meal </s>
+
+<s> i'd like to spend much </s>
+
+<s> i would like to find out about unintelligible restaurants </s>
+
+<s> uh show me caffe giovanni </s>
