@@ -306,6 +306,9 @@ TSWLatexianTemp*
 #*Notes.bib
 
 # custom
+*.pth
+*/*.pth
+*/*/*.pth
 */old/*
 */*slides.pdf
 *slides.pdf
