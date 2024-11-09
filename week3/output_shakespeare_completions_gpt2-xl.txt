@@ -1,0 +1,96 @@
+===PREFIX===
+O, what a noble mind is here o'erthrown!
+
+===COMPLETION===
+O, what a noble mind is here o'erthrown!
+
+And now, my lord, I'll tell you what I think of you.
+
+You are a man of great courage, and a man of great wit.
+
+You are a man of great wit, and a man of great courage.
+
+You are a man of great courage, and a man of great wit.
+
+You are a man of great wit, and a man of great courage.
+
+====================================
+
+===PREFIX===
+look in thy glass and tell the face thou viewest
+
+===COMPLETION===
+look in thy glass and tell the face thou viewest,
+
+That thou art not the same man that thou art seen to be.
+
+And if thou wilt not, I will tell thee the truth,
+
+That thou art not the same man that thou art seen to be.
+
+And if thou wilt not, I will tell thee the truth,
+
+That thou art not the same man that thou art seen to be.
+
+And if thou wilt not
+
+====================================
+
+===PREFIX===
+Then let not winter's ragged hand deface
+
+===COMPLETION===
+Then let not winter's ragged hand deface your heart.
+
+Let not the cold of winter's chill touch your heart.
+
+Let not the cold of winter's chill touch your heart.
+
+Let not the cold of winter's chill touch your heart.
+
+Let not the cold of winter's chill touch your heart.
+
+Let not the cold of winter's chill touch your heart.
+
+Let not the cold of winter's chill touch your heart.
+
+Let
+
+====================================
+
+===PREFIX===
+Thou canst not see one wrinkle in my brow,
+
+===COMPLETION===
+Thou canst not see one wrinkle in my brow,
+
+Nor one wrinkle in my beard,
+
+Nor one wrinkle in my eye,
+
+Nor one wrinkle in my hair,
+
+Nor one wrinkle in my beard,
+
+Nor one wrinkle in my eye,
+
+Nor one wrinkle in my hair,
+
+Nor one wrinkle in my beard,
+
+Nor one wrinkle in my eye,
+
+Nor one wrinkle in
+
+====================================
+
+===PREFIX===
+Great lords, wise men ne'er sit and wail their loss,
+
+===COMPLETION===
+Great lords, wise men ne'er sit and wail their loss, but they go to their rest, and the world is full of their sorrows.
+
+"But I, who am the most wise of all, and the most beloved of all, I will not go to my rest, but I will go to my rest, and I will go to my rest, and I will go to my rest, and I will go to my rest, and I will go to my rest
+
+====================================
+

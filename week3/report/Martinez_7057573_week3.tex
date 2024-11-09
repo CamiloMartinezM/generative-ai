@@ -1,0 +1,437 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}
+
+\usepackage[preprint,nonatbib]{neurips_2024}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage[table]{xcolor}  % colors
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{tabularray}
+\usepackage[most]{tcolorbox}
+\usepackage[ruled,vlined]{algorithm2e}
+
+\definecolor{lightgray}{rgb}{0.95, 0.95, 0.95}
+
+\newlist{arrowlist}{itemize}{1}
+\setlist[arrowlist]{label=$\Rightarrow$}
+
+\newtcolorbox{coloredquote}[1][]{%
+    % enhanced, breakable, 
+    size=minimal,
+    % frame hidden, 
+    colframe=black!10!white, 
+    colback=black!5!white,
+    \texttt{#1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Week 3 Assignment\\
+\vspace{2mm}
+\small{Generative AI}
+\\
+\vspace{2mm}
+\small{Saarland University -- Winter Semester 2024/25}
+}
+
+\author{%
+  Martínez \\
+  7057573 \\
+  \texttt{cama00005@stud.uni-saarland.de} \\
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\DeclareRobustCommand{\textitbf}[1]{\textbf{\textit{#1}}} % for bold italic text
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exercise Assignment: E1}\label{sec:e1}
+The algorithm to compute the attention vector \(\mathbf{a}\) as output from the Multi-Head Attention Layer is the following:
+
+\begin{algorithm}[H]
+    \caption{Multi-Head Attention Layer}
+    % \SetAlgoLined
+    \SetAlgoHangIndent{0pt}
+
+    \SetKwProg{MHA}{MHA}{}{}
+    \SetKwInOut{Input}{Input}
+    \SetKwInOut{Output}{Output}
+    \Input{\(N - 1\) embedding vectors of dimension \(d\), \(\mathbf{e}_{t-N+1}, \dots, \mathbf{e}_{t-2}, \mathbf{e}_{t-1}\)}
+    \Output{Attention vector \(\mathbf{a}\)}
+
+    \MHA{$(\mathbf{e}_{t-N+1}, \dots, \mathbf{e}_{t-2}, \mathbf{e}_{t-1})$}{
+        \ForEach{attention head indexed $i < \eta_\mathbf{a}$}{
+            \ForEach{pair of $\mathbf{e}$ vectors indexed $m$}{
+                \[
+                    \text{score}(\mathbf{e}_{t-1}, \mathbf{e}_m) \gets \frac{W_i^q \mathbf{e}_{t-1} \cdot W_i^k \mathbf{e}_m}{\sqrt{d_k}}\;
+                \]
+                where $W_i^q \in \mathbb{R}^{d_k \times d}$ and $W_i^k \in \mathbb{R}^{d_k \times d}$, and are the query and key matrices respectively, of the $i$-th attention head.
+            }\
+
+            Compute attention weights $\alpha_m$ using \textit{softmax} over all scores:
+            \[
+                \alpha_m \gets \text{softmax}_{m}\left(\left\{\text{score}(\mathbf{e}_{t-1}, \mathbf{e}_j) \mid j = t-N+1, \dots, t-1\right\}\right)\;
+            \]
+
+            Compute the attention vector $\mathbf{a}_i$ as a weighted sum given by:
+            \[
+                \mathbf{a}_i \gets \sum_{m=t-N+1}^{t-1} \alpha_m \, W_i^v \mathbf{e}_m, \quad \text{s.t. } \mathbf{a}_i \in \mathbb{R}^{d_v}
+            \]
+            where $W_i^v \in \mathbb{R}^{d_v \times d}$ is the value matrix of the $i$-th attention head.
+        }\
+
+        Concatenate the outputs $\mathbf{a}_i$ of all $\eta_a$ attention heads:
+        \[
+            \mathbf{a} \gets \left[\mathbf{a}_1, \dots, \mathbf{a}_{\eta_a}\right] , \quad \text{s.t. } \mathbf{a} \in \mathbb{R}^{\eta_a d_v}
+        \]
+        \KwRet{$\mathbf{a}$}\;
+    }
+\end{algorithm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exercise Assignment: E2}\label{sec:e2}
+As we saw in Week 2's Assignment: E3, the number of parameters introduced by the single attention head in the \textit{Simple Feed-forward Neural Language Model} are the number of parameters in the query, key and value matrices, i.e., $W^q$, $W^k$ and $W^v$ respectively, which came up to be equal to $2d_kd + d_vd$. Since there are $\eta_a$ attention heads, the total number of parameters introduced by the attention layer is naturally $\eta_a(2d_kd + d_vd)$.
+
+\section{Exercise Assignment: E3}\label{sec:e3}
+Consider the transformer block in Week 3's lecture slides \#22-29.
+\begin{itemize}
+    \item \textbf{[Input vectors]} There are no parameters introduced by the input vectors.
+    \item \textbf{[Attention layer]} As we saw in \textbf{E\ref{sec:e2}}, the number of parameters introduced by the attention layer is $\eta_a(2d_kd + d_vd)$.
+    \item \textbf{[Attention projection, sum, norm]} Firstly, we introduce the number of parameters in the projection matrix \( W^{\text{AProj}} \in \mathbb{R}^{d \times \eta_a d_v} \). Secondly, we introduce the two learnable parameters, namely $\gamma^{\text{ANorm}}$ and $\beta^{\text{ANorm}}$, which appear in the \textit{LayerNorm} operation. Thus, the total number of parameters introduced by the attention projection, sum and normalization steps is $d \eta_a d_v + 2$.
+    \item \textbf{[Feedforward layer]} For each neural unit $i$, we have a weight vector $\mathbf{w}_i \in \mathbb{R}^d$ and a bias term $b_i \in \mathbb{R}$. Since we have $d_h$ neural units, the total number of parameters introduced by the feedforward layer is $d_h(d + 1)$.
+    \item \textbf{[Feedforward projection, sum, norm]} The number of parameters are given by the number of elements in $W^{\text{FfProj}} \in \mathbb{R}^{d \times d_h}$; $\mathbf{b}^{\text{FfProj}} \in \mathbb{R}^d$, and the two learnable parameters $\gamma^{\text{FfNorm}}$ and $\beta^{\text{FfNorm}}$ in the \textit{LayerNorm} operation. Thus, the total number of parameters introduced by this step is $d(d_h + 1) + 2$.
+    \item \textbf{[Output vectors]} There are no parameters introduced by the output vectors.
+\end{itemize}
+
+Finally, the final number of parameters is given by the sum of all previously introduced parameters, as follows:
+\begin{align*}
+    \text{\# parameters} & = \underbrace{\eta_a(2d_kd + d_vd)}_{\text{Attention Layer}} + \underbrace{d \eta_a d_v + 2}_{\text{Attention projection, sum, norm}} + \underbrace{d_h(d + 1)}_{\text{Feedforward layer}} + \underbrace{d(d_h + 1) + 2}_{\text{Feedforward projection, sum, norm}} \\
+                         & = \eta_a(2d_kd + d_vd) + d \eta_a d_v + 2d_hd + d_h + d + 4                                                                                                                                                                                                         \\
+\end{align*}
+
+\section{Exercise Assignment: E4}\label{sec:e4}
+Consider the transformer architecture in Week 3's lecture slides \#31--33.
+\begin{enumerate}[label=\textbf{\arabic*}.]
+    \item \label{E4:1} The input to this transformer architecture is given by \(N - 1\) words denoted by \(\mathbf{x}_{t-N+1}, \dots, \mathbf{x}_{t-2}, \mathbf{x}_{t-1}\) and represented as one-hot encoded vectors of size \(|V|\). These one-hot encoded vectors are first converted to embedding vectors of size \(d\) using the embedding matrix \(E \in \mathbb{R}^{d \times |V|}\) before being processed by the transformer blocks.
+          \begin{arrowlist}
+              \item Thus, the number of parameters introduced so far are \(d \times |V|\).
+          \end{arrowlist}
+    \item After that, they will get processed by the $L$ transformer blocks.
+          \begin{arrowlist}
+              \item If the number of parameters in one transformer block is \(B\) (as calculated in \textbf{E\ref{sec:e3}}), then the total number of parameters introduced here are \(L \times B\).
+          \end{arrowlist}
+    \item The output from these transformer blocks is then converted back to a vector of size \(|V|\) using the unembedding matrix \(U \in \mathbb{R}^{d \times |V|}\), which has shared weights with \(E\).
+          \begin{arrowlist}
+              \item Since the unembedding matrix \(U\) has shared weights with the embedding matrix \(E\), these parameters are already accounted for in \ref{E4:1}.
+          \end{arrowlist}
+\end{enumerate}
+
+Thus, the total number of parameters in this transformer architecture in terms of \(L\), \(B\), \(|V|\), and \(d\) is given by\footnote{Note that the context window size \(N\) does not influence the number of parameters in the transformer architecture.}:
+\[
+    d \times |V| + L \times B
+\]
+
+\section{Exercise Assignment: E5}\label{sec:e5}
+OpenAI's \textitbf{GPT-4o-mini model} performed the following on the translation task of the Old Romanian sentence "Ie' de-nbucă oarişce!":
+\begin{itemize}
+    \item \textbf{Zero-shot:} $1/3$ times correct. See Figure \ref{E5:zero-shot} for the results.
+    \item \textbf{Few-shot:} $3/3$ times correct. See Figure \ref{E5:few-shot} for the results.
+\end{itemize}
+The two different prompting strategies, zero-shot and few-shot, show that the model performs better when given a few examples of the task it is supposed to perform. This is because the model can learn the patterns and structure of the task from the examples, and then apply this knowledge to new examples. In the zero-shot case, the model has to rely solely on its pre-trained knowledge, which may not be sufficient to perform the task accurately, whereas the few-shot case provides the model with additional information that helps it make a better translation of the given sentence.
+
+\section{Exercise Assignment: E6}\label{sec:e6}
+Table \ref{E6:results} shows the results for the Basic vs. Chain-of-Thought (CoT) Prompting Strategies on Task-A, Task-B, and Task-C. As we can see, OpenAI's \textitbf{GPT-4o-mini model} fails on all three tasks when using the Basic Prompting Strategy, but has $100\%$ accuracy when using CoT. This shows that a "step-by-step" approach is more effective, at least in these particular type of tasks, than a "one-shot" approach. It forces the model to develop a structured answer by breaking down the task into smaller, more manageable steps, that it can handle\footnote{I am specifically avoiding the words "reason" and "thinking", because it is highly debatable whether this is thinking at all, at least in the \textit{human} sense. Based on my knowledge and personal interpretation of it, it is nothing but a guided answer, without any \textit{human}-like reasoning behind it, finding the patterns and the most-probable pieces of text from the \textit{billions} it was once trained on to minimize a loss function, that end up in the right answer. If it actually did reason, the one-shot answer would not be any different from the CoT answer.}. See Figure \ref{E6:few-shot-prompt-example} for an example of the CoT Prompting Strategy in action.
+
+\begin{table}[h!]
+    \centering
+    \caption{Results for Basic vs. Chain-of-Thought (CoT) Prompting Strategies on the given tasks.}
+    \vspace{0.5\baselineskip}
+    \begin{tblr}{
+        width=0.9\linewidth,
+        vlines,
+        colspec={*{7}{X[c,m]}},
+        colsep=4pt,
+        row{1} = {font=\bfseries},
+        row{2} = {font=\itshape},
+        cell{2-5}{1} = {font=\bfseries},
+        hspan=minimal,
+        vspan=center,
+    }
+        \hline
+        \SetCell[r=2]{c} Task & \SetCell[c=3]{c} Basic Prompting & & & \SetCell[c=3]{c} CoT Prompting & & \\
+        \hline
+        & Trial 1 & Trial 2 & Trial 3 & Trial 1 & Trial 2 & Trial 3 \\
+        \hline
+        Task-A & \SetCell[]{c, red!70} 900 & \SetCell[]{c, red!70} 900 & \SetCell[]{c, red!70} 900 & \SetCell[]{c, green} 990 & \SetCell[]{c, green} 990 & \SetCell[]{c, green} 990 \\
+        \hline
+        Task-B & \SetCell[]{c, red!70} 72 & \SetCell[]{c, red!70} 72 & \SetCell[]{c, red!70} 72 & \SetCell[]{c, green} 1080 & \SetCell[]{c, green} 1080 & \SetCell[]{c, green} 1080 \\
+        \hline
+        Task-C & \SetCell[]{c, red!70} 660 & \SetCell[]{c, red!70} 720 & \SetCell[]{c, red!70} 740 & \SetCell[]{c, green} 520 & \SetCell[]{c, green} 520 & \SetCell[]{c, green} 520 \\
+        \hline
+    \end{tblr}
+    \label{E6:results}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exercise Assignment: I3}
+First of all, \href{https://huggingface.co/openai-community/gpt2-xl}{OpenAI's GPT-2 XL} is the 1.5B parameter version of GPT-2, pretrained on English language using a causal language modeling (CLM) objective. One of its intended use case, as OpenAI mentions in its model card, is "(...) creative writing and art: exploring the generation of creative, fictional texts; aiding creation of poetry and other literary art (...)" \cite{openai-gpt2-modelcard}. This means that the model is not specifically designed for completing Shakespearean texts, but it can still \textit{creatively} generate text that is coherent and stylistically similar to Shakespeare's works, as seen in Figure \ref{I3:gpt-2-xl-example}. It is worth noting that all of the completions made by GPT-2 XL were related to the original prefix. Although in some cases, it started repeating lines over and over again, until the end of the completion.
+
+On the other hand, \href{https://huggingface.co/microsoft/phi-1\_5}{Microsoft's Phi-1.5} is a custom model with 1.3B parameters, whose "training involved a variety of data sources, including subsets of Python codes from The Stack v1.2, Q\&A content from StackOverflow, competition code from code contests, and synthetic Python textbooks and exercises generated by gpt-3.5-turbo-0301" \cite{huggingfacephi1}. Also, as its intended use mentions in the Hugging Face model card, "(...) Phi-1.5 is best suited for prompts using the Q\&A format, the chat format, and the code format. Note that Phi-1.5, being a base model, often produces irrelevant text following the main answer (...)". Thus, unlike GPT-2 XL, Phi-1.5 is more suited for Q\&A and code generation tasks given its training data, which explains why the completion (a) deviated greatly from the original prefix, as seen in Figure \ref{I3:phi-1_5-examples}. These kinds of hallucinations were very common in the completions made by Phi-1.5, but some of them did seem to be related to some degree, as seen in completion (b) of Figure \ref{I3:phi-1_5-examples}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\section*{Acknowledgements}
+This week's slides.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\section*{Annex}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{subfigure}{\textwidth}
+        \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+            \begin{minipage}{\textwidth}
+                \ttfamily
+                The Old Romanian sentence "Ie' de-nbucă oarişce!" translates to English as: "Take a bite of something!" or "Eat something!" \\
+
+                The phrase "Ie' de-nbucă" is an older or dialectal expression that suggests taking a bite or eating, and "oarişce" means "something" or "anything."
+            \end{minipage}
+        \end{tcolorbox}
+        \vspace{-0.5\baselineskip}
+        \caption{First result.}
+        \vspace{0.5\baselineskip}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{\textwidth}
+        \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+            \begin{minipage}{\textwidth}
+                \ttfamily
+                The Old Romanian sentence "Ie' de-nbucă oarişce!" can be translated to modern English as: \\
+
+                "Go and enjoy anything!" or "Go and have fun with whatever!" \\
+
+                Note that Old Romanian had a more archaic structure and vocabulary, so the exact meaning can vary slightly depending on context. The phrase seems to be an imperative, urging someone to enjoy themselves or engage with something in a carefree manner.
+            \end{minipage}
+        \end{tcolorbox}
+        \vspace{-0.5\baselineskip}
+        \caption{Second result.}
+        \vspace{0.5\baselineskip}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{\textwidth}
+        \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+            \begin{minipage}{\textwidth}
+                \ttfamily
+                The Old Romanian sentence "Ie' de-nbucă oarişce!" translates to: \\
+
+                "Let anything happen!" or "Let whatever happen!" \\
+
+                In this context, "Ie'" is a form of "a ieși" (to happen), "de-nbucă" can be interpreted as a colloquial expression meaning "whatever" or "anything," and "oarişce" is an archaic form meaning "something" or "anything." The overall sense is a kind of expression of accepting whatever comes.
+            \end{minipage}
+        \end{tcolorbox}
+        \vspace{-0.5\baselineskip}
+        \caption{Third result.}
+        \vspace{0.5\baselineskip}
+    \end{subfigure}
+    \caption{Zero-shot translation by OpenAI's \textitbf{GPT-4o-mini model}.}
+    \label{E5:zero-shot}
+\end{figure*}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{subfigure}{\textwidth}
+        \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+            \begin{minipage}{\textwidth}
+                \ttfamily
+                English: Take and eat anything!
+            \end{minipage}
+        \end{tcolorbox}
+        \vspace{-0.5\baselineskip}
+        \caption{First result.}
+        \vspace{0.5\baselineskip}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{\textwidth}
+        \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+            \begin{minipage}{\textwidth}
+                \ttfamily
+                English: Take and eat anything!
+            \end{minipage}
+        \end{tcolorbox}
+        \vspace{-0.5\baselineskip}
+        \caption{Second result.}
+        \vspace{0.5\baselineskip}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{\textwidth}
+        \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+            \begin{minipage}{\textwidth}
+                \ttfamily
+                English: Eat whatever you want!
+            \end{minipage}
+        \end{tcolorbox}
+        \vspace{-0.5\baselineskip}
+        \caption{Third result.}
+        \vspace{0.5\baselineskip}
+    \end{subfigure}
+    \caption{Few-shot translation by OpenAI's \textitbf{GPT-4o-mini model}.}
+    \label{E5:few-shot}
+\end{figure*}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            Let's break this down step by step: \\
+
+            \textbf{1. Calculate the Down Payment:}
+            The total cost of the laptop is $\$ 1000$, and the shop requires a $20\%$ down payment. To find the down payment amount:
+            \[
+            \text{Down Payment} = 1000 \times 0.20 = 200
+            \]
+            So, the down payment is $\$ 200$. \\
+
+            \textbf{2. Tara's Additional Down Payment:}
+            Tara wants to pay an additional $\$ 20$ on top of the required down payment of $\$ 200$. Therefore, her total down payment will be:
+            \[
+            \text{Total Down Payment} = 200 + 20 = 220
+            \]
+
+            \textbf{3. Calculate the Remaining Balance:}
+            The total cost of the laptop is $\$ 1000$, and Tara has made a down payment of $\$ 220$. So, the remaining balance to be paid is:
+            \[
+            \text{Remaining Balance} = 1000 - 220 = 780
+            \]
+
+            \textbf{4. Monthly Installment Payment:}
+            The computer shop accepts monthly installments of $\$ 65$. Tara will pay $\$ 65$ each month. After 4 months, she will have made:
+            \[
+            \text{Total Paid in 4 Months} = 65 \times 4 = 260
+            \]
+
+            \textbf{5. Calculate the Remaining Balance After 4 Months:}
+            After 4 months of payments, Tara has paid $\$ 260$ toward the remaining balance of $\$ 780$. So, the new balance is:
+
+            \[
+            \text{New Balance} = 780 - 260 = 520
+            \]
+
+            \textbf{Final Answer:}\\
+            After paying for 4 months, Tara's remaining balance will be \textbf{$\$ 520$}.
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{Example of OpenAI's \textitbf{GPT-4o-mini model} response to Task-C using the Chain-of-Thought (CoT) Prompting Strategy. See E\ref{sec:e6}.}
+    \label{E6:few-shot-prompt-example}
+\end{figure*}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            ===PREFIX===\\
+            look in thy glass and tell the face thou viewest\\
+            
+            ===COMPLETION===\\
+            look in thy glass and tell the face thou viewest,\\
+            
+            That thou art not the same man that thou art seen to be.\\
+            
+            And if thou wilt not, I will tell thee the truth,\\
+            
+            That thou art not the same man that thou art seen to be.\\
+            
+            And if thou wilt not, I will tell thee the truth,\\
+            
+            That thou art not the same man that thou art seen to be.\\
+            
+            And if thou wilt not
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{One of the prefixes completion by \href{https://huggingface.co/openai-community/gpt2-xl}{OpenAI's GPT-2 XL}.}
+    \label{I3:gpt-2-xl-example}
+\end{figure*}
+
+
+\begin{figure*}[h!]
+    \centering
+    \begin{subfigure}{\textwidth}
+        \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+            \begin{minipage}{\textwidth}
+                \ttfamily
+                ===PREFIX===\\
+                O, what a noble mind is here o'erthrown!\\
+                
+                ===COMPLETION===\\
+                O, what a noble mind is here o'erthrown!\\
+                
+                (Scene: The Alien, intrigued by the conversation, approaches the group.)\\
+                
+                Alien: Greetings, Earthlings! I am Zog, an extraterrestrial being from a distant galaxy. I have been observing your planet and its inhabitants. Your concept of "daily life" is fascinating. Can you explain more about the role of a janitor in your society?\\
+                
+                Earthling 1: Welcome, Zog
+            \end{minipage}
+        \end{tcolorbox}
+        \vspace{-0.5\baselineskip}
+        \caption{First example, which shows how the model can easily diverge from the original text.}
+        \vspace{0.5\baselineskip}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{\textwidth}
+        \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+            \begin{minipage}{\textwidth}
+                \ttfamily
+                ===PREFIX===\\
+                Thou canst not see one wrinkle in my brow,\\
+
+                ===COMPLETION===\\
+                Thou canst not see one wrinkle in my brow, but I can see many.\\
+
+                (Chorus)\\
+                Oh, the world is a stage, and we're all just players,
+                In this grand performance, we're all just trying to find our place.
+                But sometimes, it feels like we're all just trying to survive,
+                In this chaotic world, where we're all just trying to survive.\\
+
+                (Verse 3)\\
+                I wake up every morning
+            \end{minipage}
+        \end{tcolorbox}
+        \vspace{-0.5\baselineskip}
+        \caption{Second example, which shows a better completion with related content.}
+        \vspace{0.5\baselineskip}
+    \end{subfigure}
+    \caption{Examples of prefixes completion by \href{https://huggingface.co/microsoft/phi-1_5}{Microsoft's Phi-1.5}.}
+    \label{I3:phi-1_5-examples}
+\end{figure*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

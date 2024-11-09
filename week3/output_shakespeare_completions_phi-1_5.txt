@@ -1,0 +1,81 @@
+===PREFIX===
+O, what a noble mind is here o'erthrown!
+
+===COMPLETION===
+O, what a noble mind is here o'erthrown!
+
+(Scene: The Alien, intrigued by the conversation, approaches the group.)
+
+Alien: Greetings, Earthlings! I am Zog, an extraterrestrial being from a distant galaxy. I have been observing your planet and its inhabitants. Your concept of "daily life" is fascinating. Can you explain more about the role of a janitor in your society?
+
+Earthling 1: Welcome, Zog
+
+====================================
+
+===PREFIX===
+look in thy glass and tell the face thou viewest
+
+===COMPLETION===
+look in thy glass and tell the face thou viewest.
+
+(Chorus)
+Oh, the world of arts, where creativity thrives,
+With colors and shapes, it's a magical place,
+From paintings to sculptures, it's a visual delight,
+Let's explore the elements and principles, shining bright.
+
+(Verse 2)
+Now, let's talk about the elements, the building blocks of art,
+Line, shape, color, and texture,
+
+====================================
+
+===PREFIX===
+Then let not winter's ragged hand deface
+
+===COMPLETION===
+Then let not winter's ragged hand deface our spirits. We shall rise above, like the phoenix from the ashes, and continue our journey towards the horizon of success.
+
+Mentor: (smiling) Indeed, my protégé. We shall weather this storm, for it is in the face of adversity that true character is forged. Let us embrace the challenges that lie ahead, knowing that they are but stepping stones on our path to greatness.
+
+Proté
+
+====================================
+
+===PREFIX===
+Thou canst not see one wrinkle in my brow,
+
+===COMPLETION===
+Thou canst not see one wrinkle in my brow, but I can see many.
+
+(Chorus)
+Oh, the world is a stage, and we're all just players,
+In this grand performance, we're all just trying to find our place.
+But sometimes, it feels like we're all just trying to survive,
+In this chaotic world, where we're all just trying to survive.
+
+(Verse 3)
+I wake up every morning
+
+====================================
+
+===PREFIX===
+Great lords, wise men ne'er sit and wail their loss,
+
+===COMPLETION===
+Great lords, wise men ne'er sit and wail their loss,
+
+For they know that the sun will rise again,
+And the birds will sing their sweet song,
+And the flowers will bloom in the spring,
+And the world will be a better place.
+
+So let us not be afraid of the dark,
+For it is only a temporary state,
+And we shall overcome it with courage and grace,
+And emerge stronger and wiser than before.
+
+
+
+====================================
+
