@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass{article}
 
-\usepackage[preprint,nonatbib]{neurips_2024}
+\usepackage[nonatbib]{neurips_2024}
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
@@ -15,6 +15,7 @@
 \usepackage[table]{xcolor}  % colors
 \usepackage{siunitx}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{csquotes}
 \usepackage{enumitem}
 \usepackage{ragged2e}
@@ -78,44 +79,46 @@ Thus,
 \[
     C \approx 6 \times 67 \times 10^9 \times 4.1 \times 10^{12} = 1.65 \times 10^{24} \text{ FLOPs}
 \]
-And the expected loss $L$ is given by:
+And the expected loss $L$ is given by \cite{hoffmann2022trainingcomputeoptimallargelanguage}:
 \[
-    L(N,D) = E + \frac{A}{N^\alpha} + \frac{B}{D^\beta} = 1.69 + \frac{406.4}{(67 \times 10^9)^{0.34}} + \frac{410.7}{(4.1 \times 10^{12})^{0.28}} \approx 1.90
+    L(N,D) \triangleq E + \frac{A}{N^\alpha} + \frac{B}{D^\beta}
 \]
-\section{Exercise Assignment: E2}\label{sec:e2}
-To improve the model's performance decreasing the previously computed loss $L = 1.90$ by $1\%$, we would need a new loss $L'$ such that:
+Thus,
 \[
-    L' = 0.99 \times L = 0.99 \times 1.90 \approx 1.88
+    L = 1.69 + \frac{406.4}{(67 \times 10^9)^{0.34}} + \frac{410.7}{(4.1 \times 10^{12})^{0.28}} \approx 1.90
+\]
+
+\section{Exercise Assignment: E2}\label{sec:e2}
+To improve the model's performance decreasing the previously computed loss $L = 1.90$ by $1\%$, we would need a new loss $L'$ such that\footnote{For (E.\ref{sec:e1}), the loss approximated to 2 decimal places is $1.90$, but in order to get precise results for this exercise and the rest, the complete loss value was used, i.e., $L = 1.895506113$.}:
+\[
+    L' = 0.99 \times L = 0.99 \times 1.895506113 \approx 1.876551052
 \]
 Now, we can calculate the new amount of training tokens $D'$ required to achieve this new loss $L'$ assuming the number of parameters $N$ remains the same:
 \begin{align*}
-    L' = E + \frac{A}{N^\alpha} + \frac{B}{D'^\beta} \rightarrow D' & = \left(\frac{B}{L' - E - \frac{A}{N^\alpha}}\right)^{\frac{1}{\beta}} = \left(\frac{410.7}{1.88 - 1.69 - \frac{406.4}{(67 \times 10^9)^{0.34}}}\right)^{\frac{1}{0.28}} \\
-                                                                    & \approx 6.48 \text{ trillion tokens}
+    L' = E + \frac{A}{N^\alpha} + \frac{B}{D'^\beta} \rightarrow D' & = \left(\frac{B}{L' - E - \frac{A}{N^\alpha}}\right)^{\frac{1}{\beta}} = \left(\frac{410.7}{1.876551052 - 1.69 - \frac{406.4}{(67 \times 10^9)^{0.34}}}\right)^{\frac{1}{0.28}} \\
+                                                                    & \approx 7.54 \text{ trillion tokens}
 \end{align*}
-The new total number of FLOPs $C'$ required for this training would then be:
+The new total number of FLOPs $C'$ required for this training would then be\footnote{Using the exact value for $D'=7.54407114 \times 10^{12}$}:
 \[
-    C' \approx 6ND' = 6 \times 67 \times 10^9 \times 6.48 \times 10^{12} = 2.6 \times 10^{24} \text{ FLOPs}
+    C' \approx 6ND' = 6 \times 67 \times 10^9 \times 7.54407114 \times 10^{12} = 3.03 \times 10^{24} \text{ FLOPs}
 \]
 Finally, with the following geometric series, we can estimate the number of additional training epochs $x$ after the first epoch required to achieve the new loss $L'$:
 \begin{equation}\label{eq:epochs}
-    D' = 2 \cdot \left(1 - \frac{1}{2^{x+1}}\right) \cdot D \rightarrow x = \log_2\left(\frac{1}{1 - \frac{D'}{2D}}\right)
+    D' = 2 \cdot \left(1 - \frac{1}{2^{x+1}}\right) \cdot D \rightarrow x = \log_2\left(\frac{1}{1 - \frac{D'}{2D}}\right) - 1
 \end{equation}
-Replacing the corresponding values in \eqref{eq:epochs}, we get:
+Replacing the corresponding non-approximated values in \eqref{eq:epochs}, we get the additional number of epochs $x$:
 \[
-    x = \log_2\left(\frac{1}{1 - \frac{6.48}{2 \times 4.1}}\right) \approx 1.25 \text{ epochs}
+    x = \log_2\left(\frac{1}{1 - \frac{7.54407114}{2 \times 4.1}}\right) - 1 \approx 2.64 \text{ epochs}
 \]
 
 \section{Exercise Assignment: E3}\label{sec:e3}
-For compute optimal training, the number of epochs $x$ required to train the model with $N'$ parameters is given by:
-\[
-    C' = 6N'D \rightarrow D = \frac{C'}{6 \times 1.41N} = \frac{2.6 \times 10^{24}}{6 \times 1.41 \times 67 \times 10^9} \approx 4.59 \text{ trillion tokens}
-\]
-Now, using \eqref{eq:epochs} with the new number of training tokens $D$, we can calculate the optimal number of epochs $x$:
-\[
-    x = \log_2\left(\frac{1}{1 - \frac{4.59}{2 \times 4.1}}\right) \approx 1.18 \text{ epochs}
-\]
+For compute-optimal training, we know that $C' \approx 6N'D$ regardless of epochs. This is the total amount of compute we have available (which might be used for more than 1 epoch, if necessary). Thus, if we fix $C$, we can calculate the number of epochs $x$ required to train the model:
+\begin{align*}
+    C' = 6N'Dx \rightarrow D = 6 \times 1.41N \times Dx \rightarrow x & = \frac{C'}{6 \times 1.41N \times D} \\ & = \frac{3.03271660 \times 10^{24}}{6 \times 1.41 \times 67 \times 10^9 \times 4.1 \times 10^{12}} \\ &\approx 1.30 \text{ epochs}
+\end{align*}
+Thus, the optimal number of epochs to train the model is approximately 1.30 epochs.
 
-\textbf{TODO: For the above scenario where the available training data is constrained, what conclusions can you draw about the optimal scaling of model size and number of epochs w.r.t. the compute cost?}
+For the given scenario, we can see that the optimal scaling of the model size and number of epochs w.r.t. the compute cost is such that the model size should be increased while the number of epochs should be decreased. This is because the compute cost is fixed, and the model size and number of epochs are inversely proportional to each other. Thus, to achieve the best performance with the given compute cost after increasing the model size ($N' = 1.41N$), it makes sense that we decrease the number of epochs to $1.30$ epochs, compared to the previous $2.64$ epochs.
 
 \section{Exercise Assignment: E4}\label{sec:e4}
 GPT-3 has 175 billion parameters, each with 16-bit (2 bytes) precision. This means that one single GPT-3 model would occupy in memory\footnote{$1 \text{ GB} = 1024^3 \text{ bytes}$}:
@@ -129,40 +132,311 @@ On the other hand, 100 distinct tasks require finetuning 100 different models. T
 
 \section{Exercise Assignment: E5}\label{sec:e5}
 If instead of full-finetuning, we use adapters to fine-tune only the query
-and value projection matrices in the self-attention module, we would need:
+and value projection matrices in the self-attention module, we would need the following amount of memory per model:
 \begin{align*}
-    2 \times d_{\text{model}} \times d_{\text{model}} \times 96 \times 2 \text{ bytes} & = 2 \times 12{,}288 \times 12{,}288 \times 96 \times 2 \text{ bytes}/\text{parameters} \\ &\approx 6.04 \times 10^8 \text{ bytes} \quad (54 \text{ GB})
+    2 \times d_{\text{model}} \times d_{\text{model}} \times 96 \times 2 \text{ bytes} & = 2 \times 12{,}288 \times 12{,}288 \times 96 \times 2 \text{ bytes}/\text{parameters} \\ &\approx 5.80 \times 10^{10} \text{ bytes} \quad (54 \text{ GB})
 \end{align*}
 Since we have 2 matrices (query and value matrices) of size $d_{\text{model}} \times d_{\text{model}}$ per layer, where $d_{\text{model}} = 12{,}288$ for GPT-3, and 96 layers.
 
+Thus, the total amount of memory required to store all 100 of these models would be approximately:
+\[
+    100 \times 5.80 \times 10^{10} \text{ bytes} = 5.80 \times 10^{12} \text{ bytes} \quad (\approx 5.27 \text{ TB})
+\]
+
 \section{Exercise Assignment: E6}\label{sec:e6}
-If we apply low-rank adaptation (LoRA) with rank $r=4$ to the query $Q \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}}$ and value $V \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}}$ projection matrices in each of the 96 layers, we need to define 96 trainable matrices $B \in \mathbb{R}^{d_{\text{model}} \times 4}$ and $A \in \mathbb{R}^{4 \times d_{\text{model}}}$. Thus, in this setting, we would need:
+If we apply low-rank adaptation (LoRA) with rank $r=4$ to the query $Q \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}}$ and value $V \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}}$ projection matrices in each of the 96 layers, we need to define \textbf{for each} $Q$ and $V$ matrices a pair of matrices, $B \in \mathbb{R}^{d_{\text{model}} \times 4}$ and $A \in \mathbb{R}^{4 \times d_{\text{model}}}$, per layer. Thus, in this setting, we would need per model:
 \begin{align*}
-    2 \times d_{\text{model}} \times 4 \times 96 \times 2 \text{ bytes} & = 2 \times 12{,}288 \times 4 \times 96 \times 2 \text{ bytes} \\ &\approx 1.89 \times 10^7 \text{ bytes} \quad (18 \text{ MB})
+    \underbrace{2}_{\text{$Q$ and $V$}} \times \underbrace{2}_{\text{$A$ and $B$}} \times \underbrace{d_{\text{model}} \times 4}_{\text{Size of both $A$ and $B$}} \times \underbrace{96}_{\text{Attention layers}} \times 2 \text{ bytes} & = 2 \times 2 \times 12{,}288 \times 4 \times 96 \times 2 \text{ bytes} \\ &\approx 3.77 \times 10^7 \text{ bytes} \quad (36 \text{ MB})
 \end{align*}
 
-\section{Exercise Assignment: E7}\label{sec:e7}
-The value of rank $r$ for LoRA if we adapt only the query $Q \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}}$ projection matrix this time, and we restrict ourselves with the same amount of memory as in (E.\ref{sec:e6}), would have to be:
+Hence, the total amount of memory required to store all 100 of these models would be approximately:
 \[
-    M = d_{\text{model}} \times r \times 96 \times 2 \text{ bytes} \rightarrow r = \frac{M}{d_{\text{model}} \times 96 \times 2 \text{ bytes}} = \frac{1.89 \times 10^7}{12{,}288 \times 96 \times 2} = 8
+    100 \times 3.77487360 \times 10^7 \text{ bytes} \approx 3.77 \times 10^9 \text{ bytes} \quad (\approx 3.51 \text{ GB})
+\]
+
+
+\section{Exercise Assignment: E7}\label{sec:e7}
+Using a similar derivation as in (E.\ref{sec:e6}) and restricting ourselves with the same amount of memory per model (previously calculated as $\approx 3.77 \times 10^7 \text{ bytes}$), the value of rank $r$ for LoRA if we adapt only the query $Q \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}}$ projection matrix this time would have to be:
+\[
+    M = 2 \times d_{\text{model}} \times r \times 96 \times 2 \text{ bytes} \rightarrow r = \frac{M}{2 \times d_{\text{model}} \times 96 \times 2 \text{ bytes}} = \frac{3.77487360 \times 10^7}{2 \times 12{,}288 \times 96 \times 2} = 8
 \]
 
 \section{Individual Assignment: I3}\label{sec:i3}
+Table \ref{I3:results} shows the qualitative comparison based on my own perspective, of the base pre-trained and supervised fine-tuned \href{https://huggingface.co/microsoft/phi-1_5}{Phi-1.5}, which helps us see how the quality varied between both of the models for each evaluation sample. From these results, we can conclude that the supervised fine-tuned model clearly outperforms the base pre-trained model.
+\vspace{-0.5\baselineskip}
+\begin{table}[h!]
+    \centering
+    \caption[]{Comparison of the pretrained and supervised fine-tuned \href{https://huggingface.co/microsoft/phi-1_5}{Phi-1.5} in terms of how many times out of the 3 generations are qualitatively good per evaluation sample (i.e., a \texttt{PREFIX}).}
+    \vspace{0.5\baselineskip}
+    \begin{tblr}{
+            width=0.99\linewidth,
+            vlines,
+            colspec={X[3,c,m] *{5}{X[c,m]}}, % Changed this line
+            colsep=4pt,
+            cell{1}{1} = {font=\bfseries},
+            hspan=minimal,
+            vspan=center,
+        }
+        \hline
+        \SetCell[r=2]{c} Model                                                         & \SetCell[c=5]{c} \texttt{PREFIX}
+                                                                                       &                                  &                             &                             &                                                           \\
+        \hline
+                                                                                       & 1                                & 2                           & 3                           & 4                           & 5                           \\
+        \hline
+        \href{https://huggingface.co/microsoft/phi-1_5}{Base pre-trained  Phi-1.5}      & \SetCell[]{c, red!40} $1/3$      & \SetCell[]{c, red!70} $0/3$ & \SetCell[]{c, green} $3/3$  & \SetCell[]{c, red!70} $0/3$ & \SetCell[]{c, red!70} $0/3$ \\
+        \hline
+        \href{https://huggingface.co/course-genai-w24/week4-phi-1.5-sft-shakespeare}{Supervised fine-tuned Phi-1.5} & \SetCell[]{c, green} $3/3$       & \SetCell[]{c, green} $3/3$  & \SetCell[]{c, yellow} $2/3$ & \SetCell[]{c, green} $3/3$  & \SetCell[]{c, green} $3/3$  \\
+        \hline
+    \end{tblr}
+    \label{I3:results}
+\end{table}
+
+Moreover, as discussed in Week 3's assignment, \href{https://huggingface.co/microsoft/phi-1\_5}{Microsoft's Phi-1.5} is a custom model with 1.3B parameters, whose
+
+\begin{displayquote}
+    "\textit{training involved a variety of data sources, including subsets of Python codes from The Stack v1.2, Q\&A content from StackOverflow, competition code from code contests, and synthetic Python textbooks and exercises generated by gpt-3.5-turbo-0301}" \cite{huggingfacephi1}
+\end{displayquote}
+
+Also, its model card further clarifies that
+
+\begin{displayquote}
+    "(...) \textit{Phi-1.5 is best suited for prompts using the Q\&A format, the chat format, and the code format. Note that Phi-1.5, being a base model, often produces irrelevant text following the main answer} (...)" \cite{huggingfacephi15}
+\end{displayquote}
+
+Thus, it is understandable that we get completions such as the one in Figure \ref{I3:phi-1.5-example}, where the model deviates from the original prefix, since it is simply more suited for Q\&A and code generation tasks given its training data. These kinds of hallucinations were very common in the completions made by the base pre-trained Phi-1.5 model.
+
+On the other hand, the supervised fine-tuned model with Shakespeare's works, as shown in Figure \ref{I3:finetuned-phi-1.5-example}, was able to generate more coherent completions that were more in line with the original \texttt{PREFIX}. This is the reason why we need to fine-tune models to specific tasks or domains to achieve better results.
 
 \section{Individual Assignment: I7}\label{sec:i7}
+Table \ref{I7:results} shows the qualitative comparison based on my own perspective, of the base pre-trained, fully supervised fine-tuned, and LoRA supervised fine-tuned \href{https://huggingface.co/openai-community/gpt2-large}{GPT-2} models, which helps us see how the quality varied between all of the models for each evaluation sample. 
+
+\vspace{-0.5\baselineskip}
+\begin{table}[h!]
+    \centering
+    \caption{Comparison of the base pre-trained, fully supervised fine-tuned and LoRA supervised fine-tuned \href{https://huggingface.co/openai-community/gpt2-large}{GPT-2} models in terms of how many times out of the 3 summarizations are qualitatively good per evaluation sample (i.e., a \texttt{PREFIX}).}
+    \vspace{0.5\baselineskip}
+    \begin{tblr}{
+            width=0.99\linewidth,
+            vlines,
+            colspec={X[4,c,m] *{5}{X[c,m]}}, % Changed this line
+            colsep=4pt,
+            cell{1}{1} = {font=\bfseries},
+            hspan=minimal,
+            vspan=center,
+        }
+        \hline
+        \SetCell[r=2]{c} Model                                                         & \SetCell[c=5]{c} \texttt{PREFIX}
+                                                                                       &                                  &                             &                             &                                                           \\
+        \hline
+                                                                                       & 1                                & 2                           & 3                           & 4                           & 5                           \\
+        \hline
+        \href{https://huggingface.co/openai-community/gpt2-large}{Base pre-trained GPT-2}      & \SetCell[]{c, red!40} $1/3$      & \SetCell[]{c, red!70} $0/3$ & \SetCell[]{c, red!70} $0/3$  & \SetCell[]{c, red!70} $0/3$ & \SetCell[]{c, red!70} $0/3$ \\
+        \hline
+        \href{https://huggingface.co/course-genai-w24/week4-gpt2-sft-tldr}{Fully supervised fine-tuned GPT-2} & \SetCell[]{c, green} $3/3$       & \SetCell[]{c, green} $3/3$  & \SetCell[]{c, green} $3/3$ & \SetCell[]{c, green} $3/3$  & \SetCell[]{c, green} $3/3$  \\
+        \hline
+        \href{https://huggingface.co/course-genai-w24/week4-gpt2-lora-sft-tldr}{LoRA supervised fine-tuned GPT-2} & \SetCell[]{c, green} $3/3$       & \SetCell[]{c, red!70} $0/3$  & \SetCell[]{c, green} $3/3$ & \SetCell[]{c, yellow} $2/3$  & \SetCell[]{c, yellow} $2/3$  \\
+        \hline
+    \end{tblr}
+    \label{I7:results}
+\end{table}
+
+From Table \ref{I7:results}, we can rank the performance of the three models like this:
+\begin{arrowlist}
+    \item \textbf{Fully supervised fine-tuned GPT-2} \\
+    \hspace{2em}This provided the best results due to its fully supervised fine-tuning approach. More parameters to fit allowed it to better adapt to the task of \textit{summarization}. This is illustrated by the summarizations in Figure \ref{I7:sft-gpt-2-example}, where all of them were good and correctly included the final question or problem the user posed in the original Reddit post. Nevertheless, it is not perfect and can still make typos, as seen in the word \texttt{"mange"} instead of \texttt{"manage"} in the first summarization.
+
+    \item \textbf{LoRA supervised fine-tuned GPT-2} \\
+    \hspace{2em}This model performed much better than the base pre-trained approach, but slightly lagged behind the fully supervised fine-tuned GPT-2. As seen on (E.\ref{sec:e6}), normally we tune less parameters with LoRA, at the cost of some performance, but providing a huge reduction in memory requirements. This is illustrated by the summarizations in Figure \ref{I7:lora-gpt-2-example}, where $2/3$ were good, because one of them started repeating the same sentence over and over.
+
+    \item \textbf{Base pre-trained GPT-2} \\
+    \hspace{2em}This model showed the least performance as it was not fine-tuned on the specific task, relying only on its general pre-training. This model sometimes generated the same sentence over and over or produced almost the same output as the input. These problems are illustrated by the summarizations in Figure \ref{I7:base-gpt-2-example}, where none of them were good.
+\end{arrowlist}
 
 \section{Individual Assignment: I8}\label{sec:i8}
+The qualitative ranking made previously aligns well with the \texttt{ROUGE-1} mean score outputted by each model:
+\begin{arrowlist}
+    \item \textbf{Fully supervised fine-tuned GPT-2} (\texttt{ROUGE-1} mean score $\approx 0.29$) 
+    \item \textbf{LoRA supervised fine-tuned GPT-2} (\texttt{ROUGE-1} mean score $\approx 0.20$) 
+    \item \textbf{Base pre-trained GPT-2} (\texttt{ROUGE-1} mean score $\approx 0.098$)
+\end{arrowlist}
 
+This metric is used to compare an automatically produced summary against a human-produced summary, where the higher score the better and if the score is 1 then it matches exactly the human reference summary. Therefore, as expected based on our qualitative review, the fully supervised fine-tuned GPT-2 model had the best score, followed by the LoRA supervised fine-tuned GPT-2 model, and finally the base pre-trained GPT-2 model.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 
 \section*{Acknowledgements}
-This week's slides.
+This week's slides and listed references, as well as classmate Dhimitrios Duka \& Kai Wittenmayer, with whom I discussed the exercises.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{unsrt}
 \bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section*{Appendix: Completions Examples}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            === PREFIX 5 === \\
+            Great lords, wise men ne'er sit and wail their loss,\\
+
+            ====================================
+
+            === COMPLETION 5-A ===\\
+
+            I seek a way to help my people through this strife.\\
+            But they are too afraid of the unknown, so I am alone."\\
+            This poem was written by John Milton in 1667 during his reign as Lord Protector of England at that time. It is an example of how poetry can be used to express complex emotions and ideas about historical events or themes like war and power struggles between different rulers and kingdoms.\\
+
+            ====================================
+
+            === COMPLETION 5-B ===\\
+
+            The kings of the earth are weary from strife.\\
+            """\\
+
+            def \_\_init\_\_(self):\\
+            super().\_\_setattr\_\_("\_name", "Bard")  \# TODO: \_title is not defined for Bard class yet... (TODO)
+
+            @property
+            def name(self):
+            return self.\_name
+
+            @classmethod
+            def\\
+
+            ====================================
+
+            === COMPLETION 5-C ===
+
+            For in the end they are all but fools.
+
+            A bed of roses may die down quickly if you don't water it." - Anonymous"""
+            return self.\_fetch(query)['data'][0]["title"]
+            import numpy as np
+            from scipy import linalg
+            \# from sklearn.base import BaseEstimator, Regressor\\
+            ====================================
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{\texttt{PREFIX 5} completion by the base pre-trained \href{https://huggingface.co/microsoft/phi-1_5}{Microsoft's Phi-1.5}.}
+    \label{I3:phi-1.5-example}
+\end{figure*}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            === PREFIX 5 ===\\
+            Great lords, wise men ne'er sit and wail their loss, <complete>\\
+
+            ====================================
+
+            === COMPLETION 5-A ===\\
+            or we'll be in the same place again. But now tell me which of these is a better man: A fool who never makes you laugh or cry? Or one whose eyes are so deep that they can see your soul; And if he fails to do it before his grave, then I would say him not as good at all but as bad As an old horse-cart with no reins In this world\\
+
+            ====================================
+
+            === COMPLETION 5-B ===\\
+            though it's as fair a thing As the world itself. I'll be there to get you up; And when they see my face They will not speak a word of sorrow With me in your company, that is so far behind The end of this kingdom hath been known To his death by many names: King John! KING JOHN. What are we? Here comes Lord Walpole with news from London- '\\
+
+            ====================================
+
+            === COMPLETION 5-C ===\\
+            for we have our own. The world is a great sea; And the wind of it cannot be stilled by man's hand or eye. We stand here to make thee proud. O Lord Earl of Gloucester! Why do you not come? I'll send my lady for thy company In this land that hath no end till sundown: Let her see us before she leaves with me To bring some news\\
+            ====================================
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{\texttt{PREFIX 5} completion by the \href{https://huggingface.co/course-genai-w24/week4-phi-1.5-sft-shakespeare}{supervised fine-tuned Phi-1.5}.}
+    \label{I3:finetuned-phi-1.5-example}
+\end{figure*}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            ====================================\\
+            === SUMMARY 3-A ===\\
+             I work at a restaurant and I have to do dishes,prep food, and wipe down every surface every night. How can I mange this job? \\
+
+            ====================================\\
+            === SUMMARY 3-B ===\\
+             I have to do dishes, prep food, wipe down every surface and do all the busboy jobs as well every night. How can I mange this Job?\\              
+
+            ====================================\\
+            === SUMMARY 3-C ===\\
+             I have to clean dishes, prepare food, and do all the jobs at a small restaurant. How can I mange this job \\                                       
+            ====================================   
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{\texttt{POST 3} summarization by the \href{https://huggingface.co/course-genai-w24/week4-gpt2-sft-tldr}{fully supervised fine-tuned GPT-2}.}
+    \label{I7:sft-gpt-2-example}
+\end{figure*}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            ====================================
+
+            === SUMMARY 5-A ===\\
+             I need a solution to all the passwords I need to remember for every website I use. I'm not a programmer, I'm not a gamer, I'm not a gamer. I'm a developer. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account for all of them. I need an account\\
+            
+            ====================================
+            
+            === SUMMARY 5-B ===\\
+             I need to remember all the passwords for all the websites I use, and I'm not sure how to do it. What should I do \\                                                                                                                                                       
+            
+            ====================================
+            
+            === SUMMARY 5-C ===\\
+             I have a ton of usernames and passwords, and I need an account for all of them. I'm a developer, and I need an account for all of them. \\
+            ====================================       
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{\texttt{POST 5} summarization by the \href{https://huggingface.co/course-genai-w24/week4-gpt2-lora-sft-tldr}{LoRA supervised fine-tuned}.}
+    \label{I7:lora-gpt-2-example}
+\end{figure*}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            ====================================
+            
+            === SUMMARY 1-A ===\\
+             I am looking to cash out my 401k to make an emergency fund. I am 26 years old male. I have no savings to my name. I have applied for 7 positions that I feel confident match my skill set. I have an application out to about 7 other positions that I feel confident match my skill set. I have an application out to about 7 other positions that I feel confident match my skill set. I have an application out to about 7 other positions that I feel confident match my skill set. I have an application out to about 7 other positions that I feel confident match my skill set. I have an application out to about 7 other positions that I feel confident match my skill set. I have an application out to about 7 other positions that I feel confident match my skill set. I have an application out to about 7 other positions that I feel confident match my skill set. I have\\
+            
+            ====================================
+            
+            === SUMMARY 1-B ===\\
+             I am looking to cash out my 401k to make an emergency fund.
+            Thanks for reading!\\
+            
+            ====================================
+            
+            === SUMMARY 1-C ===\\
+             I am looking for advice on how to cash out my 401k to make an emergency fund.
+            Thanks,
+            -Ryan
+            SUBREDDIT: r/personalfinance
+            TITLE: Decisions regarding a 401k Cash out
+            POST: Hi r/personalfinance,
+            I have been looking for guidance on this issue, but do not have a financial planner currently. I am a 26 year old male looking to leave my current job. To bring you up to pace, I am an insurance adjuster for a major insurance company in America. I took a promotion about 9-10 months ago that I am now regretting. Without getting into any details on why I am looking outside the company, I have a financial dilemma that may not allow me to leave at this time. I currently make about \$46,700. I currently have no savings to my name due to some \\    
+            ====================================       
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{\texttt{POST 1} summarization by the \href{https://huggingface.co/openai-community/gpt2-large}{base pre-trained GPT-2}.}
+    \label{I7:base-gpt-2-example}
+\end{figure*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage

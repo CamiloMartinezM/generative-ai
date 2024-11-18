@@ -1,0 +1,5 @@
+ROUGE is a set of metrics that are used to evaluate summarization in natural language processing. They are used to compare an automatically produced summary against a human-produced summary. The higher score the better and if the score is 1 then it matches exactly the human reference summary.
+
+====================================
+
+ROUGE-1 mean score: 0.09845902093350527

@@ -1,0 +1,187 @@
+
+
+=== PREFIX 1 ===
+O, what a noble mind is here o'erthrown!
+
+====================================
+
+=== COMPLETION 1-A ===
+
+
+
+
+In the bustling city of Toronto on this cloudy afternoon, two business partners found themselves engrossed in an important discussion. They had been working together for years and their friendship was akin to that between celestial bodies orbiting each other with precise velocity and causality. 
+
+As they sat across from one another at a cozy café nestled amidst towering skyscrapers, it felt as if time itself slowed down around
+
+====================================
+
+=== COMPLETION 1-B ===
+ It's like finding treasure in the vast desert!"
+
+Ahmed chuckled and replied with an air of mystery. "Indeed, my friend," he said cryptically. "Life has been quite eventful lately." He paused for a moment before continuing his tale. "You see, I've discovered that even amidst chaos lies beauty – just as a rose blooms through thorns or a phoenix rises from ashes."
+
+
+
+====================================
+
+=== COMPLETION 1-C ===
+
+
+(As the blacksmith continues his work, an unexpected event occurs. A gust of wind blows through the open door and knocks over a stack of tools.)
+
+BLACKSMITH: (startled) Oh no! My precious instruments have been scattered like leaves in a stormy breeze. How will I ever gather them all? 
+
+WOMAN (CONT'D): Fear not, my dear friend
+====================================
+====================================
+
+=== PREFIX 2 ===
+look in thy glass and tell the face thou viewest
+
+====================================
+
+=== COMPLETION 2-A ===
+,
+    and then you shall see." - John Bunyan (1644)
+5. "I am but a weak speck; yet I think myself strong enough to bring about change." - William Wordsworth
+
+
+
+
+Question 2: A rectangular garden has dimensions of 12 meters by 8 meters. What is its perimeter? 
+Solution: The formula for finding the perimeter of a rectangle is P = 2 * length + 2
+
+====================================
+
+=== COMPLETION 2-B ===
+,
+    and then speak words to him with your lips.
+
+    Example:
+    write_the_longest(['hello', 'world']) -> ['helloworld']
+
+    Explanation: The longest word is "hello", which has length 5. Therefore, it appears twice in the output list.
+    """
+    def get_word_lengths(words):
+        return [len(w
+
+====================================
+
+=== COMPLETION 2-C ===
+.
+
+
+
+Title: Understanding Theory of Mind-Validation through Daily Life Examples - Exploring Electronics, Cell Phones, Accessories 
+
+Introduction (Approximately 300 words):
+In this report, we will delve into an intriguing concept called "Theory of Mind" by drawing examples from our daily lives using electronics such as cell phones and accessories. We aim to provide a comprehensive understanding for middle school students who aspire to become ge
+====================================
+====================================
+
+=== PREFIX 3 ===
+Then let not winter's ragged hand deface
+
+====================================
+
+=== COMPLETION 3-A ===
+ us,
+    but the sunniest of days.
+
+    We may be but a small part in this vast world, yet we can make it shine bright and warm for all who need our light." Lila had always been fascinated by plants. She loved watching them grow from tiny seeds into beautiful flowers or delicious fruits. Her favorite plant was her mother’s rose bush. It bloomed every spring with vibrant red roses that
+
+====================================
+
+=== COMPLETION 3-B ===
+ it. But I fear, my friend."
+
+"Ah," the man said wistfully, "winter is a cruel mistress indeed. She can strip away even our most beautiful coats of snow and leave us shivering in her icy grip." His eyes twinkled with nostalgia as he continued his tale: 
+
+  "And yet we persist, just like these ice sculptures that withstand both time’s relentless march forward and Mother Nature
+
+====================================
+
+=== COMPLETION 3-C ===
+ our spirits. It is in the warmth of your presence that I find solace, like a cozy fireplace on a cold and blustery night."
+
+As their words intertwined with the wind outside, an unexpected event unfolded within the restaurant itself – a small earthquake rattled through Kyoto, causing the delicate porcelain teacups to tremble ever so slightly before settling back into place. The parents exchanged startled glances but quickly regained composure as they continued
+====================================
+====================================
+
+=== PREFIX 4 ===
+Thou canst not see one wrinkle in my brow,
+
+====================================
+
+=== COMPLETION 4-A ===
+ but I know it is there."
+
+
+
+Example 3: 
+To prevent the water from spilling over when pouring into a cup with an open mouth, you can use your tongue as a barrier. This simple trick helps to control and guide the flow of liquid without making a mess on yourself or others around you because our tongues have natural proprioception abilities that allow us to sense changes in position and adjust accordingly. By using
+
+====================================
+
+=== COMPLETION 4-B ===
+ but I have seen many. Can you?"
+
+
+
+Once upon a time there were two friends named Sarah and Emily who worked at the same company called "GreenTech". They both loved plants and would often spend their lunch breaks discussing different types of flowers they wanted to grow for decoration around their desks. 
+One day during their break, while enjoying some delicious soup from the cafeteria's kitchenette, Sarah asked her friend about
+
+====================================
+
+=== COMPLETION 4-C ===
+
+But I know it is there. The truth will soon come out." 
+
+
+Once upon a time in the small town of Maplewood, Laura and Carrie were best friends who lived right next door to each other. They both loved animals, but their preferences differed greatly when it came to pets. One sunny afternoon, as they sat on Laura's porch enjoying some lemonade, an idea struck them simultaneously - adopting new furry
+====================================
+====================================
+
+=== PREFIX 5 ===
+Great lords, wise men ne'er sit and wail their loss,
+
+====================================
+
+=== COMPLETION 5-A ===
+
+I seek a way to help my people through this strife.
+But they are too afraid of the unknown, so I am alone." 
+This poem was written by John Milton in 1667 during his reign as Lord Protector of England at that time. It is an example of how poetry can be used to express complex emotions and ideas about historical events or themes like war and power struggles between different rulers and kingdoms.
+
+
+====================================
+
+=== COMPLETION 5-B ===
+
+        The kings of the earth are weary from strife.
+    """
+
+    def __init__(self):
+        super().__setattr__("_name", "Bard")  # TODO: _title is not defined for Bard class yet... (TODO)
+
+    @property
+    def name(self):
+        return self._name
+
+    @classmethod
+    def
+
+====================================
+
+=== COMPLETION 5-C ===
+
+    For in the end they are all but fools.
+
+    A bed of roses may die down quickly if you don't water it." - Anonymous""" 
+        return self._fetch(query)['data'][0]["title"]
+import numpy as np
+from scipy import linalg
+# from sklearn.base import BaseEstimator, Regressor
+====================================
+====================================
