@@ -1,0 +1,8 @@
+accelerate==0.26.1
+bitsandbytes==0.42.0
+datasets==2.16.1
+peft==0.8.2
+transformers==4.45.2
+trl==0.11.2
+evaluate==0.4.1
+rouge-score==0.1.2

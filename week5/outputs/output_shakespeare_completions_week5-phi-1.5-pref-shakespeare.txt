@@ -1,0 +1,101 @@
+
+
+=== PREFIX 1 ===
+O, what a noble mind is here o'erthrown!
+
+====================================
+
+=== COMPLETION 1-A ===
+ O, let's see.
+
+====================================
+
+=== COMPLETION 1-B ===
+ HOST.
+
+====================================
+
+=== COMPLETION 1-C ===
+ That's the most precious thing in this world; A man that never saw his father.
+====================================
+====================================
+
+=== PREFIX 2 ===
+look in thy glass and tell the face thou viewest
+
+====================================
+
+=== COMPLETION 2-A ===
+.
+
+====================================
+
+=== COMPLETION 2-B ===
+.
+
+====================================
+
+=== COMPLETION 2-C ===
+.I'll make my way to you; And I will not take your pardon, nor be so rude
+====================================
+====================================
+
+=== PREFIX 3 ===
+Then let not winter's ragged hand deface
+
+====================================
+
+=== COMPLETION 3-A ===
+ the beauty of spring, Or let it stain her delicate laces with a muddy boot.
+
+====================================
+
+=== COMPLETION 3-B ===
+ our joy.
+
+====================================
+
+=== COMPLETION 3-C ===
+ our faces.
+====================================
+====================================
+
+=== PREFIX 4 ===
+Thou canst not see one wrinkle in my brow,
+
+====================================
+
+=== COMPLETION 4-A ===
+ but thou wilt find a thousand.
+
+====================================
+
+=== COMPLETION 4-B ===
+ nor none on his forehead.
+
+====================================
+
+=== COMPLETION 4-C ===
+ Can't you? But the truth is I am very fair.
+====================================
+====================================
+
+=== PREFIX 5 ===
+Great lords, wise men ne'er sit and wail their loss,
+
+====================================
+
+=== COMPLETION 5-A ===
+ But to see the world with eyes that are blind.
+
+====================================
+
+=== COMPLETION 5-B ===
+ But let the gods be content with our good deeds.
+
+====================================
+
+=== COMPLETION 5-C ===
+ but to stand on it.
+====================================
+====================================

@@ -1,0 +1,312 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}
+
+\usepackage[nonatbib]{neurips_2024}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage[table]{xcolor}  % colors
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{tabularray}
+\usepackage[most]{tcolorbox}
+\usepackage[ruled,vlined]{algorithm2e}
+
+\definecolor{lightgray}{rgb}{0.95, 0.95, 0.95}
+
+\newlist{arrowlist}{itemize}{1}
+\setlist[arrowlist]{label=$\Rightarrow$}
+
+\newtcolorbox{coloredquote}[1][]{%
+    % enhanced, breakable, 
+    size=minimal,
+    % frame hidden, 
+    colframe=black!10!white, 
+    colback=black!5!white,
+    \texttt{#1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Week 5 Assignment\\
+\vspace{2mm}
+\small{Generative AI}
+\\
+\vspace{2mm}
+\small{Saarland University -- Winter Semester 2024/25}
+}
+
+\author{%
+  Martínez \\
+  7057573 \\
+  \texttt{cama00005@stud.uni-saarland.de} \\
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\DeclareRobustCommand{\textitbf}[1]{\textbf{\textit{#1}}} % for bold italic text
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exercise Assignment: E1}\label{sec:e1}
+Table \ref{I7:results} was constructed using the Bradley-Terry model, which given a prompt $x_p$ and two responses $y_1$ and $y_2$, models the probability that $y_11$ is preferred over $y_2$:
+\begin{equation}\label{bradley-terry}
+    \Pr(y_1 \succ y_2 |x_p) = \sigma(r(x_p,y_1) - r(x_p,y_2)) = \frac{1}{1 + e^{-(r(x_p,y_1)-r(x_p,y_2))}}
+\end{equation}
+
+\begin{table}[h!]
+    \centering
+    \caption{Pairwise comparisons using the Bradley-Terry model in Eq.~\eqref{bradley-terry}.}
+    \vspace{0.5\baselineskip}
+    \begin{tblr}{
+            width=0.75\linewidth,
+            vlines,
+            colspec={X[c,m] *{3}{X[c,m]}}, % Changed this line
+            colsep=4pt,
+            cell{1}{1-4} = {font=\bfseries},
+            hspan=minimal,
+            vspan=center,
+        }
+        \hline
+        \SetCell[r=2]{c} Subpopulation & \SetCell[c=3]{c} Pairwise comparisons &                      &                      \\
+        \hline
+        1                              & $\Pr(y_1 \succ y_2)$                  & $\Pr(y_1 \succ y_3)$ & $\Pr(y_2 \succ y_3)$ \\
+        \hline
+        1                              & 0.5                                   & 0.27                 & 0.27                 \\
+        \hline
+        2                              & 0.73                                  & 0.5                  & 0.27                 \\
+        \hline
+        3                              & 0.88                                  & 0.95                 & 0.73                 \\
+        \hline
+        4                              & 0.12                                  & 0.047                & 0.27                 \\
+        \hline
+    \end{tblr}
+    \label{I7:results}
+\end{table}
+
+Based on Table \ref{I7:results}, we can determine the most preferred within each subpopulation: 
+\begin{arrowlist}
+    \item \textbf{Subpopulation 1:} $y_3$ is the most preferred response.
+    \item \textbf{Subpopulation 2:} $y_1$ and $y_3$ are equally preferred.
+    \item \textbf{Subpopulation 3:} $y_1$ is the most preferred response.
+    \item \textbf{Subpopulation 4:} $y_3$ is the most preferred response.
+\end{arrowlist}
+
+\section{Exercise Assignment: E3}\label{sec:e3}
+
+For RLHF, the loss function is given by:
+\begin{equation}\label{eq:rlhf}
+    \mathcal{L}_R(r_\phi) = -\mathbb{E}_{(x_p,y_w,y_l) \sim \mathcal{D}_p}\left[\log \sigma(r_\phi(x_p,y_w) - r_\phi(x_p,y_l))\right]
+\end{equation}
+Plugging in the values, we get:
+\begin{align*}
+    \mathcal{L}_R(r_\phi) & = -\mathbb{E}_{(x_p,y_w,y_l) \sim \mathcal{D}_p}\left[\log \sigma(0.5 - 0.8)\right] \\ &= -\log \sigma(-0.3) = -\log \frac{1}{1 + e^{-(-0.3)}} \approx 0.85
+\end{align*}
+
+On the other hand, the loss function for DPO is given by:
+\begin{equation}\label{eq:dpo}
+    \mathcal{L}_{DPO}(\pi_\theta; \pi_{SFT}) = -\mathbb{E}_{(x_p,y_w,y_l) \sim \mathcal{D}_p}\left[\log \sigma\left(\beta\log\frac{\pi_\theta(y_w|x_p)}{\pi_{SFT}(y_w|x_p)} - \beta\log\frac{\pi_\theta(y_l|x_p)}{\pi_{SFT}(y_l|x_p)}\right)\right]
+\end{equation}
+The DPO loss for the given datapoint is thus:
+\begin{align*}
+    \mathcal{L}_{DPO}(\pi_\theta; \pi_{SFT}) & = -\mathbb{E}_{(x_p,y_w,y_l) \sim \mathcal{D}_p}\left[\log \sigma\left(\beta\log\frac{\pi_\theta(y_w|x_p)}{\pi_{SFT}(y_w|x_p)} - \beta\log\frac{\pi_\theta(y_l|x_p)}{\pi_{SFT}(y_l|x_p)}\right)\right] \\ &= -\mathbb{E}_{(x_p,y_w,y_l) \sim \mathcal{D}_p}\left[\log \sigma\left(2\log\frac{0.2}{0.2} - 2\log\frac{0.3}{0.4}\right)\right] \\ &= -\log \sigma\left(-2\log\frac{0.3}{0.4}\right)  \approx 0.44
+\end{align*}
+
+\section{Exercise Assignment: E4}\label{sec:e4}
+In the case of Reinforcement Learning from Human Feedback (RLHF):
+\begin{itemize}
+    \item Looking at the reward values, we see that $r_\phi(x_p, y_l) = 0.8 > r_\phi(x_p, y_w) = 0.5$, which is problematic since $y_w$ is supposed to be the preferred response.
+    \item When updating $\pi_\theta$ through RLHF, we aim to make the policy encouraged to increase the probability of generating responses that lead to higher rewards. This means that, in this case, we would push $\pi_\theta$ to generate more $y_l$-like responses since they have higher reward according to $r_\phi$.
+    \item This is obviously counter-productive since $y_l$ is not the preferred response and highlights the failure of having poorly trained the reward model $r_\phi$.
+\end{itemize}
+
+On the other hand, with Direct Preference Optimization (DPO):
+\begin{itemize}
+    \item DPO directly uses the preference data without relying on the learned reward model, which is an advantage over RLHF in this case, where the reward model is not reliable.
+    \item Through DPO, we aim to modify $\pi_\theta$ to better match the preference data while staying close to $\pi_{SFT}$ through the maximum-likelihood objective under the KL constraint, $\max_\theta{\mathcal{L}_{DPO}(\pi_\theta; \pi_{SFT})}$, where $\mathcal{L}_{DPO}$ is defined in Eq.~\ref{eq:dpo} \cite{dpopaper}.
+    \item Since $y_w$ is the preferred response, DPO would encourage increasing $\pi_\theta(y_w|x_p)$ from its current value of $0.2$ and decreasing $\pi_\theta(y_l|x_p)$ from its current value of $0.3$, while not deviating too far from $\pi_{SFT}$, moderated by the temperature parameter $\beta=2$.
+\end{itemize}
+
+In this specific scenario, DPO would likely lead to better alignment with human preferences compared to RLHF, since it's not led astray by the problematic reward model.
+
+\section{Exercise Assignment: E5}\label{sec:e5}
+First of all, the original case with $\pi_{SFT}(y_l|x_p) = 0.4$ and everything else being the same, has the following form for the DPO loss:
+\begin{align*}
+    \mathcal{L}_{DPO}(\pi_\theta; \pi_{SFT}) & = -\log \sigma\left(\beta\log\frac{\pi_\theta(y_w|x_p)}{\pi_{SFT}(y_w|x_p)} - \beta\log\frac{\pi_\theta(y_l|x_p)}{\pi_{SFT}(y_l|x_p)}\right) \\
+                                             & = -\log \sigma\left(\beta\log\frac{0.2}{0.2} - \beta\log\frac{0.3}{0.4}\right)                                                               \\
+                                             & = -\log \sigma\left(\beta\log\frac{4}{3}\right)
+\end{align*}
+On the other hand, the modified case with $\pi_{SFT}(y_l|x_p) = 0.2$ and everything else being the same, has the following form for the DPO loss:
+\begin{align*}
+    \mathcal{L}_{DPO}(\pi_\theta; \pi_{SFT}) & = -\log \sigma\left(\beta\log\frac{0.2}{0.2} - \beta\log\frac{0.3}{0.2}\right) \\
+                                             & = -\log \sigma\left(-\beta\log\frac{3}{2}\right)
+\end{align*}
+
+\clearpage
+
+From the previous expressions, we can make the following analysis:
+
+\begin{itemize}
+    \item \textbf{Original case,} \boldmath$\pi_{SFT}(y_l|x_p) = 0.4$\unboldmath
+          \begin{itemize}
+              \item Inside the sigmoid function $\sigma(\cdot)$, we have $\beta\log\frac{4}{3}$ which is positive, since $\frac{4}{3} > 1$ and $\log(x) > 0, \forall x > 1$.
+              \item As $\beta$ increases, the argument becomes more positive, i.e., shifted to the right on the sigmoid curve.
+              \item This makes $\sigma(\cdot)$ approach 1 from below, \textbf{decreasing the loss}, since the $\log$ function monotically increases and is negative for values less than 1.
+              \item This means that the update on $\pi_\theta$ that the loss is encouraging aims to maintain the current ratio $\frac{\pi_\theta(y_l|x_p)}{\pi_{SFT}(y_l|x_p)} < 1$.
+          \end{itemize}
+    \item \textbf{Modified case,} \boldmath$\pi_{SFT}(y_l|x_p) = 0.2$\unboldmath
+          \begin{itemize}
+              \item Inside the sigmoid function $\sigma(\cdot)$, we have $-\beta\log\frac{3}{2}$ which is negative, since the argument of the $\log$ function is greater than 1 and we have a negative sign in front\footnote{Similar to the original case, we could say that $\mathcal{L}_{DPO}(\pi_\theta; \pi_{SFT}) = -\log \sigma\left(\beta\log\frac{2}{3}\right)$, arriving to the same conclusion that the argument is negative, since $\frac{2}{3} < 1$ and $\log(x) < 0, \forall x < 1$.}.
+              \item As $\beta$ increases, the argument becomes more negative, i.e., shifted to the left on the sigmoid curve.
+              \item This makes $\sigma(\cdot)$ approach 0, \textbf{increasing the loss}, contrary to the original case.
+              \item Thus, the loss more strongly penalizes the current ratio $\frac{\pi_\theta(y_l|x_p)}{\pi_{SFT}(y_l|x_p)} > 1$.
+          \end{itemize}
+\end{itemize}
+
+From this analysis, we can make the following conclusions:
+
+\begin{itemize}
+    \item When $\frac{\pi_\theta(y_l|x_p)}{\pi_{SFT}(y_l|x_p)} < 1$ (meaning a favorable ratio for non-preferred responses) as in the original case, higher $\beta$ reduces loss.
+    \item When $\frac{\pi_\theta(y_l|x_p)}{\pi_{SFT}(y_l|x_p)} > 1$ (meaning an unfavorable ratio for non-preferred responses), higher $\beta$ increases loss, amplifying the learning signal from preference comparisons and leading to stronger policy updates. This is desirable when preferences disagree with the current behavior, as in the modified case. More specifically, the modified case with a ratio $\frac{\pi_\theta(y_l|x_p)}{\pi_{SFT}(y_l|x_p)} = \frac{0.3}{0.2} = 1.5$ indicates that the model assigns too much probability to the less preferred option and higher $\beta$ values will more aggressively push for correcting this misalignment.
+\end{itemize}
+
+\clearpage 
+
+\section{Individual Assignment: I3}\label{sec:i3}
+
+Looking at the preference samples in \texttt{pref\_data\_completion\_20samples.txt}, we can note that the \texttt{CHOSEN} completions are more concise, focused, and direct, in contrast to the \texttt{REJECTED} ones. The latter tend to be longer, include multiple speakers/characters, and often drift into lengthy dialogues or scene descriptions. Whilst the former typically complete the immediate thought or action without unnecessary elaboration and maintain the style of the original prompt.
+
+\begin{table}[htbp]
+    \caption{Qualitative pairwise comparison of the three completions generated by the Supervised fine-tuned Phi-1.5 model and the Preference-tuned Phi-1.5 model. Note that \textbf{Cpl.} is the completion id and the last column corresponds to whether the Preference-tuned model wins (W), ties (T), or loses (L) against the Supervised fine-tuned model.}
+    \vspace{0.5\baselineskip} 
+    \begin{tblr}{
+        colspec={X[2,l,m] X[0.3,c,m] X[2.5,l,m] X[2,l,m] X[0.3,c,m]},
+        row{1} = {font=\bfseries},
+        colsep=4pt,
+        vlines,
+        hlines,
+        hspan=minimal,
+        vspan=center,
+    }
+    \texttt{PREFIX} & Cpl. & \SetCell[]{c} Supervised fine-tuned Model & \SetCell[c=2]{c}Preference-tuned Model \\
+    \hline
+    \SetCell[r=3]{}\texttt{"O, what a noble mind is here o'erthrown!"}
+        & A & Too long response about brotherhood 
+        & Concise "O, let's see" & \SetCell[]{c, green} W \\
+        & B & Too long response about seeing the King 
+        & Concise but unrelated "HOST" & \SetCell[]{c, yellow} T \\
+        & C & Too long response but more \textit{dialogue-esque}
+        & Concise, not particularly \textit{Shakespeare-esque} & \SetCell[]{c, green} W \\
+    \hline
+    \SetCell[r=3]{}\texttt{"look in thy glass and tell the face thou viewest"}
+        & A & Too long response
+        & Simple "." & \SetCell[]{c, green} W \\
+        & B & Verbose dialogue 
+        & Simple "." & \SetCell[]{c, green} W \\
+        & C & Hallucinates a paragraph
+        & Concise, coherent continuation & \SetCell[]{c, green} W \\
+    \hline
+    \SetCell[r=3]{}\texttt{"Then let not winter's ragged hand deface"}
+        & A & Too long response 
+        & Focused completion & \SetCell[]{c, green} W \\
+        & B & Too long response 
+        & Concise "our joy" & \SetCell[]{c, green} W \\
+        & C & Hallucinates an unrelated story 
+        & Concise "our faces" & \SetCell[]{c, green} W \\
+    \hline
+    \SetCell[r=3]{}\texttt{"Thou canst not see one wrinkle in my brow,"}
+        & A & Hallucinates a blog post
+        & \textit{Poetic} contradiction & \SetCell[]{c, green} W \\
+        & B & Too long response 
+        & Focused completion & \SetCell[]{c, green} W \\
+        & C & Too long response 
+        & Brief, relevant response & \SetCell[]{c, green} W \\
+    \hline
+    \SetCell[r=3]{}\texttt{"Great lords, wise men ne'er sit and wail their loss,"}
+        & A & Too long response  
+        & Focused completion & \SetCell[]{c, green} W \\
+        & B & Too long response 
+        & Focused completion & \SetCell[]{c, green} W \\
+        & C & Too long response 
+        & Concise "but to stand on it" & \SetCell[]{c, green} W \\
+    \end{tblr}
+    \label{I3:results}
+\end{table}
+    
+Table \ref{I3:results} shows a qualitative pairwise comparison of completions generated by the Supervised fine-tuned Phi-1.5 model and the Preference-tuned Phi-1.5 model. There, we can see that the latter consistently produces completions that better align with the characteristics seen in the preference samples. In contrast to the former, it opts for \textit{conciseness}, \textit{relevance} and \textit{style consistency}, even if it means only producing a simple period (".") as a completion. In summary, across all 15 comparisons, the Preference-tuned Model wins 14 times and ties 1 time against the Supervised fine-tuned Model.
+
+\section{Individual Assignment: I4}\label{sec:i4}
+
+Table \ref{I4:results} shows a qualitative pairwise comparison of the three summaries generated by the Supervised fine-tuned GPT-J Model and the Preference-tuned GPT-J Model. Overall, the Preference-tuned Model tends to include more context and details from the original posts, but sometimes at the cost of accuracy or by adding unverified information. It wins in situations where additional context is helpful for understanding the complete situation (like financial planning questions). The Supervised fine-tuned Model generally produces more concise, focused summaries that stick closer to explicitly stated information. 
+
+In summary, across all 15 comparisons, the Preference-tuned Model wins 2 times, loses 10 times, and ties 3 times against the Supervised fine-tuned Model.
+
+\begin{table}[h!]
+    \caption{Qualitative pairwise comparison of the three summaries generated by the Supervised fine-tuned GPT-J Model and the Preference-tuned GPT-J Model. Note that the last column corresponds to whether the Preference-tuned model wins (W), ties (T), or loses (L) against the Supervised fine-tuned model.}
+    \vspace{0.5\baselineskip} 
+    \begin{tblr}{
+        colspec={X[2,l,m] X[0.3,c,m] X[2.5,l,m] X[2,l,m] X[0.3,c,m]},
+        row{1} = {font=\bfseries},
+        colsep=4pt,
+        vlines,
+        hlines,
+        hspan=minimal,
+        vspan=center,
+    }
+    Post & S. & \SetCell[]{c} Supervised fine-tuned Model & \SetCell[c=2]{c} Preference-tuned Model \\
+    \SetCell[r=3]{} \texttt{TITLE: Decisions regarding a 401k Cash out} & A & \SetCell[r=3]{} Simple, focused on key question & Includes context about 401k details and alternative income sources & \SetCell[]{c, green} W \\
+    & B & & Adds detail about 401k being "large" and is redundant in the end adding \texttt{"(401k)"} & \SetCell[]{c, red!40} L \\
+    & C & & Adds specific 401k amount but it's still redundant & \SetCell[]{c, red!40} L \\
+    \hline
+    \SetCell[r=3]{}\texttt{TITLE: Race Report: First Marathon!} & A & Simple, focused on completion (no emotions) & Hallucinates irrelevant details about pictures & \SetCell[]{c, red!40} L \\
+    & B & \SetCell[r=2]{} Simple, but emotional response & Similar emotional response with slightly less detail & \SetCell[]{c, yellow} T \\
+    & C & & Hallucinates about pictures and providing future updates & \SetCell[]{c, red!40} L \\
+    \hline
+    \SetCell[r=3]{}\texttt{TITLE: How can I mange this Job} & A & \SetCell[r=2]{} Simple summary of situation & Hallucinates claims about work/school history & \SetCell[]{c, red!40} L \\
+    & B & & Extremely redundant and unprecise, and hallucinates working hours a day & \SetCell[]{c, red!40} L \\
+    & C & Simple summary of the situation but slightly redundant in the end & Hallucinates ADHD condition & \SetCell[]{c, red!40} L \\
+    \hline
+    \SetCell[r=3]{}\texttt{TITLE: 27 yr old planning on getting an apartment in July with my 20 yr d brother. How do I plan so We don't have to struggle?} & A & \SetCell[r=2]{} Simple summary of situation & More specific about financial needs, but slightly redundant & \SetCell[]{c, yellow} T \\
+    & B & & Includes incorrect age information & \SetCell[]{c, red!40} L \\
+    & C & Comprehensive summary of the situation & Slightly more specific about financial situation & \SetCell[]{c, green} W \\
+    \hline
+    \SetCell[r=3]{}\texttt{TITLE: Is there a good solution to all the mass amount of usernames and passwords I need to remember for every website?} & A & Direct statement of the problem & \SetCell[r=2]{}Slightly more verbose and redundant & \SetCell[]{c, red!40} L \\
+    & B & Direct statement of the problem, and poses a question & & \SetCell[]{c, red!40} L \\
+    & C & Direct statement of the problem & Direct statement of the problem & \SetCell[]{c, yellow} T \\
+    \end{tblr}
+    \label{I4:results}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\section*{Acknowledgements}
+This week's slides and listed references.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
