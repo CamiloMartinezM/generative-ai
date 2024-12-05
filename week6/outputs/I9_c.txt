@@ -1,0 +1,15 @@
+Here is the ASCII representation of the 4x4 grid based on the given elements:
+
+```
+> . . #
+. # . #
+. . + #
+# # # #
+```
+
+### Details:
+
+- The avatar starts at the cell `(0,0)` facing East, represented as `>`.
+- The goal is located at `(2,2)`, represented by `+`.
+- Walls are represented as `#` and are located at the following positions: `(0,3)`, `(1,1)`, `(1,3)`, `(2,3)`, `(3,0)`, `(3,1)`, `(3,2)`, and `(3,3)`.
+- The remaining cells are empty, represented by `.`.

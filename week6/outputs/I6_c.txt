@@ -1,0 +1,31 @@
+To guide the avatar to the goal, we need to carefully navigate the grid while avoiding walls. Below is a step-by-step sequence of moves starting from the initial position and facing direction:
+
+### Current State:
+- **Starting Position**: (0, 0)
+- **Facing Direction**: East (`>`)
+
+### Grid:
+```
+>	.	.	#
+.	#	.	#
+.	.	+	#
+#	#	#	#
+```
+
+### Goal Position:
+- **Position**: (2, 2)
+- Avoid **colliding** with walls (`#`).
+
+### Move Sequence:
+1. **move_forward**: Move from (0, 0) to (0, 1).
+2. **move_forward**: Move from (0, 1) to (0, 2).
+3. **turn_right**: Change facing direction from East (`>`) to South (`v`).
+4. **move_forward**: Move from (0, 2) to (1, 2).
+5. **move_forward**: Move from (1, 2) to (2, 2). [Goal reached]
+
+### Explanation:
+- Starting at (0, 0) facing East, we move two cells to the right into an open path until reaching (0, 2).
+- At (0, 2), we turn right to face South, aligning with the path leading downwards.
+- We then move forward two times to reach (2, 2), which is the goal.
+
+You complete the task successfully by reaching the goal (`+`) without colliding with walls.

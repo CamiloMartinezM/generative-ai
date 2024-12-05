@@ -1,0 +1,1 @@
+robot, maze, walls, abstract, educational, colorful, 2D

@@ -1,0 +1,33 @@
+To guide the avatar to the goal, we need to consider its starting position and orientation, the grid layout, and then devise a sequence of valid actions. Let's break down the grid first:
+
+### Initial Grid Layout:
+- The avatar starts at position (0,0) facing East (`>`).
+- The goal (`+`) is located at (2,2).
+
+### Navigation Steps:
+
+1. **Start at (0,0) facing East (`>`)**:
+   - **move_forward**: Move to (0,1).
+
+2. **At (0,1) facing East (`>`)**:
+   - **move_forward**: Move to (0,2).
+
+3. **At (0,2) facing East (`>`)**:
+   - **turn_right**: Change direction to South (`v`).
+
+4. **At (0,2) facing South (`v`)**:
+   - **move_forward**: Move to (1,2).
+
+5. **At (1,2) facing South (`v`)**:
+   - **move_forward**: Move to (2,2).
+
+Now the avatar has reached the goal positioned at (2,2).
+
+### Final Sequence of Moves:
+- move_forward
+- move_forward
+- turn_right
+- move_forward
+- move_forward
+
+These steps guide the avatar from the starting point to the goal without hitting any walls.

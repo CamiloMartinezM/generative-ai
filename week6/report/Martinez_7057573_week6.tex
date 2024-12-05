@@ -1,0 +1,195 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}
+
+\usepackage[nonatbib]{neurips_2024}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage[table]{xcolor}  % colors
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{tabularray}
+\usepackage[most]{tcolorbox}
+\usepackage[ruled,vlined]{algorithm2e}
+
+\definecolor{lightgray}{rgb}{0.95, 0.95, 0.95}
+
+\newlist{arrowlist}{itemize}{1}
+\setlist[arrowlist]{label=$\Rightarrow$}
+
+\newtcolorbox{coloredquote}[1][]{%
+    % enhanced, breakable, 
+    size=minimal,
+    % frame hidden, 
+    colframe=black!10!white, 
+    colback=black!5!white,
+    \texttt{#1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Week 6 Assignment\\
+\vspace{2mm}
+\small{Generative AI}
+\\
+\vspace{2mm}
+\small{Saarland University -- Winter Semester 2024/25}
+}
+
+\author{%
+  Martínez \\
+  7057573 \\
+  \texttt{cama00005@stud.uni-saarland.de} \\
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\DeclareRobustCommand{\textitbf}[1]{\textbf{\textit{#1}}} % for bold italic text
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exercise Assignment: E1}\label{sec:e1}
+
+When it comes to the similarities of the Image Transformer \cite{parmar2018imagetransformer} and DALL-E 1 \cite{dalle-1-2021} models, we can highlight the following: 
+\begin{itemize}
+    \item They are both transformer-based generative models and they both employ autoregressive mechanisms to generate image data sequentially.
+    \item The Image Transformer models images as sequences of image patches, similar to how DALL-E 1 models images as sequences of image tokens.
+    \item They both use discrete representations with respect to how they tokenize image data. On one hand, the Image Transformer treats image patches as discrete tokens in a latent space for representing and generating images, which take values from a fixed visual codebook\footnote{The vocabulary for the latent visual tokens, e.g., patterns.} learnt with a discrete Variational Autoencoder (dVAE). On the other hand, DALL-E 1 employs the same principle but with a dVAE, only this time for learning a discrete latent space for both images and text.
+\end{itemize}
+
+Whereas the differences between the two models are as follows:
+
+\begin{itemize}
+    \item The Image Transformer operates exclusively on image patch sequences, unlike DALL-E 1 which encodes text as tokens and concatenates them with image tokens.
+    \item The Image Transformer focuses purely on reconstructing image sequences.Whereas DALL-E 1 combines text and image sequences, using a single stream to conditionally generate images from textual prompts .
+    \item As a consequence of their different objectives, the Image Transformer and DALL-E 1 have distinct training datasets: the former with image datasets
+    to enable image generation/reconstruction, and the latter with paired text-image datasets to enable text-to-image generation.
+\end{itemize}
+
+\section{Exercise Assignment: E2}\label{sec:e2}
+In the diffusion model introduced in \cite{diffusion-models2020}, the forward process starts with a noise-free image represented as \( \mathbf{x}_0 \sim q(\mathbf{x}_0) := \text{data distribution} \), and adds Gaussian noise to an image \( \mathbf{x}_0 \) over \( T \) steps, generating a noised version \( \mathbf{x}_t \), via a Markov chain:
+\[
+    q(\mathbf{x}_t \mid \mathbf{x}_{t-1}) = \mathcal{N}(\mathbf{x}_t; \sqrt{1 - \beta_t} \mathbf{x}_{t-1}, \beta_t\mathbf{I}),
+\]
+where \( \beta_t \) are fixed hyperparameters (that is, not learnt), and represent the noise level at step \( t \). Then, we can express the complete forward process as:
+\[
+    q(\mathbf{x}_{1:T} \mid \mathbf{x}_0) = \prod_{t=1}^T q(\mathbf{x}_t \mid \mathbf{x}_{t-1}).
+\]
+On the other hand, starting from a noised image \( \mathbf{x}_T \sim p(\mathbf{x}_T) := \mathcal{N}(\mathbf{x}_T; \mathbf{0}, \mathbf{I}) \), the reverse process involves a Markov chain which gradually removes noise to recover \( \mathbf{x}_0 \) with learnable parameters \( \theta \):
+\[
+    p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t) = \mathcal{N}(\mathbf{x}_{t-1}; \mathbf{\mu}_\theta(\mathbf{x}_t, t), \mathbf{\Sigma}_\theta(\mathbf{x}_t, t)),
+\]
+where \( \mathbf{\mu}_\theta \) is a learned mean function and \( \mathbf{\Sigma}_\theta \) is the variance (which Jo. et al. \cite{diffusion-models2020} proposed to fix as \( \mathbf{\Sigma}_\theta = \beta_t \mathbf{I} \)). Analogous to the forward process, the full reverse process is:
+\[
+    p_\theta(\mathbf{x}_0 \mid \mathbf{x}_{1:T}) = \prod_{t=1}^T p_\theta(\mathbf{x}_{t-1} \mid \mathbf{x}_t).
+\]
+By reparameterization, \( \mathbf{x}_t \) can be sampled directly from \( \mathbf{x}_0 \) at any step \( t \) as:
+\[
+    \mathbf{x}_t = \sqrt{\bar{\alpha}_t} \mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t} \epsilon, \quad \epsilon \sim \mathcal{N}(0, \mathbf{I}),
+\]
+where \( \alpha_t = 1 - \beta_t \) and \( \bar{\alpha}_t = \prod_{s=1}^t \alpha_s \).
+
+\section{Exercise Assignment: E3}\label{sec:e3}
+
+First of all, CLIP \cite{CLIP2021} is a multimodal model that learns to align text and image representations in a shared latent space. It uses a Transformer-based Text encoder and a ViT\footnote{Vision Transformer.} (or ResNet) for the Image encoder. It was trained with over 400 million text-images pairs and can be readily applied for zero-shot image classification to any domain, with its performance rivaling State-of-Art models trained specifically for that domain.
+
+In LLaVA \cite{llava2023} (i.e., Large Language and Vision Assistant), CLIP \cite{CLIP2021} serves as the backbone for aligning visual and textual modalities, by connecting CLIP's image encoder with a Transformer-based Language Model. The CLIP's image encoder processes visual inputs into latent representations, which are then concatenated with text embeddings from the Language Model, allowing for further fine-tuning to align with any multimodal tasks (e.g., text generation, image captioning, etc.).
+
+\section{Exercise Assignment: E4}\label{sec:e4}
+
+In DALL-E 2 \cite{dalle-2-2022}, since CLIP's text encoder maps textual inputs into a latent space shared with the image encoder (thus learning a prior that converts text embeddings into image embeddings), we leverage this shared space to generate images from text prompts. This process involves three main steps: 
+\begin{enumerate}
+    \item Encoding the text prompt into the shared latent space via CLIP.
+    \item Sample an image from the latent space, which as a byproduct of CLIP's architecture and training, ensures that the generated images are semantically consistent with the text prompt.
+    \item Decoding the image back into the image space.
+\end{enumerate}
+
+\section{Exercise Assignment: E5}\label{sec:e5}
+
+As for similarities: 
+\begin{itemize}
+    \item Both aim to generate high-quality images conditioned on text prompts, and thus employ paired text-image datasets for training.
+    \item Both models are transformer-based.
+\end{itemize}
+Regarding differences:
+\begin{itemize}
+    \item DALL-E 1 operates on discrete tokens derived via dVAE, while DALL-E 2 operates on a continuous latent space aligned by CLIP embeddings.
+    \item For generation, DALL-E 1 uses an autoregressive model, while DALL-E 2 uses a diffusion model. 
+    \item DALL-E 1 produces lower-resolution outputs, namely \( 256 \times 256 \) pixels, while DALL-E 2 generates higher-resolution and semantically consistent images, more recently up to \( 1024 \times 1024 \) pixels.
+\end{itemize}
+
+\section{Individual Assignment: I1}\label{sec:i1}
+The generated keywords match the input image. The keywords: \texttt{Robot}, \texttt{Maze}, \texttt{Colorful}, and \texttt{Puzzle} appear in all three files. On the other hand, the other keywords include words which qualitatively match the given input image, such as \texttt{Geometric} and \texttt{Toy}.
+
+\section{Individual Assignment: I2}\label{sec:i2}
+The input text prompt was: \texttt{robot, maze, walls, abstract, educational, colorful, 2D}. I would say all three of the generated images qualitatively match this description. Nevertheless, the image \texttt{I2\_c.png} did not contain \texttt{walls}, whereas \texttt{I2\_a.png} has some abstract, not full-sized walls, and \texttt{I2\_b.png} had the best wall representation and is also the only one that looks like a \texttt{2D} painting (as required by the prompt). The other two emphasize a certain 3D aspect.
+
+\section{Individual Assignment: I5}\label{sec:i5}
+For the \texttt{ASCII} representation format, the three outputs show that the model extracted the correct grid elements (avatar, goal, walls) with $100\%$ accuracy, namely that the \texttt{AVATAR} is in \texttt{0:0:east}, the \texttt{GOAL} is in \texttt{2:2}, and the \texttt{WALLS} are in \texttt{[0:3, 1:1, 1:3, 2:3, 3:0, 3:1, 3:2, 3:3]}\footnote{In various markdown formats, but equal final result.}.
+
+On the other hand, for the image representation format, 
+\begin{arrowlist}
+    \item \texttt{AVATAR}: Position ($3/3$), Orientation ($0/3$).
+    \item \texttt{GOAL}: $2/3$.
+    \item \texttt{WALLS}: $0/3$.
+\end{arrowlist}
+
+In conclusion, the \texttt{ASCII} representation format appears to be easier for the model to process accurately, as it achieved a $100\%$ accuracy in extracting the grid elements. In contrast, the image representation format proved to be challenging for the model. This intuitively makes sense, since GPT-4o, being a Transformer-based Large Language Model, is designed to process text data very well due to their mostly text-based training data, and providing \texttt{ASCII} representation format, we are giving the model that in which it is best at.
+
+\section{Individual Assignment: I8}\label{sec:i8}
+For the \texttt{ASCII}-based representation of the grid, the model in all three calls successfully identifies that the correct sequence of moves is: \texttt{move\_forward, move\_forward, turn\_right, move\_forward, move\_forward}.
+
+That same sequence of moves was found only once by the image-based input (\texttt{I7\_c.txt}). On another call, it found another correct sequence of moves though slightly longer (\texttt{I7\_a.txt}):
+
+\begin{verbatim}
+    1. move_forward (move to position (0,1))
+    2. turn_right (now facing South)
+    3. move_forward (move to position (1,1))
+    4. move_forward (move to position (2,1))
+    5. turn_left (now facing East)
+    6. move_forward (move to position (2,2))
+\end{verbatim}
+
+Finally, the other call (\texttt{I7\_b.txt}) did not find the correct sequence of moves. It incorrectly proposed: \texttt{move\_forward, move\_forward, turn\_right, move\_forward, turn\_left, move\_forward, move\_forward}. 
+
+This again proves that providing a text-based representation of the grid, such as the \texttt{ASCII} format, is more reliable for the model to process and generate the correct sequence of moves.
+
+\section{Individual Assignment: I11}\label{sec:i11}
+
+For the \texttt{ASCII} representation format, the GPT-4o model in all three calls generated a grid which correctly captures the input elements. On the other hand, DALL-E generated in all three calls images which definitely did not match the expected grid with its input elements. It simply generated random colorful and game-like images with some resemblance to the input elements randomly placed, and not in a structured way. 
+
+This again proves the superiority of text-based input and output representations for the GPT-4o model. In contrast, DALL-E is a generative model that generates images from text prompts, and via these experiments, proved not to be suitable for outputting structured grid-like images from text prompts with correctly placed elements.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\section*{Acknowledgements}
+This week's slides and listed references.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

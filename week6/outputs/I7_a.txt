@@ -1,0 +1,10 @@
+To guide the avatar to the goal, use the following sequence of actions:
+
+1. **move_forward** (move to position (0,1))
+2. **turn_right** (now facing South)
+3. **move_forward** (move to position (1,1))
+4. **move_forward** (move to position (2,1))
+5. **turn_left** (now facing East)
+6. **move_forward** (move to position (2,2))
+
+The avatar should now be at the goal.

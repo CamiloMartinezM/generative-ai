@@ -1,0 +1,26 @@
+To create the 4x4 ASCII grid based on the given elements, we will place the avatar, goal, and walls into the grid. Here’s the setup:
+
+1. **Avatar**: Starts at coordinates `(0,0)` and is facing East, represented by `>`.
+2. **Goal**: Located at coordinates `(2,2)`, represented by `+`.
+3. **Walls**: Located at the specified coordinates and represented by `#`.
+
+Let's plot these on the grid:
+
+```
+> . . #
+. # . #
+. . + #
+# # # #
+```
+
+- The avatar `>` is at `(0,0)`.
+- The goal `+` is at `(2,2)`.
+- Walls `#` are placed at the following coordinates:
+  - `(0,3)`
+  - `(1,1)`
+  - `(1,3)`
+  - `(2,3)`
+  - `(3,0)`
+  - `(3,1)`
+  - `(3,2)`
+  - `(3,3)`

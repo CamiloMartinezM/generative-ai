@@ -1,0 +1,10 @@
+- Robot
+- Maze
+- Colorful
+- Geometric
+- Retro
+- Puzzle
+- Metallic
+- Technology
+- Labyrinth
+- Complex
