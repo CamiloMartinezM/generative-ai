@@ -1,0 +1,4 @@
+datasets==2.14.6
+transformers
+torch
+nltk
