@@ -1,0 +1,37 @@
+{
+  "pdf-plus:copy-link-to-selection": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "C"
+    }
+  ],
+  "app:delete-file": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "Delete"
+    }
+  ],
+  "pdf-plus:toggle-auto-copy": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "A"
+    }
+  ],
+  "file-explorer:open": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "E"
+    }
+  ]
+}

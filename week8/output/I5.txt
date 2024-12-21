@@ -1,0 +1,2 @@
+Perplexity (Non-Watermarked): 8.18983268737793
+Perplexity (Watermarked): 8.522551536560059
