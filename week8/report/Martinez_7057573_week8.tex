@@ -1,0 +1,189 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}
+
+\usepackage[nonatbib]{neurips_2024}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage[table]{xcolor}  % colors
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{tabularray}
+\usepackage[most]{tcolorbox}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+\definecolor{lightgray}{rgb}{0.95, 0.95, 0.95}
+
+\newlist{arrowlist}{itemize}{1}
+\setlist[arrowlist]{label=$\Rightarrow$}
+
+\newcommand\smallcommentfont[1]{\footnotesize\ttfamily #1}
+
+\newtcolorbox{coloredquote}[1][]{%
+    % enhanced, breakable, 
+    size=minimal,
+    % frame hidden, 
+    colframe=black!10!white, 
+    colback=black!5!white,
+    \texttt{#1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Week 8 Assignment\\
+\vspace{2mm}
+\small{Generative AI}
+\\
+\vspace{2mm}
+\small{Saarland University -- Winter Semester 2024/25}
+}
+
+\author{%
+  Martínez \\
+  7057573 \\
+  \texttt{cama00005@stud.uni-saarland.de} \\
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\DeclareRobustCommand{\textitbf}[1]{\textbf{\textit{#1}}} % for bold italic text
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exercise Assignment: E1}\label{sec:e1}
+
+\begin{algorithm}[H]
+    \caption{Text Generation with Hard Red List}
+    \KwIn{prompt, $s^{(-N_p)}, \ldots, s^{(-1)}$}
+    \For{$t = 0, 1, \ldots$}{
+        1. Apply the language model to prior tokens $s^{(-N_p)}, \ldots, s^{(t-1)}$ to get a probability vector $p^{(t)}$ over the vocabulary. \\
+        2. Compute a hash of token $s^{(t-1)}$, and use it to seed a random number generator. \\
+        3. Using this seed, randomly partition the vocabulary into a “green list” $G$ and a “red list” $R$ of equal size. \\
+        4. Sample $s^{(t)}$ from $G$, never generating any token in the red list.
+    }
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \caption{Text Generation with Soft Red List}
+    \SetKwInOut{Input}{Input}
+    \Input{prompt, $s^{(-N_p)} \ldots s^{(-1)}$\\
+        green list size, $\gamma \in (0,1)$\\
+        hardness parameter, $\delta > 0$}
+    \For{$t = 0, 1, \ldots$}{
+    1. Apply the language model to prior tokens $s^{(-N_p)} \ldots s^{(t-1)}$ to get a logit vector $l^{(t)}$ over the vocabulary.
+
+    2. Compute a hash of token $s^{(t-1)}$, and use it to seed a random number generator.
+
+    3. Using this random number generator, randomly partition the vocabulary into a ``green list'' $G$ of size $\gamma|V|$, and a ``red list'' $R$ of size $(1-\gamma)|V|$.
+
+    4. Add $\delta$ to each green list logit. Apply the soft-max operator to these modified logits to get a probability distribution over the vocabulary.
+
+    $\hat{p}_k^{(t)} = \begin{cases}
+            \frac{\exp(l_k^{(t)}+\delta)}{\sum_{i\in R}\exp(l_i^{(t)})+\sum_{i\in G}\exp(l_i^{(t)}+\delta)}, & k \in G  \\[2ex]
+            \frac{\exp(l_k^{(t)})}{\sum_{i\in R}\exp(l_i^{(t)})+\sum_{i\in G}\exp(l_i^{(t)}+\delta)},        & k \in R.
+        \end{cases}$
+
+    5. Sample the next token, $s^{(t)}$, using the watermarked distribution $\hat{p}^{(t)}$.
+    }
+\end{algorithm}
+
+\begin{table}[h]
+    \centering
+    \caption{Red List for text generation}
+    \begin{tabular}{|c|c|}
+        \hline
+        $x_{i-1}$ & Tokens in Red List \\ \hline
+        $t_0$     & $t_1, t_2$         \\ \hline
+        $t_1$     & $t_1, t_2$         \\ \hline
+        $t_2$     & $t_2, t_3$         \\ \hline
+        $t_3$     & $t_1, t_4$         \\ \hline
+        $t_4$     & $t_3, t_4$         \\ \hline
+    \end{tabular}
+\end{table}
+
+This exercise assignment aims to give you a deeper understanding of the watermarking of LLMs as described in the paper \textit{A Watermark for Large Language Models} [1].
+
+More concretely, we consider a simplified vocabulary $V = \{t_0, t_1, t_2, t_3, t_4\}$, where $t_0$ is a special token that marks the beginning of a sentence.
+
+\begin{enumerate}[label=(E.\arabic*)]
+    \item First, consider Algorithm 1 in [1], \textit{Text Generation with Hard Red List}. The possible tokens in the Red List depend on the previous token, as shown in Table 1. Based on the presence of any red token in the sentence, which of the following sentences contains a watermark, and which does not?
+          \begin{itemize}
+              \item $t_0t_1t_2t_3t_4t_1t_4$
+              \item $t_0t_4t_1t_3t_3t_2t_1$
+          \end{itemize}
+
+    \item Consider the text $t_0t_3t_2t_4t_1t_3t_3t_3$, which was generated by a watermarked model. How could you remove the watermark by inserting a single new token? What would the resulting text look like?
+
+    \item Consider the text $t_0t_1t_3t_2t_1t_4t_2$, which was generated by a non-watermarked model. How could you make this text look like it was generated by a watermarked model by inserting a single new token? What would the resulting text look like?
+
+    \item Consider a model that predicts each token with equal probability, with all the logit values $l_{t_1}^{(i)} = l_{t_2}^{(i)} = \ldots = 1$ at any time step $i$. What would be the probability that the model generates the following sentences when not considering any watermarking?
+          \begin{itemize}
+              \item $t_0t_1t_4t_3t_4t_1t_4$
+              \item $t_0t_4t_1t_3t_3t_2t_1$
+          \end{itemize}
+
+          \textit{Remark}: Note that the model generates tokens one by one in order to generate a sentence (refer to week 2 slides). Here, $t_0$ marks the beginning of the sentence and you can set the probability of the first token being $t_0$ as 1.0.
+
+    \item Now, consider Algorithm 2 in [1], \textit{Text Generation with Soft Red List}. Use the same Red List as in Table 1. When using $\delta = 1$ and the same model as in the previous exercise, what is the probability that the following sentences are generated considering the Soft Red List watermarking method?
+          \begin{itemize}
+              \item $t_0t_1t_4t_3t_4t_1t_4$
+              \item $t_0t_4t_1t_3t_3t_2t_1$
+          \end{itemize}
+\end{enumerate}
+
+\section{Exercise Assignment: E2}\label{sec:e2}
+
+\section{Exercise Assignment: E3}\label{sec:e3}
+
+\section{Exercise Assignment: E4}\label{sec:e4}
+
+\section{Exercise Assignment: E5}\label{sec:e5}
+
+\section{Exercise Assignment: I1}\label{sec:i1}
+
+\section{Exercise Assignment: I2}\label{sec:i2}
+
+\section{Exercise Assignment: I3}\label{sec:i3}
+
+\section{Exercise Assignment: I4}\label{sec:i4}
+
+\section{Exercise Assignment: I5}\label{sec:i5}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\section*{Acknowledgements}
+This week's slides and listed references.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

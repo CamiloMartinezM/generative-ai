@@ -1,0 +1,96 @@
+====================================
+====================================
+
+=== 1. Instruction ===
+### Instruction: Give three tips for staying healthy. ### Response: 
+
+====================================
+
+=== 1. Non-Watermarked Response ===
+### Instruction: Give three tips for staying healthy. ### Response: 
+
+Five tips for staying healthy include: 
+1. Talk to your health care professional. Try to stay organized and stay on task while also taking steps to cut down on unnecessary medications and stress.
+2. Research the evidence to make sure you are doing your best. When it comes to weight control, eating a
+
+=== Perplexity ===
+10.039610862731934
+
+====================================
+
+=== 1. Watermarked Response ===
+### Instruction: Give three tips for staying healthy. ### Response: 
+Good morning everyone, it's time to start beating the drum and being mindful these days. Over the last few months quite the many foods that have come from this phase of your metabolism have come off as excess calories and fat production. So here's a few methods out of your mind to stay healthy, nutritious options: 
+
+=== Perplexity ===
+10.75497817993164
+
+====================================
+====================================
+
+=== 2. Instruction ===
+### Instruction: Generate a list of ten items a person might need for a camping trip ### Response: 
+
+====================================
+
+=== 2. Non-Watermarked Response ===
+### Instruction: Generate a list of ten items a person might need for a camping trip ### Response: 
+
+No, I'm not prepared to make a commitment to a camping trip. I want to take my camping equipment to the next camping site, but I haven't been able to make one yet.
+
+I'm going to explore the beautiful landscape and plan some fun errands for me. I'm planning to explore
+
+=== Perplexity ===
+10.0914888381958
+
+====================================
+
+=== 2. Watermarked Response ===
+### Instruction: Generate a list of ten items a person might need for a camping trip ### Response: 
+Harris County Sheriff�
+
+
+Harris County Sheriff Friar Harry Douglas Denys Jones Jr., pictured here in 2013 and absent in 2014.
+
+
+Sheriff Douglas Denys Jones Jr., pictured here in 2013 and absent in 2014.
+
+
+Sheriff Douglas Denys Jones Jr., pictured here in 2013 and absent in 2014
+
+=== Perplexity ===
+10.468225479125977
+
+====================================
+====================================
+
+=== 3. Instruction ===
+### Instruction: Find the capital of Spain. ### Response: 
+
+====================================
+
+=== 3. Non-Watermarked Response ===
+### Instruction: Find the capital of Spain. ### Response: 
+Dear Spanish Consul,
+
+I am writing to express my sincere apologies for the delays in writing your letter of resignation. It has been a long wait and I hope for your continued support in your task. I am unable to finish writing the letter due to the difficulties the consular office has put in addressing me.
+
+=== Perplexity ===
+10.466092109680176
+
+====================================
+
+=== 3. Watermarked Response ===
+### Instruction: Find the capital of Spain. ### Response: 
+10 December 2008 (15 seconds ago) 
+Juan Manuel Noronha
+
+
+Juan Manuel Noronha On 24 November 2007 he was elected as Costa Rica� country President and Pedaled Alpine issued a statement expressing support for his fairer, more democratic path forward. His cabinet announced his candidacy, announcing a
+
+=== Perplexity ===
+10.685153007507324
+
+====================================
+====================================
+
