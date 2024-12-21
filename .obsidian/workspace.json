@@ -1,0 +1,215 @@
+{
+  "main": {
+    "id": "92de63fe4ca906fd",
+    "type": "split",
+    "children": [
+      {
+        "id": "df4892a7117e5746",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "48eef8e66b4dcceb",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "week8/week8_slides.pdf",
+                "page": 23,
+                "left": -17,
+                "top": 131,
+                "zoom": 0.9083333333333333
+              },
+              "icon": "lucide-file-text",
+              "title": "week8_slides"
+            }
+          }
+        ]
+      },
+      {
+        "id": "57df16ce48f9a754",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d9d0d93c57875673",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "week7/Week 7 - Read Teaming.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Week 7 - Read Teaming"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "65a9b6203f0529a9",
+    "type": "split",
+    "children": [
+      {
+        "id": "7023cb812ed72556",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3968851888298216",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "3f47c124858a2a5d",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#week7",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "261f3d1ea7de9abd",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 241.5086555480957
+  },
+  "right": {
+    "id": "375de817c08f79c8",
+    "type": "split",
+    "children": [
+      {
+        "id": "ae2686ae742cd7c6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "044c33d1a0f67aae",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "week8/week8_slides.pdf",
+                "collapseAll": true,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for week8_slides"
+            }
+          },
+          {
+            "id": "ddff4596d375ba95",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "week8/week8_slides.pdf",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from week8_slides"
+            }
+          },
+          {
+            "id": "18aac45658f5ddc2",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "e3f6da9a77860180",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Reference Papers/Overview - Machine Learning for Segmentation and Classification of Complex Steel Microstructures.pdf"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Overview - Machine Learning for Segmentation and Classification of Complex Steel Microstructures"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 372.5,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "pdf-plus:PDF++: Toggle auto-copy": false,
+      "pdf-plus:PDF++: Toggle auto-focus": false,
+      "pdf-plus:PDF++: Toggle auto-paste": false
+    }
+  },
+  "active": "48eef8e66b4dcceb",
+  "lastOpenFiles": [
+    "week8/report/Martinez_7057573_week8.synctex(busy)",
+    "week8/report/pdflatex190304.fls",
+    "week8/report/pdflatex190133.fls",
+    "week8/report/indent.log",
+    "week8/report/__latexindent_temp_Martinez_7057573_week8.tex",
+    "week8/report/pdflatex190117.fls",
+    "week8/report/pdflatex189756.fls",
+    "week8/report/pdflatex189593.fls",
+    "week8/report/pdflatex189494.fls",
+    "week8/report/pdflatex187220.fls",
+    "week8/report/pdflatex187034.fls",
+    "week7/Week 7 - Read Teaming.md",
+    "week8/Week 8 - Watermarking.md",
+    "README.md",
+    "Test.md",
+    "Shortcuts.md",
+    "note.md",
+    "Untitled.canvas",
+    "2024-12-14.md",
+    "Untitled 1.md",
+    "Welcome.md",
+    "create a link.md"
+  ]
+}
