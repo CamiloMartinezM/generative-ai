@@ -1,0 +1,185 @@
+{
+    "summary": {
+        "repair_model": "unsloth/Phi-3-mini-4k-instruct",
+        "RPass": 60.0,
+        "REdit": 25.866666666666667,
+        "timestamp": "2025-01-16T15:09:47.987511"
+    },
+    "results": {
+        "problem_1_prog_1": {
+            "repair": {
+                "correct": true,
+                "repair": "def search(x, seq):\n    \"\"\" Takes in a value x and a sorted sequence seq, and returns the\n    position that x should go to such that the sequence remains sorted \"\"\"\n    if not seq:\n        return 0\n    for i in range(len(seq)):\n        if x <= seq[i]:\n            return i\n    return len(seq)",
+                "distance": 14
+            }
+        },
+        "problem_1_prog_2": {
+            "repair": {
+                "correct": true,
+                "repair": "def search(x, seq):\n    if not seq:  # Check if the sequence is empty\n        return 0\n    for i in range(len(seq)):\n        if seq[i] == x:\n # Start of corrected code\n            return i\n        elif seq[i] > x:\n            return i\n    return len(seq)  # Returns the length if x is larger than all elements\n\n# End of corrected code",
+                "distance": 40
+            }
+        },
+        "problem_1_prog_3": {
+            "repair": {
+                "correct": true,
+                "repair": "def search(x, seq):\n    if not seq:\n        return 0\n    for i, elem in enumerate(seq):\n        if x <= elem:\n            return i\n    return len(seq)",
+                "distance": 15
+            }
+        },
+        "problem_1_prog_4": {
+            "repair": {
+                "correct": false,
+                "repair": "def search(x, seq):\n    if seq == []:\n        return 0\n    else:\n        for i, elem in enumerate (seq):\n            if x < elem:\n                return i\n        return len(seq)",
+                "distance": -1
+            }
+        },
+        "problem_1_prog_5": {
+            "repair": {
+                "correct": true,
+                "repair": "def search(x, seq):\n    if not seq:\n        return 0\n    for i in range(len(seq)):\n        if seq[i] == x:\n            return i\n        elif seq[i] > x:\n            return i\n    return len(seq)",
+                "distance": 52
+            }
+        },
+        "problem_2_prog_1": {
+            "repair": {
+                "correct": true,
+                "repair": "def unique_day(day, possible_birthdays):\n    count = 0\n    for birthday in possible_birthdays:\n        if birthday[1] == day:\n            count += 1\n    return count == 1\n\ndef unique_month(month, possible_birthdays):\n    count = 0\n    for birthday in possible_birthdays:\n        if birthday[0] == month:\n            count += 1\n    return count == 1\n\ndef contains_unique_day(month, possible_birthdays):\n    for birthday in possible_birthdays:\n        if birthday[0] == month and unique_day(birthday[1], possible_birthdays):\n            return True\n    return False",
+                "distance": 6
+            }
+        },
+        "problem_2_prog_2": {
+            "repair": {
+                "correct": true,
+                "repair": "def unique_day(date, possible_birthdays):\n    counter = 0\n    for birthdate in possible_birthdays:\n        if str(date) == birthdate[1]:\n            counter += 1\n    return counter == 1\n\n\ndef unique_month(month, possible_birthdays):\n    counter = 0\n    for birthdate in possible_birthdays:\n        if month == birthdate[0]:\n            counter += 1\n    return counter == 1\n\n\ndef contains_unique_day(month, possible_birthdays):\n    counter = 0\n    for birthdate in possible_birthdays:\n        if month == birthdate[0]:\n            tp = unique_day(birthdate[1], possible_birthdays)\n            if tp:\n                counter += 1\n    return counter >= 1",
+                "distance": 46
+            }
+        },
+        "problem_2_prog_3": {
+            "repair": {
+                "correct": true,
+                "repair": "def unique_day(date, possible_birthdays):\n    count = 0\n    for month, day in possible_birthdays:\n        if day == date:\n            count += 1\n    return count == 1\n\ndef unique_month(month, possible_birthdays):\n    count = 0\n    for month_, day in possible_birthdays:\n        if month_ == month:\n            count += 1\n    return count == 1\n\ndef contains_unique_day(month, possible_birthdays):\n    for month_, day in possible_birthdays:\n        if month_ == month and unique_day(day, possible_birthdays):\n            return True\n    return False",
+                "distance": 49
+            }
+        },
+        "problem_2_prog_4": {
+            "repair": {
+                "correct": false,
+                "repair": "def unique_day(day, possible_birthdays):\n    count = 0\n    for _, birthday_day in possible_birthdays:\n        if birthday_day == day:\n            count += 1\n    return count == 1\n\ndef unique_month(month, possible_birthdays):\n    return unique_day(month, possible_birthdays)\n\ndef contains_unique_day(month, possible_birthdays):\n    return unique_day(month, possible_birthdays)\n\n# Testing the fixed functions\nprint(unique_day(\"1\", ((\"January\",\"1\"),(\"February\",\"1\"))))  # Expected Output: False\nprint(unique_month(\"January\", ((\"January\",\"1\"),(\"January\",\"2\"))))  # Expected Output: False\nprint(contains_unique_day(\"January\", ((\"January\",\"1\"),(\"January\",\"2\"))))  # Expected Output: True",
+                "distance": -1
+            }
+        },
+        "problem_2_prog_5": {
+            "repair": {
+                "correct": false,
+                "repair": "def count_dates(date, possible_birthdays):\n    count = 0\n    for i in possible_birthdays:\n        if i[0] == date:\n            count += 1\n    return count\n    \ndef unique_day(day, possible_birthdays):\n    return count_dates(day, possible_birthdays) == 1\n    \ndef count_months(month, possible_birthdays):\n    count = 0\n    for i in possible_birthdays:\n        if i[0] == month:\n            count += 1\n    return count\n    \ndef unique_month(month, possible_birthdays):\n    return count_months(month, possible_birthdays) == 1\n\n\ndef contains_unique_day(month, possible_birthdays):\n    days_in_month = []\n    for i in possible_birthdays:\n        if i[0] == month:\n            days_in_month.append(i[1])\n    unique_days = set(days_in_month)\n    return len(unique_days) == 1",
+                "distance": -1
+            }
+        },
+        "problem_3_prog_1": {
+            "repair": {
+                "correct": false,
+                "repair": "def remove_extras(lst):\n    occurrences = set()\n    new_lst = []\n    for item in lst:\n        if item not in occurrences:\n002    occurrences.add(item)\n            new_lst.append(item)\n    return new_lst",
+                "distance": -1
+            }
+        },
+        "problem_3_prog_2": {
+            "repair": {
+                "correct": false,
+                "repair": "def remove_extras(lst):\n    new = []\n    for x in lst:\n        if lst.count(x) == 1:\n            new.append(x)\n    return new",
+                "distance": -1
+            }
+        },
+        "problem_3_prog_3": {
+            "repair": {
+                "correct": false,
+                "repair": "def remove_extras(lst):\n    seen = set()\n    result = []\n    for ele in lst:\n        if ele not in seen:\n0000            seen.add(ele)\n0001            result.append(ele)\n0002    return result",
+                "distance": -1
+            }
+        },
+        "problem_3_prog_4": {
+            "repair": {
+                "correct": false,
+                "repair": "def remove_extras(lst):\n    unique_elements = []\n    for x in lst:\n        if x not in unique_elements:\n001   unique_elements.append(x)\n    return unique\u4e32\u4e86",
+                "distance": -1
+            }
+        },
+        "problem_3_prog_5": {
+            "repair": {
+                "correct": false,
+                "repair": "def remove_extras(lst):\n    new_lst = []\n    for i in lst:\n        if i not in new_lst:\n            new_lst.append(i)\n    return new0",
+                "distance": -1
+            }
+        },
+        "problem_4_prog_1": {
+            "repair": {
+                "correct": true,
+                "repair": "def sort_age(lst):\n    product = []\n    while lst:\n        smallest = lst[0]\n        for i in lst:\n            if i[1] < smallest[1]:\n                smallest = i\n        lst.remove(smallest)\n        product.insert(0, smallest)  # Insert at 0 to keep the order\n    return product",
+                "distance": 3
+            }
+        },
+        "problem_4_prog_2": {
+            "repair": {
+                "correct": true,
+                "repair": "def sort_age(lst):\n    return sorted(lst, key=lambda x: x[1], reverse=True)",
+                "distance": 4
+            }
+        },
+        "problem_4_prog_3": {
+            "repair": {
+                "correct": true,
+                "repair": "def sort_age(lst):\n    new = []\n    while lst:\n        largest = lst[0]\n        for ele in lst:\n            if ele[1] > largest[1]:\n                largest = ele\n        lst.remove(largest)\n        new.append(largest)\n    return new",
+                "distance": 5
+            }
+        },
+        "problem_4_prog_4": {
+            "repair": {
+                "correct": false,
+                "repair": "def merge(one,two):\n    new_tup = []\n    while one and two:\n        if one[0][1] < two[0][1]:\n            new_tup.append(one.pop(0))\n        else:\n0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "distance": -1
+            }
+        },
+        "problem_4_prog_5": {
+            "repair": {
+                "correct": true,
+                "repair": "def sort_age(people):\n    return sorted(people, key=lambda person: person[1], reverse=True)\n#",
+                "distance": 56
+            }
+        },
+        "problem_5_prog_1": {
+            "repair": {
+                "correct": true,
+                "repair": "def top_k(lst, k):\n    result = []\n    lst_copy = lst[:]\n    while k > 0 and lst_copy:\n        big = max(lst_copy)\n        result.append(big)\n        lst_copy.remove(big)\n        k -= 1\n    return result",
+                "distance": 13
+            }
+        },
+        "problem_5_prog_2": {
+            "repair": {
+                "correct": true,
+                "repair": "def top_k(lst, k):\n    if not lst:\n        return []\n    sort = []\n    while lst:\n        largest = max(lst, key=lambda x: x)\n        sort.append(largest)\n        lst.remove(largest)\n    return sort[:k]",
+                "distance": 38
+            }
+        },
+        "problem_5_prog_3": {
+            "repair": {
+                "correct": true,
+                "repair": "def top_k(lst, k):\n    result = []\n    lst.sort(reverse=True)\n    for i in range(min(k, len(lst))):\n        result.append(lst[i])\n    return result",
+                "distance": 30
+            }
+        },
+        "problem_5_prog_4": {
+            "repair": {
+                "correct": false,
+                "repair": "def top_k(lst, k):\n    sort = []\n    while lst and len(sort) < k:\n        largest = lst[0]\n        for element in lst:\n            if element > largest:\n002 largest = element\n001 lst.remove(largest)\n002 sort.append(largest)\n    return sort[::-1]  # reverse the list to ensure descending order",
+                "distance": -1
+            }
+        },
+        "problem_5_prog_5": {
+            "repair": {
+                "correct": true,
+                "repair": "def top_k(lst, k):\n    new = []\n    lst.sort(reverse=True)\n    for i in range(k):\n        new.append(lst.pop(0))\n    return new",
+                "distance": 17
+            }
+        }
+    }
+}
