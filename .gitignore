@@ -314,3 +314,6 @@ TSWLatexianTemp*
 *slides.pdf
 *.zip
 *.jsonl
+
+# OpenAI key
+8_Martinez_openai.txt
