@@ -1,10 +1,11 @@
-import os
 import json
+import os
 from datetime import datetime
 
-import project_part1_utils as utils
-import project_part1_repair as repair
 import project_part1_hint as hint
+import project_part1_repair as repair
+import project_part1_utils as utils
+
 
 # Class for evaluating program repairs and generating hints
 # You do not need to change this class
@@ -16,36 +17,39 @@ class ProgramEvaluation:
         self.distance = distance
 
     # Evaluates a repair by generating a repair for a buggy program and testing it against test cases
-    def get_and_evaluate_repair(self, problem_data, buggy_program, testcases):        
-        extracted_repair = self.repair_agent.generate_repair(problem_data, buggy_program, testcases)
-        
-        distance = -1 # Default value
+    def get_and_evaluate_repair(self, problem_data, buggy_program, testcases, n=1, do_sample=None, temperature=None):
+        # [x] TODO: Since generate_repair was changed to extract in the 2nd position the full results of the testcases,
+        # changed "extracted_repair = ..." to "extracted_repair, _ = ..."
+        extracted_repair, _ = self.repair_agent.generate_repair(
+            problem_data, buggy_program, testcases, n=n, do_sample=do_sample, temperature=temperature
+        )
+
+        distance = -1  # Default value
         correct = True
-                
+
         for testcase in testcases:
             testcase_input = testcase["input"]
             code_to_check = extracted_repair + f"\nresult = {testcase_input}\nprint(result)\n"
             success, output = self.compiler.run_program(code_to_check)
-            testcase_correct = success and output.strip() == testcase['output'].strip()
+            testcase_correct = success and output.strip() == testcase["output"].strip()
             correct = correct and testcase_correct
-            
+
         if correct:
             distance = self.distance.get_edit_distance(extracted_repair, buggy_program)
-            
-        
-        repair_results = {
-            "correct": correct,
-            "repair": extracted_repair,
-            "distance": distance
-        }
-        
+
+        repair_results = {"correct": correct, "repair": extracted_repair, "distance": distance}
+
         return repair_results
-    
+
     # Generates a hint for a buggy program
-    def get_hint(self, problem_data, buggy_program, testcases):               
-        extracted_hint = self.hint_agent.generate_hint(problem_data, buggy_program, testcases)        
+    def get_hint(self, problem_data, buggy_program, testcases):
+        # [x] TODO: For Part 1.c added the repair_agent parameter to the function
+        extracted_hint = self.hint_agent.generate_hint(
+            problem_data, buggy_program, testcases, repair_agent=self.repair_agent
+        )
         return extracted_hint
-    
+
+
 # Class for evaluating datasets of programs
 # You do not need to change this class
 class DatasetEvaluation:
@@ -80,7 +84,7 @@ class DatasetEvaluation:
     # Loads test cases from a problem file
     def load_testcases(self, problem_file):
         try:
-            with open(problem_file, 'r') as file:
+            with open(problem_file, "r") as file:
                 data = json.load(file)
                 return data["tests"]
         except FileNotFoundError:
@@ -90,7 +94,7 @@ class DatasetEvaluation:
 
     # Constructs problem data by combining the title, description, and sample test cases
     def construct_problem_data(self, problem_file, testcases, problem_id):
-        with open(problem_file, 'r') as file:
+        with open(problem_file, "r") as file:
             data = json.load(file)
             title = data["title"]
             problem_description = data["description"]
@@ -109,7 +113,9 @@ class DatasetEvaluation:
         return sample_testcase
 
     # Evaluates all programs in a specified folder for a given problem ID
-    def evaluate_programs_in_folder(self, folder_path, problem_id, problem_data, evaluation_results):
+    def evaluate_programs_in_folder(
+        self, folder_path, problem_id, problem_data, evaluation_results, n=1, do_sample=None, temperature=None
+    ):
         total_programs = 0
         correct_programs = 0
 
@@ -120,99 +126,134 @@ class DatasetEvaluation:
                 with open(buggy_code_path, "r") as file:
                     buggy_code = file.read()
                     testcases = self.fetch_testcases(problem_id)
-                    
+
                     program_results = {}
-                    
+
                     if self.mode == "repair":
-                        repair_results = self.programEvaluator.get_and_evaluate_repair(problem_data, buggy_code, testcases)
+                        repair_results = self.programEvaluator.get_and_evaluate_repair(
+                            problem_data, buggy_code, testcases, n=n, do_sample=do_sample, temperature=temperature
+                        )
                         if repair_results["correct"]:
                             correct_programs += 1
-                        
+
                         program_results["repair"] = repair_results
-                        
+
                     elif self.mode == "hint":
                         hint = self.programEvaluator.get_hint(problem_data, buggy_code, testcases)
                         program_results["hint"] = hint
-                        
+
                     evaluation_results[f"problem_{problem_id}_{program_folder}"] = program_results
-                    
+
     # Saves the evaluation results to a specified directory with a timestamp
     def save_evaluation_results(self, evaluation_results, save_directory, timestamp):
         os.makedirs(save_directory, exist_ok=True)
-        
+
         try:
             overall_results = {}
-            
+
             if self.mode == "repair":
                 overall_results["repair_model"] = self.programEvaluator.repair_agent.model_name
                 total_programs = len(evaluation_results)
                 correct_programs = sum([1 for program in evaluation_results.values() if program["repair"]["correct"]])
                 repair_rate = correct_programs / total_programs
-                
-                correct_distances = [program["repair"]["distance"] for program in evaluation_results.values() if program["repair"]["correct"]]
-                
+
+                correct_distances = [
+                    program["repair"]["distance"]
+                    for program in evaluation_results.values()
+                    if program["repair"]["correct"]
+                ]
+
                 if len(correct_distances) > 0:
                     average_distance = sum(correct_distances) / len(correct_distances)
                 else:
                     average_distance = -1
-                
-                overall_results["RPass"] = repair_rate*100
+
+                overall_results["RPass"] = repair_rate * 100
                 overall_results["REdit"] = average_distance
             elif self.mode == "hint":
                 overall_results["hint_model"] = self.programEvaluator.hint_agent.model_name
-            
+
             overall_results["timestamp"] = timestamp
-            
-            sorted_evaluation_results = dict(sorted(
-                evaluation_results.items(),
-                key=lambda item: tuple(map(int, item[0].split('_')[1::2]))
-            ))
-            
-            with open(os.path.join(save_directory, f"results_{timestamp}.json"), 'w') as json_file:
-                json.dump({
-                    "summary": overall_results,
-                    "results": sorted_evaluation_results
-                }, json_file, indent=4)
-                
+
+            sorted_evaluation_results = dict(
+                sorted(evaluation_results.items(), key=lambda item: tuple(map(int, item[0].split("_")[1::2])))
+            )
+
+            with open(os.path.join(save_directory, f"results_{timestamp}.json"), "w") as json_file:
+                json.dump({"summary": overall_results, "results": sorted_evaluation_results}, json_file, indent=4)
+
         except IOError:
             raise
-        
+
     # Evaluates the dataset by iterating over folders and saving results
-    def evaluate_dataset(self, save_path=None):
-        evaluation_data_path = os.path.join(f"./project_part1_datasets/evaluation_data/")
+    def evaluate_dataset(self, save_path=None, max_num_folders=None, n=1, do_sample=None, temperature=None):
+        evaluation_data_path = os.path.join("./project_part1_datasets/evaluation_data/")
         evaluation_results = {}
         timestamp = datetime.now().isoformat()
 
-        for folder in os.listdir(evaluation_data_path):
+        total_folders = len(os.listdir(evaluation_data_path))
+        for num_folder, folder in enumerate(os.listdir(evaluation_data_path)):
+            print(f"Evaluating folder {num_folder + 1}/{total_folders}... ", end="")
             folder_path = os.path.join(evaluation_data_path, folder)
             if os.path.isdir(folder_path):
                 problem_id = folder.split("_")[0]
                 problem_data = self.fetch_problem_data(problem_id)
-                self.evaluate_programs_in_folder(folder_path, problem_id, problem_data, evaluation_results)
+                self.evaluate_programs_in_folder(
+                    folder_path,
+                    problem_id,
+                    problem_data,
+                    evaluation_results,
+                    n=n,
+                    do_sample=do_sample,
+                    temperature=temperature,
+                )
 
             if save_path:
                 self.save_evaluation_results(evaluation_results, save_path, timestamp)
 
+            print("Done")
+            if max_num_folders and num_folder >= max_num_folders:
+                break
+
+
 # Main function to execute the program evaluation
 # You can change the model_selected variable to select the model and the mode variable to switch between repair and hint modes
-if __name__ == "__main__":    
-    model_dict = {
-        "gpt-4o-mini": "gpt-4o-mini",
-        "phi-3-mini": "unsloth/Phi-3-mini-4k-instruct"
-    }
-    
-    model_selected = model_dict["phi-3-mini"] # Change this to select the model
-    
+if __name__ == "__main__":
+    model_dict = {"gpt-4o-mini": "gpt-4o-mini", "phi-3-mini": "unsloth/Phi-3-mini-4k-instruct"}
+
+    model_selected = model_dict["gpt-4o-mini"]  # Change this to select the model
+
+    # [x] TODO: Added new parameters for ease of use
+    do_sample = True  # Set to False for greedy decoding, None to deactivate (Part 1.b)
+    temperature = 0.7  # Set to 0 for no randomness, 1 for full randomness, None to deactivate (Part 1.b)
+    max_num_folders = None  # Set to None to evaluate all folders, 1 for a quick test
+    n = 3  # Number of repairs to generate first to choose the best one out of them (Part 1.b)
+
+    # For Part 1.c, the advanced workflow has do_sample=True and temperature=0.7 hard-coded
+    use_advanced_hint_workflow = True  # Set to True to use the advanced hint workflow (Part 1.c)
+
     compiler = utils.Compiler()
     distance = utils.Distance()
-        
-    repair_agent = repair.Repair(model_name=model_selected, is_huggingface=(model_selected == "unsloth/Phi-3-mini-4k-instruct"))
-    hint_agent = hint.Hint(model_name=model_selected, is_huggingface=(model_selected == "unsloth/Phi-3-mini-4k-instruct"))
+
+    repair_agent = repair.Repair(
+        model_name=model_selected, is_huggingface=(model_selected == "unsloth/Phi-3-mini-4k-instruct")
+    )
+    hint_agent = hint.Hint(
+        model_name=model_selected,
+        is_huggingface=(model_selected == "unsloth/Phi-3-mini-4k-instruct"),
+        use_advanced_workflow=use_advanced_hint_workflow,
+    )
     programEvaluator = ProgramEvaluation(repair_agent, hint_agent, compiler, distance)
-    
-    mode = "repair"  # Can take values "repair" or "hint"
+
+    mode = "hint"  # Can take values "repair" or "hint"
 
     print(f"Querying {model_selected} in {mode} mode")
-    
+
     datasetEvaluator = DatasetEvaluation(programEvaluator, mode=mode)
-    datasetEvaluator.evaluate_dataset(save_path="./project_part1_evaluation_results/")
+    datasetEvaluator.evaluate_dataset(
+        save_path="./project_part1_evaluation_results/",
+        max_num_folders=max_num_folders,
+        n=n,
+        do_sample=do_sample,
+        temperature=temperature,
+    )
