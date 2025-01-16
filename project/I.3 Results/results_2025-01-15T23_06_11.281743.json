@@ -1,0 +1,185 @@
+{
+    "summary": {
+        "repair_model": "unsloth/Phi-3-mini-4k-instruct",
+        "RPass": 36.0,
+        "REdit": 18.11111111111111,
+        "timestamp": "2025-01-15T23:06:11.281743"
+    },
+    "results": {
+        "problem_1_prog_1": {
+            "repair": {
+                "correct": true,
+                "repair": "def search(x, seq):\n    \"\"\" Takes in a value x and a sorted sequence seq, and returns the\n    position that x should go to such that the sequence remains sorted \"\"\"\n    if not seq:\n        return 0\n    for i, value in enumerate(seq):\n        if x <= value:\n            return i\n    return len(seq)",
+                "distance": 23
+            }
+        },
+        "problem_1_prog_2": {
+            "repair": {
+                "correct": false,
+                "repair": "def search(x, seq):\n    if not seq:\n        return 0\n    for i in range(len(seq)):\n        if seq[i] > x:\n            return i\n    return len(seq)",
+                "distance": -1
+            }
+        },
+        "problem_1_prog_3": {
+            "repair": {
+                "correct": true,
+                "repair": "def search(x, seq):\n    for i, elem in enumerate(seq):\n        if x <= elem:\n            return i\n    return len(seq)",
+                "distance": 5
+            }
+        },
+        "problem_1_prog_4": {
+            "repair": {
+                "correct": false,
+                "repair": "def search(x, seq):\n    if seq == ():\n        return 0\n    else:\n0\n        for i, elem in enumerate(seq):\n            if x <= elem:\n                return i\n            elif x > seq[-1]:\n                return len(seq)\n            elif i == len(seq) - 1 and x > seq[-1]:\n                return i + 1",
+                "distance": -1
+            }
+        },
+        "problem_1_prog_5": {
+            "repair": {
+                "correct": false,
+                "repair": "def search(x, seq):\n    if not seq:\n        return 0\n    elif x < seq[0]:\n        return 0\n    elif x > seq[-1]:\n        return len(seq)\n    else:\n        for i in range(len(seq) - 1):\n            if seq[i] == x:\n                return i\n            elif seq[i] < x < seq[i+1]:\n                return i+1",
+                "distance": -1
+            }
+        },
+        "problem_2_prog_1": {
+            "repair": {
+                "correct": false,
+                "repair": "def unique_day(day, possible_birthdays):\n    count = 0\n    for birthday in possible_birthdays:\n        if birthday[1] == day:\n            count += 1\n    return count == 1\n\ndef unique_month(month, possible_birthdays):\n    count = 0\n    for birthday in possible_birthdays:\n        if birthday[0] == month:\n            count += 1\n    return count == 1\n\ndef contains_unique_day(month, possible_birthdays):\n    unique_days = [birthday[1] for birthday in possible_birthdays if birthday[0] == month]\n    return len(unique_days) == 1",
+                "distance": -1
+            }
+        },
+        "problem_2_prog_2": {
+            "repair": {
+                "correct": false,
+                "repair": "def unique_day(date, possible_birthdays):\n    counter = 0\n    for birthdate in possible_birthdays:\n        if str(date) == birthdate[1]:\n            counter += 1\n    return counter == 1\n\n\ndef unique_month(month, possible_birthdays):\n    counter = 0\n    for birthdate in possible_birthdays:\n        if month == birthdate[0]:\n            counter += 1\n    return counter == 1\n\n\ndef contains_unique_day(month, possible_birthdays):\n    counter = 0\n    for birthdate in possible_birthdays:\n        if month == birthdate[0]:\n            if unique_day(birthdate[1], possible_birthdays):\n                counter += 1\n    return counter == 1\n\n\n# Testcases\nprint(unique_day(\"1\", ((\"January\",\"1\"),(\"February\",\"1\"))))  # Expected Output: False\nprint(unique_month(\"January\", ((\"January\",\"1\"),(\"January\",\"2\"))))  # Expected Output: False\nprint(contains_unique_day(\"January\", ((\"January\",\"1\"),(\"January\",\"2\"))))  # Expected Output: True",
+                "distance": -1
+            }
+        },
+        "problem_2_prog_3": {
+            "repair": {
+                "correct": false,
+                "repair": "def unique_day(date, possible_birthdays):\n    count = 0\n    for i in possible_birthdays:\n        if i[1] == date:\n            count += 1\n    return count == 1\n\ndef unique_month(month, possible_birthdays):\n    count = 0\n    for i in possible_birthdays:\n        if i[0] == month:\n            count += 1\n    return count == 1\n\ndef contains_unique_day(month, possible_birthdays):\n    for i in possible_birthdays:\n        if i[0] == month:\n            return unique_day(i[1], possible_birthdays)\n    return False\n\n# Sample Testcase\nprint(unique_day(\"1\", ((\"January\",\"1\"),(\"February\",\"1\"))))  # Expected Output: False\nprint(unique_month(\"January\", ((\"January\",\"1\"),(\"January\",\"2\"))))  # Expected Output: False\nprint(contains_unique_day(\"January\", ((\"January\",\"1\"),(\"January\",\"2\"))))  # Expected Output: True",
+                "distance": -1
+            }
+        },
+        "problem_2_prog_4": {
+            "repair": {
+                "correct": false,
+                "repair": "def unique_day(day, possible_birthdays):\n    count = 0\n    for p in possible_birthdays:\n        pd = p[1]\n        if day == pd:\n            count += 1\n    return count == 1\n\ndef unique_month(month, possible_birthdays):\n    count = 0\n    for p in possible_birthdays:\n        if p[0] == month:\n            count += 1\n    return count == 1\n\ndef contains_unique_day(month, possible_birthdays):\n    unique_days = [p[1] for p in possible_birthdays if p[0] == month]\n    return len(unique_days) == 1\n\n# Sample Testcase\nprint(unique_day(\"1\", ((\"January\",\"1\"),(\"February\",\"1\"))))  # Expected Output: False\nprint(unique_month(\"January\", ((\"January\",\"1\"),(\"January\",\"2\"))))  # Expected Output: False\nprint(contains_unique_day(\"January\", ((\"January\",\"1\"),(\"January\",\"2\"))))  # Expected Output: True",
+                "distance": -1
+            }
+        },
+        "problem_2_prog_5": {
+            "repair": {
+                "correct": false,
+                "repair": "def count_dates(date, possible_birthdays):\n    count = 0\n    for i in possible_birthdays:\n        if i[1] == date:\n            count += 1\n    return count\n\ndef unique_day(date, possible_birthdays):\n    if count_dates(date, possible_birthdays) == 1:\n        return True\n    else:\n        return False\n\ndef count_months(month, possible_birthdays):\n    count = 0\n    for i in possible_birthdays:\n        if i[0] == month:\n            count += 1\n    return count\n\ndef unique_month(month, possible_birthdays):\n    if count_months(month, possible_birthdays) == 1:\n        return True\n    else:\n        return False\n\ndef contains_unique_day(month, possible_birthdays):\n    days_in_month = []\n    for i in possible_birthdays:\n        if i[0] == month:\n            days_in_month.append(i[1])\n    for day in days_in_month:\n        if unique_day(day, possible_birthdays):\n            return True\n    return False\n\n# Testcases\nprint(unique_day(\"1\", ((\"January\",\"1\"),(\"February\",\"1\"))))  # Expected Output: False\nprint(unique_month(\"January\", ((\"January\",\"1\"),(\"January\",\"2\"))))  # Expected Output: False\nprint(contains_unique_day(\"January\", ((\"January\",\"1\"),(\"January\",\"2\"))))  # Expected Output: True",
+                "distance": -1
+            }
+        },
+        "problem_3_prog_1": {
+            "repair": {
+                "correct": false,
+                "repair": "def remove_extras(lst):\n    occurrences = set()\n    new_lst = []\n    for item in lst:\n        if item not in occurrences:\n000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "distance": -1
+            }
+        },
+        "problem_3_prog_2": {
+            "repair": {
+                "correct": false,
+                "repair": "def remove_extras(lst):\n    new = []\n    for x in lst:\n        if lst.count(x) == 1:\n            new.append(x)\n    return new",
+                "distance": -1
+            }
+        },
+        "problem_3_prog_3": {
+            "repair": {
+                "correct": false,
+                "repair": "def remove_extras(lst):\n    seen = set()\n    result = []\n    for ele in lst:\n        if ele not in seen:\n0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "distance": -1
+            }
+        },
+        "problem_3_prog_4": {
+            "repair": {
+                "correct": false,
+                "repair": "def remove_extras(lst):\n    seen = set()\n    result = []\n    for x in lst:\n        if x not in seen:\n002    seen.add(x)\n            result.append(x)\n    return result",
+                "distance": -1
+            }
+        },
+        "problem_3_prog_5": {
+            "repair": {
+                "correct": true,
+                "repair": "def remove_extras(lst):\n    new_lst = []\n    for i in lst:\n        if i not in new_lst:\n            new_lst.append(i)\n    return new_lst",
+                "distance": 10
+            }
+        },
+        "problem_4_prog_1": {
+            "repair": {
+                "correct": true,
+                "repair": "def sort_age(lst):\n    lst.sort(key=lambda x: x[1], reverse=True)\n    return lst",
+                "distance": 51
+            }
+        },
+        "problem_4_prog_2": {
+            "repair": {
+                "correct": true,
+                "repair": "def sort_age(lst):\n    return sorted(lst, key=lambda x: x[1], reverse=True)",
+                "distance": 4
+            }
+        },
+        "problem_4_prog_3": {
+            "repair": {
+                "correct": true,
+                "repair": "def sort_age(lst):\n    new = []\n    while lst:\n        largest = lst[0]\n        for ele in lst:\n            if ele[1] > largest[1]:\n                largest = ele\n        lst.remove(largest)\n        new.append(largest)\n    return new",
+                "distance": 5
+            }
+        },
+        "problem_4_prog_4": {
+            "repair": {
+                "correct": false,
+                "repair": "def merge(one, two):\n    new_tup = []\n    while one and two:\n        if one[0][1] > two[0][1]:\n            new_tup.append(one.pop(0))\n        else:\n00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "distance": -1
+            }
+        },
+        "problem_4_prog_5": {
+            "repair": {
+                "correct": true,
+                "repair": "def sort_age(lst):\n    final = []\n    while lst:\n        oldest = max(lst, key=lambda x: x[1])\n        final.append(oldest)\n        lst.remove(oldest)\n    return final",
+                "distance": 30
+            }
+        },
+        "problem_5_prog_1": {
+            "repair": {
+                "correct": false,
+                "repair": "def top_k(lst, k):\n    result = []\n    while k > 0:\n        big = max(lst)\n        result.append(big)\n        lst.remove(big)\n        k -= 1\n    return result[::-1]",
+                "distance": -1
+            }
+        },
+        "problem_5_prog_2": {
+            "repair": {
+                "correct": false,
+                "repair": "def top_k(lst, k):\n    if lst == []:\n        return []\n    sort = []\n    while lst:\n        largest = lst[0]\n        for i in lst:\n            if i > largest:\n equivalency_check = False\n for i in lst:\n  if i == largest:\n   equivalency_check = True\n   break\n if not equivalency_check:\n  lst.remove(largest)\n  sort.append(largest)\n if len(sort) == k:\n  break\n return sort",
+                "distance": -1
+            }
+        },
+        "problem_5_prog_3": {
+            "repair": {
+                "correct": true,
+                "repair": "def top_k(lst, k):\n    top_values = []\n    while len(top_values) < k:\n        max_value = max(lst)\n        top_values.append(max_value)\n        lst.remove(max_value)\n    return top_values",
+                "distance": 10
+            }
+        },
+        "problem_5_prog_4": {
+            "repair": {
+                "correct": false,
+                "repair": "def top_k(lst, k):\n    sort = []\n    while lst and len(sort) < k:\n        largest = lst[0]\n        for element in lst:\n            if element > largest:\n00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                "distance": -1
+            }
+        },
+        "problem_5_prog_5": {
+            "repair": {
+                "correct": true,
+                "repair": "def top_k(lst, k):\n    new = []\n    while k > 0:\n        max_value = max(lst)\n        new.append(max_value)\n        lst.remove(max_value)\n        k -= 1\n    return new",
+                "distance": 25
+            }
+        }
+    }
+}

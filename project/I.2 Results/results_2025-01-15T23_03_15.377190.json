@@ -1,0 +1,83 @@
+{
+    "summary": {
+        "hint_model": "gpt-4o-mini",
+        "timestamp": "2025-01-15T23:03:15.377190"
+    },
+    "results": {
+        "problem_1_prog_1": {
+            "hint": "The return statement in the final line should return `len(seq)` instead of `i + 1` to correctly handle the case when `x` is greater than all elements in `seq`."
+        },
+        "problem_1_prog_2": {
+            "hint": "The loop should iterate until the end of the sequence, but the return statements are incorrectly positioned, which may cause premature exits before checking all elements."
+        },
+        "problem_1_prog_3": {
+            "hint": "The return statement inside the loop incorrectly returns the length of the sequence if the first element is less than x, causing the function to terminate prematurely; it should only return the index of the first element greater than or equal to x."
+        },
+        "problem_1_prog_4": {
+            "hint": "The condition to check if the sequence is empty should be `if seq == () or len(seq) == 0:` instead of using `or []`."
+        },
+        "problem_1_prog_5": {
+            "hint": "The loop should iterate through the entire length of the sequence, not stopping one element early, and you need to handle the case where x is greater than the last element separately."
+        },
+        "problem_2_prog_1": {
+            "hint": "The variable `day` is used instead of `date` in the `unique_day` function, which will lead to a NameError."
+        },
+        "problem_2_prog_2": {
+            "hint": "In the `unique_day` and `unique_month` functions, you should return `True` only if the counter equals 1, not greater than 1."
+        },
+        "problem_2_prog_3": {
+            "hint": "In the `unique_day` and `unique_month` functions, the comparison should check for exactly one occurrence, but you are returning `count >= 2` instead of `count == 1`, and you also need to initialize the `count` variable correctly in `unique_month` and `contains_unique_day`."
+        },
+        "problem_2_prog_4": {
+            "hint": "In the `unique_day` function, you should return `False` if the length of `result` is greater than 1 or if it is 0, and also ensure that the day comparison is done correctly for the type of `day`."
+        },
+        "problem_2_prog_5": {
+            "hint": "In the `contains_unique_day` function, you should check each unique day only once instead of returning `False` immediately upon finding a non-unique day."
+        },
+        "problem_3_prog_1": {
+            "hint": "You should initialize `occurrences` as an empty list instead of a tuple, and you also have a typo in the variable name `new_list` which should be `new_lst`."
+        },
+        "problem_3_prog_2": {
+            "hint": "The method `append()` modifies the list in place and returns `None`, so you should use `new.append(x)` instead of `new = new.append(x)` to add elements to the new list."
+        },
+        "problem_3_prog_3": {
+            "hint": "Sorting the list before removing duplicates alters the original order of elements, which should be preserved in the output."
+        },
+        "problem_3_prog_4": {
+            "hint": "The code is modifying the list while iterating through it, which can lead to index errors and unexpected behavior; consider using a separate list to store results instead."
+        },
+        "problem_3_prog_5": {
+            "hint": "You should be appending individual elements to the new list using `new_lst.append(i)` instead of trying to concatenate the element directly with `new_lst = new_lst + i`."
+        },
+        "problem_4_prog_1": {
+            "hint": "The code currently sorts in ascending order instead of the required descending order by age; you should modify the comparison condition."
+        },
+        "problem_4_prog_2": {
+            "hint": "You should return the result of the `sorted` function instead of using `sort`, as `sort` modifies the list in place and returns `None`."
+        },
+        "problem_4_prog_3": {
+            "hint": "The return statement is incorrectly placed inside the while loop, causing the function to terminate after one iteration instead of sorting the entire list."
+        },
+        "problem_4_prog_4": {
+            "hint": "You should replace the integer division operator with the floor division operator (//) when splitting the list into `left` and `right`."
+        },
+        "problem_4_prog_5": {
+            "hint": "You are appending the oldest person to the final list inside the loop, which causes duplicates and incorrect order; instead, find the oldest person outside the loop and append only once before removing them from the list."
+        },
+        "problem_5_prog_1": {
+            "hint": "The loop condition should be `while k > 0` instead of `while k >= 0` to correctly limit the number of times you add elements to the result."
+        },
+        "problem_5_prog_2": {
+            "hint": "The code incorrectly assumes that elements in `lst` are subscriptable (i.e., it uses `i[1]`), which causes an error since the elements are integers, not tuples or lists."
+        },
+        "problem_5_prog_3": {
+            "hint": "You should append values to `list` instead of `new`, and ensure that the while loop condition should be `len(lst) > 0 and len(list) < k`."
+        },
+        "problem_5_prog_4": {
+            "hint": "You should remove the `largest` element from `lst` only after you finish checking all elements, otherwise you might skip over elements."
+        },
+        "problem_5_prog_5": {
+            "hint": "You need to initialize the variable 'i' before using it in the while loop, and also, `max(lst)` returns the maximum value, not the index to pop from the list."
+        }
+    }
+}
