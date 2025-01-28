@@ -1,0 +1,763 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}
+
+\usepackage[nonatbib]{neurips_2024}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage[table]{xcolor}  % colors
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{tabularray}
+\usepackage{titlesec}
+\usepackage{chngcntr}
+\usepackage{float}
+\usepackage[most]{tcolorbox}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+\definecolor{lightgray}{rgb}{0.95, 0.95, 0.95}
+
+\newlist{arrowlist}{itemize}{1}
+\setlist[arrowlist]{label=$\Rightarrow$}
+
+\newcommand\smallcommentfont[1]{\footnotesize\ttfamily #1}
+
+\newtcolorbox{coloredquote}[1][]{%
+    % enhanced, breakable, 
+    size=minimal,
+    % frame hidden, 
+    colframe=black!10!white, 
+    colback=black!5!white,
+    \texttt{#1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Course Project: Part 1\\
+\vspace{2mm}
+\small{Generative AI}
+\\
+\vspace{2mm}
+\small{Saarland University -- Winter Semester 2024/25}
+}
+
+\author{%
+  Martínez \\
+  7057573 \\
+  \texttt{cama00005@stud.uni-saarland.de} \\
+}
+
+\DeclareRobustCommand{\textitbf}[1]{\textbf{\textit{#1}}} % for bold italic text
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+% Remove default section number display
+\titleformat{\section}
+{\normalfont\large\bfseries}{}{0em}{}
+
+% Redefine subsection formatting to remove bold
+\titleformat{\subsection}
+{\normalfont} % Format: normal font, large size
+{\thesubsection}    % Label (e.g., (I.1))
+{2em}               % Space between label and title
+{}                  % Code before the title
+
+% Make subsection counter global (not reset by sections)
+\counterwithout{subsection}{section}
+
+% Format subsection numbering as (I.1), (I.2), etc.
+\renewcommand{\thesubsection}{(I.\arabic{subsection})}
+
+\titlespacing*{\subsection}
+  {0pt}{0.5\baselineskip}{0.01\baselineskip}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% We consider several metrics to assess the overall performance of a model, including quality metrics for program repair and hint generation as well as usability metrics related to deployment in educational settings.
+
+% \subsection*{Quality metrics for program repair}
+% The quality of program repair will be evaluated using two metrics that focus on accuracy and efficiency. \textbf{RPass} (binary) examines whether the repaired program passes all test cases, signifying a successful fix. \textbf{REdit} (non-negative number) captures the token-level edit distance between the buggy and the repaired program, with a smaller edit distance reflecting that the repaired program is better aligned with the learner's buggy program. When reporting results, these metrics will be computed automatically.
+
+% \subsection*{Quality metrics for hint generation}
+% The quality of hint generation will be evaluated based on several binary metrics that define its pedagogical utility. \textbf{HCorrect} (binary) captures whether the generated hint provides correct information for resolving issues in the buggy program. \textbf{HInformative} (binary) captures whether the generated hint provides useful information to help the learner resolve bug(s). \textbf{HConceal} (binary) captures that the information in the generated hint is not too detailed, so the learner would also have to reason about implementing the fixes. \textbf{HComprehensible} (binary) captures whether the generated hint is easy to understand, presented in a readable format, and does not contain redundant information. We measure the overall quality of the generated hint by \textbf{HGood} (binary) that takes the value of 1 (good quality) when all the four attributes are rated as 1. When reporting results, these metrics would require manual annotations.
+
+% \subsection*{Usability metrics}
+% Beyond the quality metrics, there are several important usability metrics for deployment in educational settings, related to model size, user privacy aspects, and training/inference time. To account for these usability metrics, we will consider a small model Phi-3-mini and further load it as a 4-bit quantized version for inference/training. In Part\#2 of the project, we will explore parameter-efficient training (LoRA) and analyze the trade-offs between model quality and training efficiency. Here, we will use the metrics \textbf{TrainingTime} and \textbf{TrainingMemory} that capture the time and the memory used during the fine-tuning process.
+
+\section{Part 1.a: Basic Prompts}\label{part-a}
+
+\vspace{-0.75\baselineskip}
+
+\subsection{Modify the parameters in the \texttt{project\_part1\_evaluate.py} script to query GPT-4o-mini with the basic prompt to generate program repairs and run the script. Report \textit{RPass} and \textit{REdit}.}\label{I.1}
+
+\subsection{Repeat the steps in \ref{I.1} for Phi-3-mini and report your results.}\label{I.3}
+
+\begin{table}[H]
+    \caption{Overall results for GPT-4o-mini and Phi-3-mini with the basic prompt to generate program repairs. For \ref{I.1} and \ref{I.3}.}
+    \vspace{0.5\baselineskip}
+    \centering
+    \begin{tblr}{
+        colspec = {|Q[c,m]|Q[c,m]|},
+        colsep=4pt,
+        vlines,
+        hlines,
+        hspan=minimal,
+        vspan=center,
+        row{1} = {font=\bfseries}
+        }
+        Model       & \textit{RPass} & \textit{REdit} \\
+        \hline
+        GPT-4o-mini & $88.0$           & $23.77$          \\
+        Phi-3-mini  & $36.0$           & $18.11$          \\
+    \end{tblr}
+    \label{I1:results}
+\end{table}
+
+\begin{table}[H]
+    \caption{Average per problem results for GPT-4o-mini with the basic prompt to generate program repairs. The average is calculated without considering the cases with $\text{edit distance} = -1$. For \ref{I.1}.}
+    \vspace{0.5\baselineskip}
+    \centering
+    \begin{tblr}{
+            colspec={Q[l,m] Q[c,m] Q[c,m] Q[c,m] Q[c,m] Q[c,m] Q[c,m]},
+            row{1}={font=\bfseries},
+            hlines,
+            vlines
+        }
+        Problem   & Prog. 1 & Prog. 2 & Prog. 3 & Prog. 4 & Prog. 5 & Avg.    \\
+        \hline
+        Problem 1 & $4$     & $-1$    & $15$    & $19$    & $24$    & $15.50$ \\
+        Problem 2 & $1$     & $63$    & $16$    & $85$    & $54$    & $43.80$ \\
+        Problem 3 & $7$     & $19$    & $11$    & $36$    & $10$    & $16.60$ \\
+        Problem 4 & $53$    & $5$     & $5$     & $39$    & $2$     & $20.80$ \\
+        Problem 5 & $-1$    & $12$    & $4$     & $-1$    & $39$    & $18.33$ \\
+    \end{tblr}
+    \label{I1:results_per_problem}
+\end{table}
+
+\begin{table}[H]
+    \caption{Average per problem results for Phi-3-mini with the basic prompt to generate program repairs. The average is calculated without considering the cases with $\text{edit distance} = -1$. For \ref{I.3}.}
+    \vspace{0.5\baselineskip}
+    \centering
+    \begin{tblr}{
+            colspec={Q[l,m] Q[c,m] Q[c,m] Q[c,m] Q[c,m] Q[c,m] Q[c,m]},
+            row{1}={font=\bfseries},
+            hlines,
+            vlines
+        }
+        Problem   & Prog. 1 & Prog. 2 & Prog. 3 & Prog. 4 & Prog. 5 & Avg.    \\
+        Problem 1 & $23$    & $-1$    & $5$     & $-1$    & $-1$    & $14.00$ \\
+        Problem 2 & $-1$    & $-1$    & $-1$    & $-1$    & $-1$    & $0.00$  \\
+        Problem 3 & $-1$    & $-1$    & $-1$    & $-1$    & $10$    & $10.00$ \\
+        Problem 4 & $51$    & $4$     & $5$     & $-1$    & $30$    & $22.50$ \\
+        Problem 5 & $-1$    & $-1$    & $10$    & $-1$    & $25$    & $17.50$ \\
+    \end{tblr}
+    \label{I3:results_per_problem}
+\end{table}
+
+\subsection{Modify the parameters in the \texttt{project\_part1\_evaluate.py} script to query GPT-4o-mini with the basic prompt to generate hints and run the script. Evaluate the generated hints using the \textit{HGood} metric \cite{HintsInBrowser2024} and report your results.}\label{I.2}
+
+\begin{table}[H]
+    \caption{Hint Quality Metrics for GPT-4o-mini.}
+    \vspace{0.5\baselineskip}
+    \centering
+    \begin{tblr}{
+            colspec={X[0.3,c] X[0.2,c] X[0.2,c] X[0.3,c] X[0.2,c] X[0.4,c] X[0.15,c]},
+            row{1}={font=\bfseries},
+            colsep=4pt,
+            row{even}={bg=gray!10},
+            hlines,
+            vlines,
+            hspan=minimal,
+            vspan=center,
+        }
+        Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
+        \SetCell[r=5]{} Problem 1 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
+\SetCell[c=2]{} Avg. Problem 1    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
+        \SetCell[r=5]{} Problem 2 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
+\SetCell[c=2]{} Avg. Problem 2    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
+        \SetCell[r=5]{} Problem 3 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
+\SetCell[c=2]{} Avg. Problem 3    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
+        \SetCell[r=5]{} Problem 4 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
+\SetCell[c=2]{} Avg. Problem 4    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
+        \SetCell[r=5]{} Problem 5 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
+\SetCell[c=2]{} Avg. Problem 5    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
+\SetCell[c=2]{} Overall Average   &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0
+    \end{tblr}
+    \label{I2:results}
+\end{table}
+
+\clearpage 
+
+
+\clearpage
+
+\subsection{Repeat the steps in \ref{I.2} for Phi-3-mini and report your results.}\label{I.4}
+
+\begin{table}[H]
+    \caption{Hint Quality Metrics for Phi-3-mini.}
+    \vspace{0.5\baselineskip}
+    \centering
+    \begin{tblr}{
+            colspec={X[0.3,c] X[0.2,c] X[0.2,c] X[0.3,c] X[0.2,c] X[0.4,c] X[0.15,c]},
+            row{1}={font=\bfseries},
+            colsep=4pt,
+            row{even}={bg=gray!10},
+            hlines,
+            vlines,
+            hspan=minimal,
+            vspan=center,
+        }
+        Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
+        \SetCell[r=5]{} Problem 1 & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 3 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
+\SetCell[c=2]{} Avg. Problem 1    &         & 1.0  & 1.0  & 1.0  & 1.0  & 1.0  \\
+        \SetCell[r=5]{} Problem 2 & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 3 & 1    & 1    & 1    & 0    & 0    \\
+                                  & Prog. 4 & 0    & 1    & 1    & 1    & 0    \\
+                                  & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
+\SetCell[c=2]{} Avg. Problem 2    &         & 0.8  & 1.0  & 1.0  & 0.8  & 0.6  \\
+        \SetCell[r=5]{} Problem 3 & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 3 & 1    & 1    & 1    & 0    & 0    \\
+                                  & Prog. 4 & 1    & 1    & 1    & 0    & 0    \\
+                                  & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
+\SetCell[c=2]{} Avg. Problem 3    &         & 1.0  & 1.0  & 1.0  & 0.6  & 0.6  \\
+        \SetCell[r=5]{} Problem 4 & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 3 & 1    & 1    & 1    & 0    & 0    \\
+                                  & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 5 & 1    & 1    & 1    & 0    & 0    \\
+\SetCell[c=2]{} Avg. Problem 4    &         & 1.0  & 1.0  & 1.0  & 0.6  & 0.6  \\
+        \SetCell[r=5]{} Problem 5 & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
+                                  & Prog. 2 & 1    & 1    & 1    & 0    & 0    \\
+                                  & Prog. 3 & 0    & 1    & 1    & 0    & 0    \\
+                                  & Prog. 4 & 1    & 1    & 1    & 0    & 0    \\
+                                  & Prog. 5 & 0    & 0    & 1    & 0    & 0    \\
+\SetCell[c=2]{} Avg. Problem 5    &         & 0.6  & 0.8  & 1.0  & 0.2  & 0.2  \\
+\SetCell[c=2]{} Overall Average   &         & 0.88 & 0.96 & 1.0  & 0.64 & 0.60
+    \end{tblr}
+    \label{I4:results}
+\end{table}
+
+\clearpage 
+
+\section{Part 1.b: Improved Program Repairs}\label{part-b}
+
+\subsection{Modify the scripts to query GPT-4o-mini for generating $n = 3$ repair candidates with a temperature of $0.7$ and select the best candidate. Next, run the scripts and report \textit{RPass} and \textit{REdit}.}\label{I.5}
+
+The modifications I did to the provided codebase to implement the \textit{improved program repairs} are as follows:
+
+\begin{enumerate}
+    \item The method \texttt{Repair.generate\_repair()} now takes 3 additional positional parameters: \texttt{n=1}, \texttt{do\_sample=None}, \texttt{temperature=None}. These are defined in the main method of the \texttt{project\_part1\_evaluate.py} and then propagated through \texttt{DatasetEvaluation.evaluate\_programs\_in\_folder()}, which calls the method \texttt{ProgramEvaluation.get\_and\_evaluate\_repair()}, which in turn calls the \texttt{Repair.generate\_repair()}, defined in \texttt{project\_part1\_repair.py}. This allows to turn on/off sampling and set the temperature for the generation of repair candidates, without affecting the basic workflow of \hyperref[part-a]{\textbf{Part 1.a}}.
+    \item The temperature parameter, which was propagated through as explained above, is now accepted as a new parameter in the \texttt{Repair.call\_llm\_openai()} function. Namely, when querying GPT-4o-mini and Phi-3-mini, it is set to $0.7$. 
+    \item Similarly, the \texttt{Repair.call\_llm\_huggingface()} now receives these 2 additional parameters: \texttt{do\_sample} and \texttt{temperature}, which are then passed to \texttt{self.model.generate()} as additional positional arguments. This allows to enable sampling and set the temperature, when querying Phi-3-mini.
+    \item Inside \texttt{Repair.generate\_repair()}, the algorithm \ref{alg:improved-program-repairs} was implemented. 
+\end{enumerate}
+
+\begin{algorithm}[H]
+    \caption{Algorithm for \textit{improved program repairs}.}
+    \label{alg:improved-program-repairs}
+
+    \DontPrintSemicolon
+    \SetAlgoLined
+    \SetAlgoHangIndent{0pt}
+    \SetKwProg{generateRepair}{generateRepair}{}{}
+    \SetKwInOut{Input}{Input}
+    \SetKwInOut{Output}{Output}
+    \SetKwRepeat{Repeat}{Repeat}{until}
+    \SetCommentSty{smallcommentfont}
+
+    \Input{Problem data $T$, buggy program $P_b$, test suite $\Omega_T$, sampling flag $s$, temperature $\tau$, number of repaired programs to query $n$}
+    \generateRepair{$(T, P_b, \Omega_T, n, s, \tau)$}{
+        $\mathcal{C} \gets \textsc{Compiler}()$ \tcp*[r]{Compiler instantiation}
+        $\mathcal{D} \gets \textsc{Distance}()$ \tcp*[r]{Distance metric initialization}
+        $\mathcal{S} \gets \emptyset$ \tcp*[r]{Initialize repair statistics set}
+
+        \Repeat{$n$ times}{
+            $r \gets \textsc{QueryLLM}(T, P_b, s, \tau)$ \tcp*[r]{Generate repair candidate}
+            $f \gets \textsc{ExtractFix}(r)$ \tcp*[r]{Extract fixed program}
+
+            \texttt{\\}
+
+            \tcp{The result of the test suite are stored in a list of tuples $(\omega, o)$ where $\omega$ represents whether the test case passed or not, and $o$ is the output of the test case}
+            $\Omega_{\text{results}} \gets \mathcal{C}(f, \Omega_T)$ \tcp*[r]{Execute test suite $\Omega_T$ on $f$}\
+
+            \tcp{Count the number of passing test cases}
+            $\omega_c \gets \sum_{(\omega,o) \in \Omega_{\text{results}}} \mathbf{1}(\omega)$ \tcp*[r]{$\mathbf{1}(\cdot)$: Indicator function for test success}
+
+            $\delta \gets \mathcal{D}(f, P_b)$ \tcp*[r]{Compute edit distance between $f$ and $P_b$}
+
+            $\mathcal{S} \gets \mathcal{S} \cup \{(f, \omega_c, d, \Omega_{\text{results}})\}$ \tcp*[r]{Store the statistics of the current repair}
+        }\
+
+        \tcp{Total ordering: Maximize $\omega_c$, minimize $\delta$. If there are multiple correct $f$, choose the one with smallest $\delta$}
+        $\mathcal{S}_{\text{max}} \gets \{ (f, \omega, \delta, \Omega) \in \mathcal{S} \mid \omega = \max\limits_{(f', \omega', \delta', \Omega') \in \mathcal{S}} \omega' \}$ 
+
+        $(P_r, \_, \delta_{\text{opt}}, \Omega_{\text{results}}) \gets \argmin\limits_{(f, \omega, \delta, \Omega) \in \mathcal{S}_{\text{max}}} \delta$
+
+        \KwRet{$(P_r, \Omega_{\text{results}})$}
+    }
+    \Output{The repaired program $P_r$, with the most correct testcases and closest to $P_b$, and the associated results of evaluating it with the testcases, $\Omega_{\text{results}}$.} 
+    % Mathematically, $P_r$ satisfies: $\quad P_r \in \argmin\limits_{f \in \argmax_{f' \in \mathcal{S}} \omega_c(f')} d(f)$.}
+\end{algorithm}
+
+\clearpage
+
+\subsection{Repeat the steps in \ref{I.5} for Phi-3-mini and report your results.}\label{I.6}
+
+\begin{table}[H]
+    \caption{Overall results for GPT-4o-mini and Phi-3-mini with the basic prompt to generate program repairs. For \ref{I.5} and \ref{I.6}.}
+    \vspace{0.5\baselineskip}
+    \centering
+    \begin{tblr}{
+        colspec = {|Q[c,m]|Q[c,m]|},
+        colsep=4pt,
+        vlines,
+        hlines,
+        hspan=minimal,
+        vspan=center,
+        row{1} = {font=\bfseries}
+        }
+        Model       & \textit{RPass} & \textit{REdit} \\
+        \hline
+        GPT-4o-mini & $96.0$           & $22.71$          \\
+        Phi-3-mini  & $60.0$           & $25.87$          \\
+    \end{tblr}
+    \label{I1:results}
+\end{table}
+
+\clearpage
+
+\section{Part 1.c: Advanced Workflow}\label{part-c}
+
+\subsection{Modify the required scripts to improve the quality of the hint generation process of GPT-4o-mini. Evaluate the generated hints using the \textit{HGood} metric \cite{HintsInBrowser2024} and report your results.}\label{I.7}
+
+\begin{table}[H]
+    \caption{Hint Quality Metrics for GPT-4o-mini with the \textit{advanced workflow}.}
+    \vspace{0.5\baselineskip}
+    \begin{tblr}{
+            colspec={X[0.3,c] X[0.2,c] X[0.2,c] X[0.3,c] X[0.2,c] X[0.4,c] X[0.15,c]},
+            row{1}={font=\bfseries},
+            row{even}={bg=gray!10},
+            hlines,
+            vlines
+        }
+        Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
+        \SetCell[r=5]{} Problem 1 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
+\SetCell[c=2]{} Avg. Problem 1    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
+        \SetCell[r=5]{} Problem 2 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
+\SetCell[c=2]{} Avg. Problem 2    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
+        \SetCell[r=5]{} Problem 3 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
+\SetCell[c=2]{} Avg. Problem 3    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
+        \SetCell[r=5]{} Problem 4 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
+\SetCell[c=2]{} Avg. Problem 4    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
+        \SetCell[r=5]{} Problem 5 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
+                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
+\SetCell[c=2]{} Avg. Problem 5    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
+\SetCell[c=2]{} Overall Average   &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0
+    \end{tblr}
+    \label{I7:results}
+\end{table}
+
+\clearpage
+
+\subsection{Repeat the steps in \ref{I.7} for Phi-3-mini and report your results.}\label{I.8}
+
+\begin{table}[H]
+    \caption{Hint Quality Metrics for Phi-3-mini with the \textit{advanced workflow}. The CoT prompting seems to have addressed the formatting and readability issues but at the cost of some specificity in the hints, as the \textit{HInformative} metric is lower than in the basic prompt approach.}
+    \vspace{0.5\baselineskip}
+    \begin{tblr}{
+            colspec={X[0.3,c] X[0.2,c] X[0.2,c] X[0.3,c] X[0.2,c] X[0.4,c] X[0.15,c]},
+            row{1}={font=\bfseries},
+            row{even}={bg=gray!10},
+            hlines,
+            vlines
+        }
+        Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
+        \SetCell[r=5]{} Problem 1       & Prog. 1 & 1    & 0    & 1    & 1    & 0    \\
+                                        & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 3 & 1    & 0    & 1    & 1    & 0    \\
+                                        & Prog. 4 & 1    & 0    & 1    & 1    & 0    \\
+                                        & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
+\SetCell[c=2]{} Avg. Problem 1          &         & 1.0  & 0.4  & 1.0  & 1.0  & 0.4  \\
+        \SetCell[r=5]{} Problem 2       & Prog. 1 & 1    & 0    & 1    & 1    & 0    \\
+                                        & Prog. 2 & 1    & 0    & 1    & 1    & 0    \\
+                                        & Prog. 3 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
+\SetCell[c=2]{} Avg. Problem 2          &         & 1.0  & 0.6  & 1.0  & 1.0  & 0.6  \\
+        \SetCell[r=5]{} Problem 3       & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 3 & 1    & 0    & 1    & 1    & 0    \\
+                                        & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
+\SetCell[c=2]{} Avg. Problem 3          &         & 1.0  & 0.8  & 1.0  & 1.0  & 0.8  \\
+        \SetCell[r=5]{} Problem 4       & Prog. 1 & 0    & 0    & 1    & 1    & 0    \\
+                                        & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 3 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 5 & 1    & 0    & 1    & 1    & 0    \\
+\SetCell[c=2]{} Avg. Problem 4          &         & 0.8  & 0.6  & 1.0  & 1.0  & 0.6  \\
+        \SetCell[r=5]{} Problem 5       & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 3 & 1    & 0    & 1    & 1    & 0    \\
+                                        & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
+                                        & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
+\SetCell[c=2]{} Avg. Problem 5          &         & 1.0  & 0.8  & 1.0  & 1.0  & 0.8  \\
+        \SetCell[c=2]{} Overall Average &         & 0.96 & 0.64 & 1.0  & 1.0  & 0.64
+    \end{tblr}
+    \label{I8:results}
+\end{table}
+
+\clearpage 
+
+\subsection{Explain the approach you took to improve the results of the models in detail. Mention some of the limitations of this approach and ideas of how it could be further improved in future works.}\label{I.9}
+
+The approach I took to create the \textit{advanced workflow} and improve the results of the models involved making the following modifications to the provided codebase:
+
+\begin{enumerate}
+    \item A new parameter called \texttt{use\_advanced\_workflow} was introduced in the \texttt{Hint} class. This allows to turn on the \textbf{Part 1.c}'s \textit{advanced workflow} by setting it to \texttt{True}, and the basic workflow used for \textbf{Part 1.a} and \textbf{Part 1.b} by setting it to \texttt{False}.
+    \item The function \texttt{Hint.generate\_hint()} was modified to include a new positional argument, \texttt{repair\_agent}. So that, if \texttt{use\_advanced\_workflow} is set to \texttt{True}, the \texttt{repair\_agent.generate\_repair()} function is called, obtaining the repaired program $P_r$ and the results of the test cases $\Omega_{\text{results}}$, as outlined by the algorithm \ref{alg:improved-program-repairs}. 
+    \item The parameters \texttt{repaired\_program} and \texttt{testcases\_results} were added to the function \texttt{Hint.call\_llm()}, so that \texttt{Hint.generate\_hint()} can pass them to generate the hint, upon calling the latter. Moreover, if \texttt{use\_advanced\_workflow} is set to \texttt{True}, the \texttt{user\_prompt} is formatted to include not only the problem data and the student's buggy program, but also the repaired program $P_r$ and the results of the test cases $\Omega_{\text{results}}$. See \hyperref[appendix:advanced-prompt]{\textbf{Appendix: Advanced Prompt}}, which shows the template of the advanced prompt used.
+\end{enumerate}
+
+This approach allowed me to improve the basic prompt by adding the repaired program $P_r$ to the model, as well as the evaluation of $P_r$ on the test suite $\Omega_T$. This provides more context to the model, whilst taking into account that, since $P_r$ is also generated by the model and thus is not guaranteed to be correct, the model \textit{knows} how correct $P_r$ actually is, based on the results of the test cases. This allows the model to have a better understanding of the problem, how a potential solution should look like (the provided repaired program), how good the potential solution is (the testcases results), and uses this context to gain ideas on potential things to pinpoint at, in order to create the final hint to the student.
+
+This approach created a 2-step look-ahead process for the model to generate hints, which can be summarized as follows:
+\begin{enumerate}
+    \item The model is prompted with a buggy code $P_b$ to generate a repair, based on the problem data $T$.
+    \item Using \hyperref[part-b]{\textbf{Part 1.b}}'s \textit{improved program repairs}, it generates a repaired program $P_r$ and evaluates it on the test suite $\Omega_T$.
+    \item The repaired program $P_r$ is added to a new prompt, which also includes the problem data $T$, the buggy code $P_b$, and the results of the test cases $\Omega_{\text{results}}$. This new prompt is used to generate the hint.
+    \item Upon prompting the same model with this new prompt, we give the chance for the model to analyze the problem again, the student's buggy code and a potential solution $P_r$, which from the model's perspective should be correct, as it was prompted in the first step to specifically generated a \textit{repaired} program given $P_b$ and $T$. But now that we included the testcases results inside the given prompt, the model can see how wrong or correct the produced $P_r$ was, and we give it the opportunity to rationalize on why the $P_r$ that it produced on the first step was wrong.
+    \item The model has now seen the problem twice. It has also seen a $P_r$, which was produced by itself in the first step, and it knows how correct or incorrect it was, based on the testcases results. With this information and the constrain to make it create a Chain of Thought inside the \texttt{[EXP]} placeholders, the model can focus not only on $P_b$, but also on how a potential solution $P_r$, that a student could have made, may also be wrong and why. In the case that $P_r$ is correct, the model can directly focus on providing a hint to the student that makes $P_b$ closer to the $P_r$, that it now knows for certain that is correct, thanks to the testcases results.
+\end{enumerate}
+
+The previous explanation is cleverly illustrated in the Figure \ref{fig:real-use-case-phi-3-mini-response}, in which the Phi-3-mini model is not able to generate a correct repair, but given that it knows that it is not correct, the model in its Chain-of-Thought explanation pinpoints bugs in the repaired program, as well as in the student's buggy code. This steers the model off of potentially providing the student a hint that would make it go towards the wrong repaired program (since in the first step, when it was prompted to generate a repair, it thought that this particular repaired program was correct). This can be seen when the model says: \textit{"(...) The problem with the repaired code is that it does not maintain the relative order of the elements in the original list, which is a key requirement of the problem statement (...)"}. The model now has to \textit{think}\footnote{In the sense of the \textit{Chain of Thought} approach, as LLM's actually \textit{thinking} is a topic of debate.} twice and figure out how the student's buggy code and the repaired program are wrong, and thus it can provide a hint that looks ahead on problems that the student may encounter. This can be seen in the hint that the model finally provided: \textit{"(...) Consider using a data structure that maintains the order of elements as you iterate through the list and check for duplicates. (...)"}. There, it took into account both problems, the one in the repaired program as well as one in the student's buggy code, and provided a hint that combined both. In the case of GPT-4o-mini, since it was already quite good at generating hints, as seen in Table \ref{I4:results}, the effect of this approach was not as pronounced, but it still allowed the model to provide even better hints.
+
+\textbf{Limitations.} There are of course some limitations to this approach. The better the model is in generating repairs, the better the hints will be. This can be seen on Table \ref{I7:results} and Table \ref{I8:results}, in which it is clear that GPT-4o-mini is better in terms of the \textit{HGood} metric compared to Phi-3-mini. If a model always provides correct repairs, the model does not have to analyze too much, as it can simply give a concise hint that directly makes the student's buggy code closer to the repaired program.
+
+The model is also limited by the quality of the test cases, as it can only evaluate the repaired program based on the test cases results. If the test cases are not good, the model may generate a repaired program that is actually wrong, but the test cases may not be able to capture this, and thus the model may generate a hint that makes the student's buggy code closer to this wrong repaired program.
+
+\textbf{Further Improvements\footnote{\textit{Easy-to-consider} improvements such as prompting the model indefinitely until it generates a repaired program that passes all tests or having direct access to the problem data's expected solution are not considered in this section, since they might not reflect real-life scenarios with a fixed budget, which makes it infeasible to prompt the model indefinitely.}.} The approach could be further improved by adding even more context to the prompt. For example, the actual input and expected output of the testcases could be provided, instead of only saying whether the testcases passed or not. This would provide the model exactly what it's been evaluated on, and based on the problem data, it should deduce some logic out of the given testcases. 
+
+At the same time, few-shot learning could be used by providing the model with examples of problems, their corresponding buggy code, repaired code and testcases results, and a final hint that was given to the student. This hint would have already been externally evaluated and deemed as good. This would allow the model to learn from examples of good hints, learn what actually makes a good hint, and generate better hints in the future that resemble those examples. In practice and if it is not possible for a human to review all examples and hints, GPT-4o-mini or an even better (potentially larger and non-free) model could be used to generate these examples with some fixed budget, and then Phi-3-mini or another open-source model could be used in production to generate hints based on these examples. This would allow it to mimic the behavior of a better model, without having to pay for each query.
+
+% \subsection{Provide the modified code files (i.e., \texttt{project\_part1\_evaluate.py}, \texttt{project\_part1\_repair.py, project\_part1\_hint.py}, \texttt{project\_part1\_utils.py},
+%     and \texttt{project\_part1\_prompts.py}) in the ZIP file, following the instructions in Section 2.6.}\label{I.10}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\section*{Acknowledgements}
+Week 10's slides and listed references.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+
+\section{Appendix: Template of the Advanced Prompt}\label{appendix:advanced-prompt}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            Following is the setup of a problem in Python. It contains the description and a sample testcase.\\
+
+            [Problem Starts]
+
+            \{problem\_data\}
+
+            [Problem Ends]
+
+            \texttt{\\}
+            Following is the student's buggy code for this problem:\\
+
+            [Buggy Code Starts]
+
+            \{buggy\_program\}
+
+            [Buggy Code Ends]
+
+            \texttt{\\}
+            Previously, a Large Language Model was asked to review the student's buggy code and generate a repaired program based on the problem description. The repaired program is as follows:\\
+
+            [Repaired Code Starts]
+
+            \{repaired\_program\}
+
+            [Repaired Code Ends]
+
+            \texttt{\\}
+            Nevertheless, this repaired program is not guaranteed to be correct. For you to review whether this repaired program is correct or not, the results of the test cases for this problem are provided below:\\
+
+            [Testcases results of repaired code Starts]
+
+            \{testcases\_results\}
+
+            [Testcases results of repaired code Ends]
+
+            \texttt{\\}
+            Based on all of the above information, create an explanation written inside placeholders [EXP] and [/EXP] that analyzes the student's buggy code, the provided repaired program and the testcases results, to come up step-by-step with the best approach to provide a hint to the student. After that, provide a concise single-sentence hint to the student about one bug in the student's buggy code, which allows him to get closer to the correct program, but without directly giving him the code or detailed explanations. Output your hint between [HINT] and [/HINT]. Make sure to always use the [HINT] and [/HINT] placeholders with a hint inside. Do not output anything else inside the [HINT] placeholders that is not part of your chosen hint. Do not refer to the student as "the student", but with "you" if strictly necessary. Always start your hints with "Consider" or "Think about".
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{Advanced prompt assigned to the variable \texttt{user\_message\_nus\_hint\_advanced} in \texttt{project\_part1\_prompts.py}, which is used in \ref{I.7} and \ref{I.8}. Notice how CoT prompting is being used by constraining the model to generate a Chain of Thought inside the \texttt{[EXP]} placeholders. Moreover, in order to constrain the kind of hints it should give, the model is constrained to always start its hints with "Consider" or "Think about".}
+    \label{fig:advanced-prompt}
+\end{figure*}
+
+\clearpage 
+
+\section{Appendix: Real Use-case of the Advanced Prompt by GPT-4o-mini}\label{appendix:real-use-case-gpt4o-mini}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            [Problem Starts]\\
+            Duplicate elimination - Write a function remove\_extras(lst) that...
+            \texttt{\\}
+            [Problem Ends]\\
+                        
+            [Buggy Code Starts]
+
+            def remove\_extras(lst):
+
+            $\quad\quad$new = []
+
+            $\quad\quad$for x in lst:
+
+            $\quad\quad$$\quad\quad$if lst.count(x) > 1:
+
+            $\quad\quad$$\quad\quad$$\quad\quad$new += []
+
+            $\quad\quad$$\quad\quad$else:
+
+            $\quad\quad$$\quad\quad$$\quad\quad$new = new.append(x)
+
+            $\quad\quad$return new
+                
+            [Buggy Code Ends]\\
+            
+            Previously, a Large Language Model was asked to review the student's buggy code and generate a repaired program based on the problem description. The repaired program is as follows:\\
+            
+            [Repaired Code Starts]
+
+            def remove\_extras(lst):
+
+            $\quad\quad$new = []
+
+            $\quad\quad$for x in lst:
+
+            $\quad\quad$$\quad\quad$if x not in new:
+
+            $\quad\quad$$\quad\quad$$\quad\quad$new.append(x)
+
+            $\quad\quad$return new
+
+            [Repaired Code Ends]\\
+            
+            Nevertheless, this repaired program is not guaranteed to be correct. For you to review whether this repaired program is correct or not, the results of the test cases for this problem are provided below:\\
+            
+            [Testcases results of repaired code Starts]
+
+            * 6 out of 6 testcases passed.
+
+            [Testcases results of repaired code Ends]\\
+            
+            Based on all of the above information, create an explanation written inside placeholders [EXP] and [/EXP] that analyzes the student's buggy code, the provided repaired program and the testcases results, to come up step-by-step with the best approach to provide a hint to the student. After that, provide a concise single-sentence hint to the student about one bug in the student's buggy code, which allows him to get closer to the correct program, but without directly giving him the code or detailed explanations. Output your hint between [HINT] and [/HINT]. Make sure to always use the [HINT] and [/HINT] placeholders with a hint inside. Do not output anything else inside the [HINT] placeholders that is not part of your chosen hint. Do not refer to the student as "the student", but with "you" if strictly necessary. Always start your hints with "Consider" or "Think about".
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{An example of the advanced prompt being used to query GPT-4o-mini. Notice that the repaired program created by GPT-4o-mini passes 6 out of 6 test cases, thus it's a correct repaired program that can be used as context to generate a hint. \emph{Prompt was shortened for brevity.}}
+    \label{fig:real-use-case-gpt-4o-mini}
+\end{figure*}
+
+\clearpage
+
+\section{Appendix: Hint by GPT4-o-mini given prompt in Figure \ref{fig:real-use-case-gpt-4o-mini}}\label{appendix:real-use-case-gpt4o-mini-response}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            [EXP]The student's buggy code attempts to remove duplicates but has a couple of fundamental issues. First, it uses `lst.count(x) > 1` to check if an element is duplicated, which is not necessary for the goal of this function. This approach can be inefficient because `count` iterates through the list every time it is called, leading to a time complexity of O(n**2) in the worst case. Additionally, in the line `new = new.append(x)`, `append` returns `None`, so `new` ends up being `None` instead of the expected list, thereby causing an error in the function.\\ 
+
+            The repaired code correctly uses a mechanism to build a new list by checking if each element is already in the new list and only appending it if it's not present. Since all provided test cases for the repaired code passed, it indicates that this approach correctly meets the problem's requirements.\\
+
+            To help you create a functioning solution, focus on ensuring that your program checks for the existence of elements in the new list appropriately and maintains the order of the first occurrences without excessive iterations.\texttt{\\}
+            [/EXP]
+            \texttt{\\}
+
+            [HINT]Consider how you are currently checking for duplicates in your code and whether this aligns with the goal of creating a new list that preserves order while eliminating extras.\texttt{\\}
+            [/HINT]
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{Response given by GPT-4o-mini to the advanced prompt in Figure \ref{fig:real-use-case-gpt-4o-mini}.}
+    \label{fig:real-use-case-gpt4o-mini-response}
+\end{figure*}
+
+\clearpage 
+
+\section{Appendix: Real Use-case of the Advanced Prompt by Phi-3-mini}\label{appendix:real-use-case-phi-3-mini}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            [Problem Starts]\\
+            Duplicate elimination - Write a function remove\_extras(lst) that...
+            \texttt{\\}
+            [Problem Ends]\\
+                        
+            [Buggy Code Starts]
+
+            def remove\_extras(lst):
+
+            $\quad\quad$new = []
+
+            $\quad\quad$for x in lst:
+
+            $\quad\quad$$\quad\quad$if lst.count(x) > 1:
+
+            $\quad\quad$$\quad\quad$$\quad\quad$new += []
+
+            $\quad\quad$$\quad\quad$else:
+
+            $\quad\quad$$\quad\quad$$\quad\quad$new = new.append(x)
+
+            $\quad\quad$return new
+
+            [Buggy Code Ends]\\
+            
+            Previously, a Large Language Model was asked to review the student's buggy code and generate a repaired program based on the problem description. The repaired program is as follows:\\
+            
+            [Repaired Code Starts]
+
+            def remove\_extras(lst):
+
+            $\quad\quad$new = []
+
+            $\quad\quad$for x in lst:
+
+            $\quad\quad$$\quad\quad$if lst.count(x) == 1:
+
+            $\quad\quad$$\quad\quad$$\quad\quad$new.append(x)
+
+            $\quad\quad$return new
+
+            [Repaired Code Ends]\\
+            
+            Nevertheless, this repaired program is not guaranteed to be correct. For you to review whether this repaired program is correct or not, the results of the test cases for this problem are provided below:\\
+            
+            [Testcases results of repaired code Starts]
+
+            * 1 out of 6 testcases passed.
+
+            [Testcases results of repaired code Ends]\\
+            
+            Based on all of the above information, create an explanation written inside placeholders [EXP] and [/EXP] that analyzes the student's buggy code, the provided repaired program and the testcases results, to come up step-by-step with the best approach to provide a hint to the student. After that, provide a concise single-sentence hint to the student about one bug in the student's buggy code, which allows him to get closer to the correct program, but without directly giving him the code or detailed explanations. Output your hint between [HINT] and [/HINT]. Make sure to always use the [HINT] and [/HINT] placeholders with a hint inside. Do not output anything else inside the [HINT] placeholders that is not part of your chosen hint. Do not refer to the student as "the student", but with "you" if strictly necessary. Always start your hints with "Consider" or "Think about".
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{An example of the advanced prompt being used to query Phi-3-mini. Notice that the repaired program created by Phi-3-mini passes 1 out of 6 test cases, thus it's not a completely correct repaired program. \emph{Prompt was shortened for brevity.}}
+    \label{fig:real-use-case-phi-3-mini}
+\end{figure*}
+
+\clearpage 
+
+\section{Appendix: Hint by GPT4-o-mini given prompt in Figure \ref{fig:real-use-case-phi-3-mini}}\label{appendix:real-use-case-phi-3-mini-response}
+
+\begin{figure*}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=black!10!white, colback=black!5!white]
+        \begin{minipage}{\textwidth}
+            \ttfamily
+            [EXP]
+            The student's buggy code attempts to remove duplicates by checking if the count of an element in the list is greater than 1. However, the use of `new += []` in the if condition is incorrect because it tries to concatenate an empty list to `new`, which does not affect the list at all. Moreover, the else clause should not reassign `new` to the result of `new.append(x)`, as this would overwrite the list with a single element, which is not the intended behavior. The repaired code correctly appends unique elements to `new`, but it does not preserve the relative order of the elements, which is a requirement of the problem statement.\texttt{\\}
+            [/EXP]
+            \texttt{\\}
+            
+            [EXP]
+            The test cases results indicate that the repaired program does not pass all the test cases, suggesting that there is still an issue with the logic that needs to be addressed. The problem with the repaired code is that it does not maintain the relative order of the elements in the original list, which is a key requirement of the problem statement.\texttt{\\}
+            [/EXP]
+            \texttt{\\}
+            
+            [HINT]
+            Consider using a data structure that maintains the order of elements as you iterate through the list and check for duplicates.
+        \end{minipage}
+    \end{tcolorbox}
+    \caption{Response given by Phi-3-mini to the advanced prompt in Figure \ref{fig:real-use-case-phi-3-mini}. Notice that Phi-3-mini fails to terminate the hint with the \texttt{[/HINT]} placeholder, eventhough it was asked for in the prompt. The provided hint however is of good quality.}
+    \label{fig:real-use-case-phi-3-mini-response}
+\end{figure*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
