@@ -107,12 +107,12 @@
 
 \vspace{-0.75\baselineskip}
 
-\subsection{Modify the parameters in the \texttt{project\_part1\_evaluate.py} script to query GPT-4o-mini with the basic prompt to generate program repairs and run the script. Report \textit{RPass} and \textit{REdit}.}\label{I.1}
+% \subsection{Modify the parameters in the \texttt{project\_part1\_evaluate.py} script to query GPT-4o-mini with the basic prompt to generate program repairs and run the script. Report \textit{RPass} and \textit{REdit}.}\label{I.1}
 
-\subsection{Repeat the steps in \ref{I.1} for Phi-3-mini and report your results.}\label{I.3}
+% \subsection{Repeat the steps in \ref{I.1} for Phi-3-mini and report your results.}\label{I.3}
 
 \begin{table}[H]
-    \caption{Overall results for GPT-4o-mini and Phi-3-mini with the basic prompt to generate program repairs. For \ref{I.1} and \ref{I.3}.}
+    \caption{Overall results for GPT-4o-mini and Phi-3-mini with the basic prompt to generate program repairs. For \textbf{(I.1)} and \textbf{(I.3)}.}
     \vspace{0.5\baselineskip}
     \centering
     \begin{tblr}{
@@ -133,7 +133,7 @@
 \end{table}
 
 \begin{table}[H]
-    \caption{Average per problem results for GPT-4o-mini with the basic prompt to generate program repairs. The average is calculated without considering the cases with $\text{edit distance} = -1$. For \ref{I.1}.}
+    \caption{Average per problem results for GPT-4o-mini with the basic prompt to generate program repairs. The average is calculated without considering the cases with $\text{edit distance} = -1$. For \textbf{(I.1)}.}
     \vspace{0.5\baselineskip}
     \centering
     \begin{tblr}{
@@ -154,7 +154,7 @@
 \end{table}
 
 \begin{table}[H]
-    \caption{Average per problem results for Phi-3-mini with the basic prompt to generate program repairs. The average is calculated without considering the cases with $\text{edit distance} = -1$. For \ref{I.3}.}
+    \caption{Average per problem results for Phi-3-mini with the basic prompt to generate program repairs. The average is calculated without considering the cases with $\text{edit distance} = -1$. For \textbf{(I.3)}.}
     \vspace{0.5\baselineskip}
     \centering
     \begin{tblr}{
@@ -164,6 +164,7 @@
             vlines
         }
         Problem   & Prog. 1 & Prog. 2 & Prog. 3 & Prog. 4 & Prog. 5 & Avg.    \\
+        \hline
         Problem 1 & $23$    & $-1$    & $5$     & $-1$    & $-1$    & $14.00$ \\
         Problem 2 & $-1$    & $-1$    & $-1$    & $-1$    & $-1$    & $0.00$  \\
         Problem 3 & $-1$    & $-1$    & $-1$    & $-1$    & $10$    & $10.00$ \\
@@ -173,10 +174,10 @@
     \label{I3:results_per_problem}
 \end{table}
 
-\subsection{Modify the parameters in the \texttt{project\_part1\_evaluate.py} script to query GPT-4o-mini with the basic prompt to generate hints and run the script. Evaluate the generated hints using the \textit{HGood} metric \cite{HintsInBrowser2024} and report your results.}\label{I.2}
+% \subsection{Modify the parameters in the \texttt{project\_part1\_evaluate.py} script to query GPT-4o-mini with the basic prompt to generate hints and run the script. Evaluate the generated hints using the \textit{HGood} metric \cite{HintsInBrowser2024} and report your results.}\label{I.2}
 
 \begin{table}[H]
-    \caption{Hint Quality Metrics for GPT-4o-mini.}
+    \caption{Hint Quality Metrics for GPT-4o-mini. This model tends to be very verbose, as well as directly pointing out the code solution, improving its \textit{HInformative} metric, but at the expense of \textit{HConceal}. For \textbf{(I.2)}.}
     \vspace{0.5\baselineskip}
     \centering
     \begin{tblr}{
@@ -190,37 +191,43 @@
             vspan=center,
         }
         Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
-        \SetCell[r=5]{} Problem 1 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
-\SetCell[c=2]{} Avg. Problem 1    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
-        \SetCell[r=5]{} Problem 2 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
-\SetCell[c=2]{} Avg. Problem 2    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
-        \SetCell[r=5]{} Problem 3 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
-\SetCell[c=2]{} Avg. Problem 3    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
-        \SetCell[r=5]{} Problem 4 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
-\SetCell[c=2]{} Avg. Problem 4    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
-        \SetCell[r=5]{} Problem 5 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
-\SetCell[c=2]{} Avg. Problem 5    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
-\SetCell[c=2]{} Overall Average   &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0
+        \hline
+\SetCell[r=5]{} Problem 1       & Prog. 1 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+                                & Prog. 2 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+                                & Prog. 3 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+                                & Prog. 4 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+                                & Prog. 5 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+\SetCell[c=2]{} Avg. Problem 1  &         & $1.0$ & $1.0 $ & $0.0 $ & $1.0$ & $0.0$ \\
+\hline
+\SetCell[r=5]{} Problem 2       & Prog. 1 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+                                & Prog. 2 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 3 & $1  $ & $1   $ & $0   $ & $0  $ & $0$   \\
+                                & Prog. 4 & $1  $ & $0   $ & $1   $ & $1  $ & $0$   \\
+                                & Prog. 5 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+\SetCell[c=2]{} Avg. Problem 2  &         & $1.0$ & $0.8 $ & $0.6 $ & $0.8$ & $0.4$ \\
+\hline
+\SetCell[r=5]{} Problem 3       & Prog. 1 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+                                & Prog. 2 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+                                & Prog. 3 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 4 & $1  $ & $1   $ & $1   $ & $0  $ & $0$   \\
+                                & Prog. 5 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+\SetCell[c=2]{} Avg. Problem 3  &         & $1.0$ & $1.0 $ & $0.4 $ & $0.8$ & $0.2$ \\
+\hline
+\SetCell[r=5]{} Problem 4       & Prog. 1 & $1  $ & $1   $ & $1   $ & $1  $ & $1$  \\  
+                                & Prog. 2 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 3 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 4 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+                                & Prog. 5 & $1  $ & $1   $ & $0   $ & $0  $ & $0$   \\
+\SetCell[c=2]{} Avg. Problem 4  &         & $1.0$ & $1.0 $ & $0.6 $ & $0.8$ & $0.6$ \\
+\hline
+\SetCell[r=5]{} Problem 5       & Prog. 1 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\
+                                & Prog. 2 & $1  $ & $1   $ & $1   $ & $0  $ & $0$   \\  
+                                & Prog. 3 & $1  $ & $1   $ & $0   $ & $1  $ & $0$   \\  
+                                & Prog. 4 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\  
+                                & Prog. 5 & $1  $ & $1   $ & $1   $ & $0  $ & $0$   \\  
+\SetCell[c=2]{} Avg. Problem 5  &         & $1.0$ & $1.0 $ & $0.6 $ & $0.6$ & $0.2$ \\
+\hline
+\SetCell[c=2]{} Overall Average &         & $1.0$ & $0.96$ & $0.44$ & $0.8$ & $0.28$
     \end{tblr}
     \label{I2:results}
 \end{table}
@@ -230,10 +237,10 @@
 
 \clearpage
 
-\subsection{Repeat the steps in \ref{I.2} for Phi-3-mini and report your results.}\label{I.4}
+% \subsection{Repeat the steps in \ref{I.2} for Phi-3-mini and report your results.}\label{I.4}
 
 \begin{table}[H]
-    \caption{Hint Quality Metrics for Phi-3-mini.}
+    \caption{Hint Quality Metrics for Phi-3-mini. Similar to GPT-4o-mini, this model tends to directly give answers, instead of actually hinting, affecting its \textit{HInformative} metric. At the same time, it has readability and formatting issues, which affect its \textit{HComprehensible}. For \textbf{(I.4)}.}
     \vspace{0.5\baselineskip}
     \centering
     \begin{tblr}{
@@ -247,37 +254,43 @@
             vspan=center,
         }
         Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
-        \SetCell[r=5]{} Problem 1 & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 3 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
-\SetCell[c=2]{} Avg. Problem 1    &         & 1.0  & 1.0  & 1.0  & 1.0  & 1.0  \\
-        \SetCell[r=5]{} Problem 2 & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 3 & 1    & 1    & 1    & 0    & 0    \\
-                                  & Prog. 4 & 0    & 1    & 1    & 1    & 0    \\
-                                  & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
-\SetCell[c=2]{} Avg. Problem 2    &         & 0.8  & 1.0  & 1.0  & 0.8  & 0.6  \\
-        \SetCell[r=5]{} Problem 3 & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 3 & 1    & 1    & 1    & 0    & 0    \\
-                                  & Prog. 4 & 1    & 1    & 1    & 0    & 0    \\
-                                  & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
-\SetCell[c=2]{} Avg. Problem 3    &         & 1.0  & 1.0  & 1.0  & 0.6  & 0.6  \\
-        \SetCell[r=5]{} Problem 4 & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 3 & 1    & 1    & 1    & 0    & 0    \\
-                                  & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 5 & 1    & 1    & 1    & 0    & 0    \\
-\SetCell[c=2]{} Avg. Problem 4    &         & 1.0  & 1.0  & 1.0  & 0.6  & 0.6  \\
-        \SetCell[r=5]{} Problem 5 & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
-                                  & Prog. 2 & 1    & 1    & 1    & 0    & 0    \\
-                                  & Prog. 3 & 0    & 1    & 1    & 0    & 0    \\
-                                  & Prog. 4 & 1    & 1    & 1    & 0    & 0    \\
-                                  & Prog. 5 & 0    & 0    & 1    & 0    & 0    \\
-\SetCell[c=2]{} Avg. Problem 5    &         & 0.6  & 0.8  & 1.0  & 0.2  & 0.2  \\
-\SetCell[c=2]{} Overall Average   &         & 0.88 & 0.96 & 1.0  & 0.64 & 0.60
+        \hline
+        \SetCell[r=5]{} Problem 1 & Prog. 1 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                  & Prog. 2 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                  & Prog. 3 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                  & Prog. 4 & $1   $ & $0   $ & $1   $ & $1   $ & $0   $ \\
+                                  & Prog. 5 & $1   $ & $0   $ & $1   $ & $1   $ & $0   $ \\
+\SetCell[c=2]{} Avg. Problem 1    &         & $1.0 $ & $0.6 $ & $0.4 $ & $1.0 $ & $0.0 $ \\
+\hline
+        \SetCell[r=5]{} Problem 2 & Prog. 1 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                  & Prog. 2 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                  & Prog. 3 & $1   $ & $1   $ & $1   $ & $0   $ & $0   $ \\
+                                  & Prog. 4 & $0   $ & $1   $ & $1   $ & $1   $ & $0   $ \\
+                                  & Prog. 5 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+\SetCell[c=2]{} Avg. Problem 2    &         & $0.8 $ & $1.0 $ & $0.6 $ & $0.8 $ & $0.2 $ \\
+\hline
+        \SetCell[r=5]{} Problem 3 & Prog. 1 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                  & Prog. 2 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                  & Prog. 3 & $1   $ & $1   $ & $0   $ & $0   $ & $0   $ \\
+                                  & Prog. 4 & $1   $ & $1   $ & $1   $ & $0   $ & $0   $ \\
+                                  & Prog. 5 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+\SetCell[c=2]{} Avg. Problem 3    &         & $1.0 $ & $1.0 $ & $0.2 $ & $0.6 $ & $0.0 $ \\
+\hline
+        \SetCell[r=5]{} Problem 4 & Prog. 1 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                  & Prog. 2 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                  & Prog. 3 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                  & Prog. 4 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                  & Prog. 5 & $1   $ & $1   $ & $0   $ & $0   $ & $0   $ \\
+\SetCell[c=2]{} Avg. Problem 4    &         & $1.0 $ & $1.0 $ & $0.6 $ & $0.8 $ & $0.6 $ \\
+\hline
+        \SetCell[r=5]{} Problem 5 & Prog. 1 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                  & Prog. 2 & $1   $ & $1   $ & $1   $ & $0   $ & $0   $ \\
+                                  & Prog. 3 & $0   $ & $1   $ & $1   $ & $0   $ & $0   $ \\
+                                  & Prog. 4 & $1   $ & $1   $ & $1   $ & $0   $ & $0   $ \\
+                                  & Prog. 5 & $0   $ & $0   $ & $0   $ & $0   $ & $0   $ \\
+\SetCell[c=2]{} Avg. Problem 5    &         & $0.6 $ & $0.8 $ & $0.6 $ & $0.2 $ & $0.0 $ \\
+\hline
+\SetCell[c=2]{} Overall Average   &         & $0.88$ & $0.88$ & $0.48$ & $0.68$ & $0.16$
     \end{tblr}
     \label{I4:results}
 \end{table}
@@ -286,7 +299,7 @@
 
 \section{Part 1.b: Improved Program Repairs}\label{part-b}
 
-\subsection{Modify the scripts to query GPT-4o-mini for generating $n = 3$ repair candidates with a temperature of $0.7$ and select the best candidate. Next, run the scripts and report \textit{RPass} and \textit{REdit}.}\label{I.5}
+% \subsection{Modify the scripts to query GPT-4o-mini for generating $n = 3$ repair candidates with a temperature of $0.7$ and select the best candidate. Next, run the scripts and report \textit{RPass} and \textit{REdit}.}\label{I.5}
 
 The modifications I did to the provided codebase to implement the \textit{improved program repairs} are as follows:
 
@@ -346,10 +359,10 @@ The modifications I did to the provided codebase to implement the \textit{improv
 
 \clearpage
 
-\subsection{Repeat the steps in \ref{I.5} for Phi-3-mini and report your results.}\label{I.6}
+% \subsection{Repeat the steps in \ref{I.5} for Phi-3-mini and report your results.}\label{I.6}
 
 \begin{table}[H]
-    \caption{Overall results for GPT-4o-mini and Phi-3-mini with the basic prompt to generate program repairs. For \ref{I.5} and \ref{I.6}.}
+    \caption{Overall results for GPT-4o-mini and Phi-3-mini with the basic prompt to generate program repairs. For \textbf{(I.5)} and \textbf{(I.6)}.}
     \vspace{0.5\baselineskip}
     \centering
     \begin{tblr}{
@@ -369,14 +382,12 @@ The modifications I did to the provided codebase to implement the \textit{improv
     \label{I1:results}
 \end{table}
 
-\clearpage
-
 \section{Part 1.c: Advanced Workflow}\label{part-c}
 
-\subsection{Modify the required scripts to improve the quality of the hint generation process of GPT-4o-mini. Evaluate the generated hints using the \textit{HGood} metric \cite{HintsInBrowser2024} and report your results.}\label{I.7}
+% \subsection{Modify the required scripts to improve the quality of the hint generation process of GPT-4o-mini. Evaluate the generated hints using the \textit{HGood} metric \cite{HintsInBrowser2024} and report your results.}\label{I.7}
 
 \begin{table}[H]
-    \caption{Hint Quality Metrics for GPT-4o-mini with the \textit{advanced workflow}.}
+    \caption{Hint Quality Metrics for GPT-4o-mini with the \textit{advanced workflow}. Note how \textit{HGood} improved from $0.28$ in Table \ref{I2:results} to $0.72$. The major problem was \textit{HConceal}, which was tackled by the CoT prompting effectively, at the expense of \textit{HInformative}, which decreased compared to the basic prompt strategy. For \textbf{(I.7)}.}
     \vspace{0.5\baselineskip}
     \begin{tblr}{
             colspec={X[0.3,c] X[0.2,c] X[0.2,c] X[0.3,c] X[0.2,c] X[0.4,c] X[0.15,c]},
@@ -386,47 +397,53 @@ The modifications I did to the provided codebase to implement the \textit{improv
             vlines
         }
         Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
-        \SetCell[r=5]{} Problem 1 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
-\SetCell[c=2]{} Avg. Problem 1    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
-        \SetCell[r=5]{} Problem 2 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
-\SetCell[c=2]{} Avg. Problem 2    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
-        \SetCell[r=5]{} Problem 3 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
-\SetCell[c=2]{} Avg. Problem 3    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
-        \SetCell[r=5]{} Problem 4 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
-\SetCell[c=2]{} Avg. Problem 4    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
-        \SetCell[r=5]{} Problem 5 & Prog. 1 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 2 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 3 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 4 & 1   & 1   & 1    & 1    & 1   \\
-                                  & Prog. 5 & 1   & 1   & 1    & 1    & 1   \\
-\SetCell[c=2]{} Avg. Problem 5    &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0 \\
-\SetCell[c=2]{} Overall Average   &         & 1.0 & 1.0 & 1.0  & 1.0  & 1.0
+        \hline
+        \SetCell[r=5]{} Problem 1 & Prog. 1 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 2 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 3 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 4 & $1  $ & $0  $ & $1  $  & $1  $ & $0  $ \\
+                                  & Prog. 5 & $1  $ & $0  $ & $1  $  & $1  $ & $0  $ \\
+\SetCell[c=2]{} Avg. Problem 1    &         & $1.0$ & $0.6$ & $1.0$  & $1.0$ & $0.6$ \\
+\hline
+        \SetCell[r=5]{} Problem 2 & Prog. 1 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 2 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 3 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 4 & $1  $ & $0  $ & $1  $  & $1  $ & $0  $ \\
+                                  & Prog. 5 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+\SetCell[c=2]{} Avg. Problem 2    &         & $1.0$ & $0.8$ & $1.0$  & $1.0$ & $0.8$ \\
+\hline
+        \SetCell[r=5]{} Problem 3 & Prog. 1 & $1  $ & $0  $ & $1  $  & $1  $ & $0  $ \\
+                                  & Prog. 2 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 3 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 4 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 5 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+\SetCell[c=2]{} Avg. Problem 3    &         & $1.0$ & $0.8$ & $1.0$  & $1.0$ & $0.8$ \\
+\hline
+        \SetCell[r=5]{} Problem 4 & Prog. 1 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 2 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 3 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 4 & $1  $ & $0  $ & $1  $  & $0  $ & $0  $ \\
+                                  & Prog. 5 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+\SetCell[c=2]{} Avg. Problem 4    &         & $1.0$ & $0.8$ & $1.0$  & $0.8$ & $0.8$ \\
+\hline
+        \SetCell[r=5]{} Problem 5 & Prog. 1 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 2 & $1  $ & $0  $ & $1  $  & $1  $ & $0  $ \\
+                                  & Prog. 3 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 4 & $1  $ & $1  $ & $1  $  & $1  $ & $1  $ \\
+                                  & Prog. 5 & $1  $ & $0  $ & $1  $  & $1  $ & $0  $ \\
+\SetCell[c=2]{} Avg. Problem 5    &         & $1.0$ & $0.6$ & $1.0$  & $1.0$ & $0.6$ \\
+\hline
+\SetCell[c=2]{} Overall Average   &         & $1.0$ & $0.72$ & $1.0$  & $0.96$  & $0.72$
     \end{tblr}
     \label{I7:results}
 \end{table}
 
 \clearpage
 
-\subsection{Repeat the steps in \ref{I.7} for Phi-3-mini and report your results.}\label{I.8}
+% \subsection{Repeat the steps in \ref{I.7} for Phi-3-mini and report your results.}\label{I.8}
 
 \begin{table}[H]
-    \caption{Hint Quality Metrics for Phi-3-mini with the \textit{advanced workflow}. The CoT prompting seems to have addressed the formatting and readability issues but at the cost of some specificity in the hints, as the \textit{HInformative} metric is lower than in the basic prompt approach.}
+    \caption{Hint Quality Metrics for Phi-3-mini with the \textit{advanced workflow}. The CoT prompting seems to have addressed the formatting and readability issues but at the cost of some specificity in the hints, as the \textit{HInformative} metric is lower than in the basic prompt approach. For \textbf{(I.8)}.}
     \vspace{0.5\baselineskip}
     \begin{tblr}{
             colspec={X[0.3,c] X[0.2,c] X[0.2,c] X[0.3,c] X[0.2,c] X[0.4,c] X[0.15,c]},
@@ -436,44 +453,48 @@ The modifications I did to the provided codebase to implement the \textit{improv
             vlines
         }
         Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
-        \SetCell[r=5]{} Problem 1       & Prog. 1 & 1    & 0    & 1    & 1    & 0    \\
-                                        & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 3 & 1    & 0    & 1    & 1    & 0    \\
-                                        & Prog. 4 & 1    & 0    & 1    & 1    & 0    \\
-                                        & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
-\SetCell[c=2]{} Avg. Problem 1          &         & 1.0  & 0.4  & 1.0  & 1.0  & 0.4  \\
-        \SetCell[r=5]{} Problem 2       & Prog. 1 & 1    & 0    & 1    & 1    & 0    \\
-                                        & Prog. 2 & 1    & 0    & 1    & 1    & 0    \\
-                                        & Prog. 3 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
-\SetCell[c=2]{} Avg. Problem 2          &         & 1.0  & 0.6  & 1.0  & 1.0  & 0.6  \\
-        \SetCell[r=5]{} Problem 3       & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 3 & 1    & 0    & 1    & 1    & 0    \\
-                                        & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
-\SetCell[c=2]{} Avg. Problem 3          &         & 1.0  & 0.8  & 1.0  & 1.0  & 0.8  \\
-        \SetCell[r=5]{} Problem 4       & Prog. 1 & 0    & 0    & 1    & 1    & 0    \\
-                                        & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 3 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 5 & 1    & 0    & 1    & 1    & 0    \\
-\SetCell[c=2]{} Avg. Problem 4          &         & 0.8  & 0.6  & 1.0  & 1.0  & 0.6  \\
-        \SetCell[r=5]{} Problem 5       & Prog. 1 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 2 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 3 & 1    & 0    & 1    & 1    & 0    \\
-                                        & Prog. 4 & 1    & 1    & 1    & 1    & 1    \\
-                                        & Prog. 5 & 1    & 1    & 1    & 1    & 1    \\
-\SetCell[c=2]{} Avg. Problem 5          &         & 1.0  & 0.8  & 1.0  & 1.0  & 0.8  \\
-        \SetCell[c=2]{} Overall Average &         & 0.96 & 0.64 & 1.0  & 1.0  & 0.64
+        \hline
+        \SetCell[r=5]{} Problem 1       & Prog. 1 & $1   $ & $0   $ & $1  $  & $1  $  & $0   $ \\
+                                        & Prog. 2 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 3 & $1   $ & $0   $ & $1  $  & $1  $  & $0   $ \\
+                                        & Prog. 4 & $1   $ & $0   $ & $1  $  & $1  $  & $0   $ \\
+                                        & Prog. 5 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+\SetCell[c=2]{} Avg. Problem 1          &         & $1.0 $ & $0.4 $ & $1.0$  & $1.0$  & $0.4 $ \\
+\hline
+        \SetCell[r=5]{} Problem 2       & Prog. 1 & $1   $ & $0   $ & $1  $  & $1  $  & $0   $ \\
+                                        & Prog. 2 & $1   $ & $0   $ & $1  $  & $1  $  & $0   $ \\
+                                        & Prog. 3 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 4 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 5 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+\SetCell[c=2]{} Avg. Problem 2          &         & $1.0 $ & $0.6 $ & $1.0$  & $1.0$  & $0.6 $ \\
+\hline
+        \SetCell[r=5]{} Problem 3       & Prog. 1 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 2 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 3 & $1   $ & $0   $ & $1  $  & $1  $  & $0   $ \\
+                                        & Prog. 4 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 5 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+\SetCell[c=2]{} Avg. Problem 3          &         & $1.0 $ & $0.8 $ & $1.0$  & $1.0$  & $0.8 $ \\
+\hline
+        \SetCell[r=5]{} Problem 4       & Prog. 1 & $0   $ & $0   $ & $1  $  & $1  $  & $0   $ \\
+                                        & Prog. 2 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 3 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 4 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 5 & $1   $ & $0   $ & $1  $  & $1  $  & $0   $ \\
+\SetCell[c=2]{} Avg. Problem 4          &         & $0.8 $ & $0.6 $ & $1.0$  & $1.0$  & $0.6 $ \\
+\hline
+        \SetCell[r=5]{} Problem 5       & Prog. 1 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 2 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 3 & $1   $ & $0   $ & $1  $  & $1  $  & $0   $ \\
+                                        & Prog. 4 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+                                        & Prog. 5 & $1   $ & $1   $ & $1  $  & $1  $  & $1   $ \\
+\SetCell[c=2]{} Avg. Problem 5          &         & $1.0 $ & $0.8 $ & $1.0$  & $1.0$  & $0.8 $ \\
+\hline
+        \SetCell[c=2]{} Overall Average &         & $0.96$ & $0.64$ & $1.0$  & $1.0$  & $0.64$
     \end{tblr}
     \label{I8:results}
 \end{table}
 
-\clearpage 
-
-\subsection{Explain the approach you took to improve the results of the models in detail. Mention some of the limitations of this approach and ideas of how it could be further improved in future works.}\label{I.9}
+% \subsection{Explain the approach you took to improve the results of the models in detail. Mention some of the limitations of this approach and ideas of how it could be further improved in future works.}\label{I.9}
 
 The approach I took to create the \textit{advanced workflow} and improve the results of the models involved making the following modifications to the provided codebase:
 
@@ -496,7 +517,7 @@ This approach created a 2-step look-ahead process for the model to generate hint
 
 The previous explanation is cleverly illustrated in the Figure \ref{fig:real-use-case-phi-3-mini-response}, in which the Phi-3-mini model is not able to generate a correct repair, but given that it knows that it is not correct, the model in its Chain-of-Thought explanation pinpoints bugs in the repaired program, as well as in the student's buggy code. This steers the model off of potentially providing the student a hint that would make it go towards the wrong repaired program (since in the first step, when it was prompted to generate a repair, it thought that this particular repaired program was correct). This can be seen when the model says: \textit{"(...) The problem with the repaired code is that it does not maintain the relative order of the elements in the original list, which is a key requirement of the problem statement (...)"}. The model now has to \textit{think}\footnote{In the sense of the \textit{Chain of Thought} approach, as LLM's actually \textit{thinking} is a topic of debate.} twice and figure out how the student's buggy code and the repaired program are wrong, and thus it can provide a hint that looks ahead on problems that the student may encounter. This can be seen in the hint that the model finally provided: \textit{"(...) Consider using a data structure that maintains the order of elements as you iterate through the list and check for duplicates. (...)"}. There, it took into account both problems, the one in the repaired program as well as one in the student's buggy code, and provided a hint that combined both. In the case of GPT-4o-mini, since it was already quite good at generating hints, as seen in Table \ref{I4:results}, the effect of this approach was not as pronounced, but it still allowed the model to provide even better hints.
 
-\textbf{Limitations.} There are of course some limitations to this approach. The better the model is in generating repairs, the better the hints will be. This can be seen on Table \ref{I7:results} and Table \ref{I8:results}, in which it is clear that GPT-4o-mini is better in terms of the \textit{HGood} metric compared to Phi-3-mini. If a model always provides correct repairs, the model does not have to analyze too much, as it can simply give a concise hint that directly makes the student's buggy code closer to the repaired program.
+\textbf{Limitations\footnote{Only model, data and algorithmic limitations are considered here. There is one obvious limitation to the whole approach and its the way we are evaluating the final performance, the \textit{HGood} metric, which requires manual annotations, which are of course subjective.}.} There are of course some limitations to this approach. The better the model is in generating repairs, the better the hints will be. This can be seen on Table \ref{I7:results} and Table \ref{I8:results}, in which it is clear that GPT-4o-mini is better in terms of the \textit{HGood} metric \cite{HintsInBrowser2024} compared to Phi-3-mini. If a model always provides correct repairs, the model does not have to analyze too much, as it can simply give a concise hint that directly makes the student's buggy code closer to the repaired program.
 
 The model is also limited by the quality of the test cases, as it can only evaluate the repaired program based on the test cases results. If the test cases are not good, the model may generate a repaired program that is actually wrong, but the test cases may not be able to capture this, and thus the model may generate a hint that makes the student's buggy code closer to this wrong repaired program.
 
