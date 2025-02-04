@@ -1,0 +1,83 @@
+{
+    "summary": {
+        "hint_model": "project_part2_models/Phi-3-SFT-Hints_r16_alpha32",
+        "timestamp": "2025-02-04T22:38:22.291964"
+    },
+    "results": {
+        "problem_1_prog_1": {
+            "hint": "Consider what happens when the sequence is empty. How does your code handle this case, and what should it return instead?"
+        },
+        "problem_1_prog_2": {
+            "hint": "Consider what happens when the value you're searching for is greater than all the elements in the sequence. Where should it be placed according to the problem statement?"
+        },
+        "problem_1_prog_3": {
+            "hint": "Consider what should happen when the value you're searching for is greater than all the elements in the sequence. Where should it be placed in relation to the last element?"
+        },
+        "problem_1_prog_4": {
+            "hint": "Consider what happens when the sequence is empty. How does your code handle this case, and is there a more straightforward way to check for an empty sequence?"
+        },
+        "problem_1_prog_5": {
+            "hint": "Consider what happens when the value you're searching for is equal to the last element in the sequence. How does your code handle this situation?"
+        },
+        "problem_2_prog_1": {
+            "hint": "Check the variable names you're using in your functions, especially in the `unique_day` function. Are you using the correct variable for the day you're trying to check?"
+        },
+        "problem_2_prog_2": {
+            "hint": "For the `unique_day` function, think about what it means for a day to be unique. How many times should it appear in the list of possible birthdays to be considered unique?"
+        },
+        "problem_2_prog_3": {
+            "hint": "Check the variable names in your functions, especially in `unique_month` where you're trying to increment a counter. Remember, variables must be defined before you can use them."
+        },
+        "problem_2_prog_4": {
+            "hint": "For the `unique_month` function, think about how you can apply a similar logic to the `unique_day` function to check for a unique month. What would be the key difference in terms of the tuple elements you're comparing?"
+        },
+        "problem_2_prog_5": {
+            "hint": "Look closely at the `contains_unique_day` function. How are you determining the range of days to check for uniqueness within the specified month?"
+        },
+        "problem_3_prog_1": {
+            "hint": "Check the variable names in your code, especially when you're trying to append items to a list. Are you using the correct variable name for the list you're trying to create?"
+        },
+        "problem_3_prog_2": {
+            "hint": "Check the condition in your loop carefully; you might be adding elements to your new list that you actually want to exclude."
+        },
+        "problem_3_prog_3": {
+            "hint": "Consider what happens to the original list when you sort it. Does sorting the list change the order of elements as per the problem's requirement?"
+        },
+        "problem_3_prog_4": {
+            "hint": "Check how you're modifying the list while iterating over it. Are you sure you're not skipping any elements or causing unexpected behavior?"
+        },
+        "problem_3_prog_5": {
+            "hint": "Check how you're trying to add an element to a list. Remember, there's a specific way to add elements to a list in Python."
+        },
+        "problem_4_prog_1": {
+            "hint": "Check how you're determining the \"smallest\" element in the list. Are you comparing the right part of the tuple to find the oldest person?"
+        },
+        "problem_4_prog_2": {
+            "hint": "Remember, the sort method sorts the list in place and returns `None`. Think about how you can use this to your advantage to get the sorted list."
+        },
+        "problem_4_prog_3": {
+            "hint": "Check the variable names used in your function, especially where you're trying to remove an element from the list. Are you using the correct variable that holds the list of people?"
+        },
+        "problem_4_prog_4": {
+            "hint": "Check how you're dividing the list to create the left and right parts in your `sort_age` function. Are you using the correct operator for division in Python?"
+        },
+        "problem_4_prog_5": {
+            "hint": "Check how you're comparing the ages of the people in the list. Are you comparing the right elements in the tuples?"
+        },
+        "problem_5_prog_1": {
+            "hint": "Consider what happens to the list of integers when you remove an element from it. How does this affect the elements that are left in the list?"
+        },
+        "problem_5_prog_2": {
+            "hint": "Check the way you're comparing elements in the list to find the largest one. Are you comparing the right part of the elements?"
+        },
+        "problem_5_prog_3": {
+            "hint": "Check the variable names you're using in your code. Are you using the same name for the list you're appending to and the list you're removing elements from?"
+        },
+        "problem_5_prog_4": {
+            "hint": "Consider what happens to the list when you remove an element from it during iteration. How might this affect the elements you're trying to compare and remove?"
+        },
+        "problem_5_prog_5": {
+            "hint": "Check the variable you're using to iterate in your loop; it seems like you might be using a variable that hasn't been defined or initialized properly."
+        }
+    }
+}

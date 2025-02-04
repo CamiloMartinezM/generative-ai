@@ -68,7 +68,7 @@ if __name__ == "__main__":
     lora_r = 16
     lora_alpha = 32
 
-    data_file = "<<PATH_TO_THE_DATASET>>"  # Change this to the path of the training dataset (i.e. the jsonl file you assembled)
+    data_file = "project_part2_dataset_training_repair.jsonl"  # Change this to the path of the training dataset (i.e. the jsonl file you assembled)
     output_dir = f"project_part2_models/Phi-3-SFT-Repair_r{lora_r}_alpha{lora_alpha}" # Change this to the desired output directory
 
     model, tokenizer = FastLanguageModel.from_pretrained(
