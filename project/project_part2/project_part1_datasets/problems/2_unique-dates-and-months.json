@@ -1,0 +1,77 @@
+{
+    "id": 2,
+    "title": "Unique dates and months",
+    "description": "Implement the functions unique_day, unique_month and contains_unique_day. These functions are designed to work with a list of possible birthdays, where each birthday is represented as a tuple containing a month and a day.\nunique_day(day, possible_birthdays): This function checks if the given day occurs exactly once among the birthdays in possible_birthdays.\nunique_month(month, possible_birthdays): Similar to unique_day, this function checks if the given month occurs exactly once among the birthdays in possible_birthdays.\n contains_unique_day(month, possible_birthdays): This function determines if there is any day within the specified month that is unique among the possible_birthdays.",
+    "additional_description": "A day or month is unique if and only if it occurs exactly once in the list of possible birthdays.",
+    "signature": "def unique_day(day, possible_birthdays):\n\tpass\n\n\ndef unique_month(month, possible_birthdays):\n\tpass\n\n\ndef contains_unique_day(month, possible_birthdays):\n\tpass",
+    "tests": [
+        {
+            "input": "unique_day(\"1\", ((\"January\",\"1\"),(\"February\",\"1\")))",
+            "output": "False"
+        },
+        {
+            "input": "unique_month(\"January\", ((\"January\",\"1\"),(\"January\",\"2\")))",
+            "output": "False"
+        },
+        {
+            "input": "unique_month(\"January\", ((\"January\",\"1\"),(\"February\",\"1\")))",
+            "output": "True"
+        },
+        {
+            "input": "contains_unique_day(\"January\", ((\"January\",\"1\"),(\"January\",\"2\")))",
+            "output": "True"
+        },
+        {
+            "input": "contains_unique_day(\"January\", ((\"January\",\"1\"),(\"February\",\"1\")))",
+            "output": "False"
+        },
+        {
+            "input": "contains_unique_day(\"February\", ((\"January\",\"10\"),(\"February\",\"1\"),(\"February\",\"10\")))",
+            "output": "True"
+        },
+        {
+            "input": "unique_day(\"3\", ((\"January\",\"1\"),(\"January\",\"2\")))",
+            "output": "False"
+        },
+        {
+            "input": "unique_month(\"March\", ((\"January\",\"1\"),(\"February\",\"1\")))",
+            "output": "False"
+        },
+        {
+            "input": "unique_day(\"1\", ((\"January\",\"1\"),(\"January\",\"2\")))",
+            "output": "True"
+        },
+        {
+            "input": "unique_day(\"16\", ((\"May\", \"15\"), (\"May\", \"16\"), (\"May\", \"19\"), (\"June\", \"17\"), (\"June\", \"18\"), (\"July\", \"14\"), (\"July\", \"16\"), (\"August\", \"14\"), (\"August\", \"15\"), (\"August\", \"17\")))",
+            "output": "False"
+        },
+        {
+            "input": "unique_day(\"17\", ((\"May\", \"15\"), (\"May\", \"16\"), (\"May\", \"19\"), (\"June\", \"17\"), (\"June\", \"18\"), (\"July\", \"14\"), (\"July\", \"16\"), (\"August\", \"14\"), (\"August\", \"15\"), (\"August\", \"17\")))",
+            "output": "False"
+        },
+        {
+            "input": "unique_day(\"18\", ((\"May\", \"15\"), (\"May\", \"16\"), (\"May\", \"19\"), (\"June\", \"17\"), (\"June\", \"18\"), (\"July\", \"14\"), (\"July\", \"16\"), (\"August\", \"14\"), (\"August\", \"15\"), (\"August\", \"17\")))",
+            "output": "True"
+        },
+        {
+            "input": "unique_day(\"19\", ((\"May\", \"15\"), (\"May\", \"16\"), (\"May\", \"19\"), (\"June\", \"17\"), (\"June\", \"18\"), (\"July\", \"14\"), (\"July\", \"16\"), (\"August\", \"14\"), (\"August\", \"15\"), (\"August\", \"17\")))",
+            "output": "True"
+        },
+        {
+            "input": "unique_month(\"May\", ((\"May\", \"15\"), (\"May\", \"16\"), (\"May\", \"19\"), (\"June\", \"17\"), (\"June\", \"18\"), (\"July\", \"14\"), (\"July\", \"16\"), (\"August\", \"14\"), (\"August\", \"15\"), (\"August\", \"17\")))",
+            "output": "False"
+        },
+        {
+            "input": "unique_month(\"June\", ((\"May\", \"15\"), (\"May\", \"16\"), (\"May\", \"19\"), (\"June\", \"17\"), (\"June\", \"18\"), (\"July\", \"14\"), (\"July\", \"16\"), (\"August\", \"14\"), (\"August\", \"15\"), (\"August\", \"17\")))",
+            "output": "False"
+        },
+        {
+            "input": "contains_unique_day(\"June\", ((\"May\", \"15\"), (\"May\", \"16\"), (\"May\", \"19\"), (\"June\", \"17\"), (\"June\", \"18\"), (\"July\", \"14\"), (\"July\", \"16\"), (\"August\", \"14\"), (\"August\", \"15\"), (\"August\", \"17\")))",
+            "output": "True"
+        },
+        {
+            "input": "contains_unique_day(\"July\", ((\"May\", \"15\"), (\"May\", \"16\"), (\"May\", \"19\"), (\"June\", \"17\"), (\"June\", \"18\"), (\"July\", \"14\"), (\"July\", \"16\"), (\"August\", \"14\"), (\"August\", \"15\"), (\"August\", \"17\")))",
+            "output": "False"
+        }
+    ]
+}

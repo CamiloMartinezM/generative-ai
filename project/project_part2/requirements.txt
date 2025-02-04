@@ -1,0 +1,5 @@
+mypy
+Levenshtein
+unsloth
+openai
+transformers==4.47.1

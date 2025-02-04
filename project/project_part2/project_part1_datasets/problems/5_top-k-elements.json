@@ -1,0 +1,29 @@
+{
+    "id": 5,
+    "title": "Top-K",
+    "description": "Write a function top_k that accepts a list of integers as the input and returns the greatest k number of values as a list, with its elements sorted in descending order. You may use any sorting algorithm you wish, but you are not allowed to use sort and sorted.",
+    "additional_description":"",
+    "signature": "def top_k(lst, k):\n\tpass",
+    "tests": [
+        {
+            "input": "top_k([9, 9, 4, 9, 7, 9, 3, 1, 6], 5)",
+            "output": "[9, 9, 9, 9, 7]"
+        },
+        {
+            "input": "top_k([9, 8, 4, 5, 7, 2, 3, 1, 6], 5)",
+            "output": "[9, 8, 7, 6, 5]"
+        },
+        {
+            "input": "top_k([4, 5, 2, 3, 1, 6], 6)",
+            "output": "[6, 5, 4, 3, 2, 1]"
+        },
+        {
+            "input": "top_k([4, 5, 2, 3, 1, 6], 3)",
+            "output": "[6, 5, 4]"
+        },
+        {
+            "input": "top_k([4, 5, 2, 3, 1, 6], 0)",
+            "output": "[]"
+        }
+    ]
+}
