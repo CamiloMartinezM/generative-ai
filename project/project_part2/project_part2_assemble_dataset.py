@@ -116,7 +116,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--mode",
         type=str,
-        choices=["repair", "hint"],
+        choices=["repair", "hint", "combined"],
         default="repair",
         help="Mode to generate dataset: repair or hint",
     )
@@ -124,4 +124,35 @@ if __name__ == "__main__":
     args = parser.parse_args()
     mode = args.mode
 
-    generate_train_dataset(f"./project_part2_dataset_training_{mode}.jsonl", mode)
+    if mode != "combined":
+        generate_train_dataset(f"./project_part2_dataset_training_{mode}.jsonl", mode)
+    else:
+        # Create the training and hint datasets
+        if not os.path.exists("./project_part2_dataset_training_repair.jsonl"):
+            generate_train_dataset("./project_part2_dataset_training_repair.jsonl", "repair")
+        if not os.path.exists("./project_part2_dataset_training_hint.jsonl"):
+            generate_train_dataset("./project_part2_dataset_training_hint.jsonl", "hint")
+
+        # Load both jsonl files
+        with open("./project_part2_dataset_training_repair.jsonl", "r") as repair_file:
+            repair_dataset = repair_file.readlines()
+
+        with open("./project_part2_dataset_training_hint.jsonl", "r") as hint_file:
+            hint_dataset = hint_file.readlines()
+
+        # Combine the two datasets
+        combined_dataset = repair_dataset + hint_dataset
+
+        # Shuffle the combined dataset
+        random.shuffle(combined_dataset)
+
+        # Save the shuffled combined dataset
+        with open("./project_part2_dataset_training_combined.jsonl", "w") as combined_file:
+            for line in combined_dataset:
+                # Since we read the lines directly, they already contain newlines
+                combined_file.write(line)
+
+        # Print the length of each dataset and the length of the final dataset to verify
+        print(f"Repair dataset length: {len(repair_dataset)}")
+        print(f"Hint dataset length: {len(hint_dataset)}")
+        print(f"Combined dataset length: {len(combined_dataset)}")
