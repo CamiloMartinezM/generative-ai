@@ -109,6 +109,8 @@
 
 % (I.11) Modify the parameters in the project_part2_evaluate.py script to generate program repairs using each of the two models (i.e., Phi-3-SFT-Repair-r16-alpha32 and Phi-3-SFT-Hints-r16-alpha32). Report RPass and REdit.
 
+\textbf{(I.11)} Table \ref{I11:results} shows the comparison between the Phi-3-SFT-Repair-r16-alpha32 and Phi-3-SFT-Hints-r16-alpha32 models on the Repair task. As expected, the former is better on repair, than the latter, as demonstrated by the better values in both \emph{RPass} and \emph{REdit}, since it was specifically fine-tuned for the Repair task. The Phi-3-SFT-Hints-r16-alpha32 model, on the other hand, was fine-tuned for the hint generation task, and thus performs worse on the Repair task, but better on the Hint generation task, as \textbf{(I.12)} goes on to show.
+
 % "repair_model": "project_part2_models/Phi-3-SFT-Hints_r16_alpha32",
 % "RPass": 72.0,
 % "REdit": 21.22222222222222,
@@ -118,7 +120,7 @@
 % "REdit": 9.894736842105264,
 
 \begin{table}[H]
-    \caption{Program repair quality metrics, \emph{RPass} and \emph{REdit}, for the finetuned models on Repair and Hint tasks. In parentheses, the change in the metric compared to the Repair model is shown, where \textcolor{green}{green} means an improving change and \textcolor{red}{red} a worsening change. For \textbf{(I.11)}.}
+    \caption{Program repair quality metrics, \emph{RPass} and \emph{REdit}, for the fine-tuned models on Repair and Hint tasks. In parentheses, the change in the metric compared to the Repair model is shown, where \textcolor{green}{green} means an improving change and \textcolor{red}{red} a worsening change. For \textbf{(I.11)}.}
     \vspace{0.5\baselineskip}
     \centering
     \begin{tblr}{
@@ -140,6 +142,120 @@
 
 % (I.12) Modify the parameters in the project_part2_evaluate.py script to generate hints using each of the two models (i.e., Phi-3-SFT-Repair-r16-alpha32 and Phi-3-SFT-Hints-r16-alpha32). Evaluate the generated hints using the HGood metric [3] and report your results.
 
+\textbf{(I.12)} Table \ref{I12:sft-repair-results} and \ref{I12:sft-hint-results} show the evaluation of the generated hints by the Phi-3-SFT-Repair-r16-alpha32 and Phi-3-SFT-Hints-r16-alpha32 models respectively using the \emph{HGood} metric \cite{HintsInBrowser2024}. As expected, since the Phi-3-SFT-Hints-r16-alpha32 model has been fine-tuned specifically on the Hint generation task, it performs very well on all metrics, achieving a score of $0.84$ in \emph{HGood}. On the other hand, the Phi-3-SFT-Repair-r16-alpha32 model, which has been fine-tuned on the Repair task, performs worse, with an average \emph{HGood} score of $0.2$. This model is only slightly better than the base Phi-3-mini model, which scored $0.16$ in \emph{HGood} in Project Part\#1.
+
+\begin{table}[H]
+    \caption{Hint Quality Metrics for Phi-3-SFT-Repair-r16-alpha32. This model is fine-tuned on Repair task. For \textbf{(I.12)}.}
+    \vspace{0.5\baselineskip}
+    \centering
+    \begin{tblr}{
+            colspec={X[0.3,c] X[0.2,c] X[0.2,c] X[0.3,c] X[0.2,c] X[0.4,c] X[0.15,c]},
+            row{1}={font=\bfseries},
+            colsep=4pt,
+            row{even}={bg=gray!10},
+            hlines,
+            vlines,
+            hspan=minimal,
+            vspan=center,
+        }
+        Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
+        \hline
+        \SetCell[r=5]{} Problem 1       & Prog. 1 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 2 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 3 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 4 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 5 & $1   $ & $0   $ & $0   $ & $1   $ & $0   $ \\
+        \SetCell[c=2]{} Avg. Problem 1  &         & $1.0 $ & $0.8 $ & $0.2 $ & $1.0 $ & $0.2 $ \\
+        \hline
+        \SetCell[r=5]{} Problem 2       & Prog. 1 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 2 & $0   $ & $0   $ & $1   $ & $1   $ & $0   $ \\
+                                & Prog. 3 & $1   $ & $0   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 4 & $0   $ & $0   $ & $1   $ & $1   $ & $0   $ \\
+                                & Prog. 5 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+        \SetCell[c=2]{} Avg. Problem 2  &         & $0.6 $ & $0.4 $ & $0.4 $ & $1.0 $ & $0.0 $ \\
+        \hline
+        \SetCell[r=5]{} Problem 3       & Prog. 1 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 2 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 3 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 4 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 5 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+        \SetCell[c=2]{} Avg. Problem 3  &         & $1.0 $ & $1.0 $ & $0.4 $ & $1.0 $ & $0.4 $ \\
+        \hline
+        \SetCell[r=5]{} Problem 4       & Prog. 1 & $1   $ & $0   $ & $1   $ & $1   $ & $0   $ \\
+                                & Prog. 2 & $1   $ & $0   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 3 & $0   $ & $0   $ & $1   $ & $1   $ & $0   $ \\
+                                & Prog. 4 & $0   $ & $0   $ & $1   $ & $1   $ & $0   $ \\
+                                & Prog. 5 & $0   $ & $0   $ & $1   $ & $1   $ & $0   $ \\
+        \SetCell[c=2]{} Avg. Problem 4  &         & $0.4 $ & $0.0 $ & $0.8 $ & $1.0 $ & $0.0 $ \\
+        \hline
+        \SetCell[r=5]{} Problem 5       & Prog. 1 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 2 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 3 & $0   $ & $0   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 4 & $1   $ & $1   $ & $0   $ & $1   $ & $0   $ \\
+                                & Prog. 5 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+        \SetCell[c=2]{} Avg. Problem 5  &         & $0.8 $ & $0.8 $ & $0.4 $ & $1.0 $ & $0.4 $ \\
+        \hline
+        \SetCell[c=2]{} Overall Average &         & $0.76$ & $0.6$ & $0.44$ & $1.0$  & $0.2$
+    \end{tblr}
+    \label{I12:sft-repair-results}
+\end{table}
+
+\begin{table}[H]
+    \caption{Hint Quality Metrics for Phi-3-SFT-Hints-r16-alpha32. This model is fine-tuned on Hint generation. For \textbf{(I.12)}.}
+    \vspace{0.5\baselineskip}
+    \centering
+    \begin{tblr}{
+            colspec={X[0.3,c] X[0.2,c] X[0.2,c] X[0.3,c] X[0.2,c] X[0.4,c] X[0.15,c]},
+            row{1}={font=\bfseries},
+            colsep=4pt,
+            row{even}={bg=gray!10},
+            hlines,
+            vlines,
+            hspan=minimal,
+            vspan=center,
+        }
+        Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
+        \hline
+        \SetCell[r=5]{} Problem 1       & Prog. 1 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 2 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 3 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 4 & $1  $ & $0   $ & $1   $ & $1  $ & $0$   \\
+                                & Prog. 5 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+        \SetCell[c=2]{} Avg. Problem 1  &         & $1.0$ & $0.8 $ & $1.0 $ & $1.0$ & $0.8$ \\
+        \hline
+        \SetCell[r=5]{} Problem 2       & Prog. 1 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 2 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 3 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 4 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 5 & $1  $ & $0   $ & $1   $ & $1  $ & $0$   \\
+        \SetCell[c=2]{} Avg. Problem 2  &         & $1.0$ & $0.8 $ & $1.0 $ & $1.0$ & $0.8$ \\
+        \hline
+        \SetCell[r=5]{} Problem 3       & Prog. 1 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 2 & $1  $ & $0   $ & $1   $ & $1  $ & $0$   \\
+                                & Prog. 3 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 4 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 5 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+        \SetCell[c=2]{} Avg. Problem 3  &         & $1.0$ & $0.8 $ & $1.0 $ & $1.0$ & $0.8$ \\
+        \hline
+        \SetCell[r=5]{} Problem 4       & Prog. 1 & $0  $ & $0   $ & $1   $ & $1  $ & $0$  \\
+                                & Prog. 2 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 3 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 4 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 5 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+        \SetCell[c=2]{} Avg. Problem 4  &         & $0.8$ & $0.8 $ & $1.0 $ & $1.0$ & $0.8$ \\
+        \hline
+        \SetCell[r=5]{} Problem 5       & Prog. 1 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 2 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 3 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 4 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+                                & Prog. 5 & $1  $ & $1   $ & $1   $ & $1  $ & $1$   \\
+        \SetCell[c=2]{} Avg. Problem 5  &         & $1.0$ & $1.0 $ & $1.0 $ & $1.0$ & $1.0$ \\
+        \hline
+        \SetCell[c=2]{} Overall Average &         & $0.96$ & $0.84$ & $1.0$ & $1.0$  & $0.84$
+    \end{tblr}
+    \label{I12:sft-hint-results}
+\end{table}
+
 \section{Part 2.b: Fine-tuning for Program Repair with Varying LoRA Parameters}\label{part-2b}
 
 % (I.13) Evaluate the three different fine-tuned models with varying (r, α) on program repair. Report program repair quality metrics (RPass, REdit), TrainingTime, and TrainingMemory. In terms of quality metrics, compare the results of different fine-tuned models with those of the base Phi-3-mini in I.3 of Project Part#1.
@@ -156,10 +272,10 @@
 % "RPass": 84.0,
 % "REdit": 17.142857142857142,
 
-Table \ref{I13:results} shows a comparison between different finetuned versions of the Phi-3-mini model on the Repair task using varying LoRA parameters. Recall that in Project Part\#1 (see Table \ref{appendix-I3-results} in \hyperref[appendix:I3-results]{\textbf{Appendix}}), the base Phi-3-mini scored $36.0$ in \emph{RPass} and $18.11$ in \emph{REdit}, which is significantly worse than any of the finetuned models. This means that the fine-tuning process with LoRA was effective and greatly improved the model's performance on the Repair task.
+\textbf{(I.13)} Table \ref{I13:results} shows a comparison between different fine-tuned versions of the Phi-3-mini model on the Repair task using varying LoRA parameters. Recall that in Project Part\#1 (see Table \ref{appendix-I3-results} in \hyperref[appendix:I3-results]{\textbf{Appendix}}), the base Phi-3-mini scored $36.0$ in \emph{RPass} and $18.11$ in \emph{REdit}, which is significantly worse than any of the fine-tuned models. This means that the fine-tuning process with LoRA was effective and greatly improved the model's performance on the Repair task.
 
 \begin{table}[H]
-    \caption{Program repair quality metrics, \emph{RPass} and \emph{REdit}, for the finetuned models on Repair task using different LoRA
+    \caption{Program repair quality metrics, \emph{RPass} and \emph{REdit}, for the fine-tuned models on Repair task using different LoRA
     parameter configurations: $(r, \alpha) = {(4, 8), (16, 32), (64, 128)}$. In parentheses, the change in the metric compared to a base configuration, chosen to be $(16, 32)$, is shown, where \textcolor{green}{green} means an improving change and \textcolor{red}{red} a worsening change. For \textbf{(I.13)}.}
     \vspace{0.5\baselineskip}
     \centering
@@ -210,12 +326,14 @@ The choice between the three configurations will depend on the specific requirem
 
 % (I.15) Evaluate the multi-task model on program repair. Report results based on the program repair quality metrics as done in I.11.
 
+\textbf{(I.15)} Table \ref{I15:results} shows the comparison between the Phi-3-SFT-Repair-r16-alpha32, Phi-3-SFT-Hints-r16-alpha32 and Phi-3-SFT-Merged-r16-alpha32 models on the Repair task. The latter, fine-tuned on both Repair and Hint tasks outperforms the other two in terms of \emph{RPass} and achieves the second lowest \emph{REdit}. This suggests that the multi-task learning approach is effective in improving the model's performance on the Repair task, at the cost of being slightly less conservative in suggesting changes to the student's buggy code.
+
 % "repair_model": "project_part2_models/Phi-3-SFT-Repair_r16_alpha32_combined",
 % "RPass": 80.0,
 % "REdit": 14.6,
 
 \begin{table}[H]
-    \caption{Program repair quality metrics, \emph{RPass} and \emph{REdit}, for the finetuned models on Repair, Hint and both tasks combined. In parentheses, the change in the metrics compared to the multi-task model (Phi-3-SFT-Merged\_r16\_alpha32) is shown, where \textcolor{green}{green} means an improving change and \textcolor{red}{red} a worsening change. The results of \textbf{(I.11)} are included for ease of comparison. For \textbf{(I.15)}.}
+    \caption{Program repair quality metrics, \emph{RPass} and \emph{REdit}, for the fine-tuned models on Repair, Hint and both tasks combined. In parentheses, the change in the metrics compared to the multi-task model (Phi-3-SFT-Merged\_r16\_alpha32) is shown, where \textcolor{green}{green} means an improving change and \textcolor{red}{red} a worsening change. The results of \textbf{(I.11)} are included for ease of comparison. For \textbf{(I.15)}.}
     \vspace{0.5\baselineskip}
     \centering
     \begin{tblr}{
@@ -233,10 +351,79 @@ The choice between the three configurations will depend on the specific requirem
         Phi-3-SFT-Repair\_r16\_alpha32 & $76.0$ (\textcolor{red}{$-4.0$}) & $9.89$ (\textcolor{green}{$-4.71$}) \\
         Phi-3-SFT-Merged\_r16\_alpha32 & $80.0$ (--) & $14.6$ (--) \\
     \end{tblr}
-    \label{I11:results}
+    \label{I15:results}
 \end{table}
 
 % (I.16) Evaluate the multi-task model on hint generation. Report results based on the hint generation quality metrics as done in I.12.
+
+\textbf{(I.16)} Table \ref{I16:sft-merged-results} shows the evaluation of the Phi-3-SFT-Merged-r16-alpha32 model on the Hint generation task using the \emph{HGood} metric \cite{HintsInBrowser2024}. As expected, the model performs very well on all metrics, achieving a score of $0.92$ in \emph{HGood}. Given the results of \textbf{(I.15)}, this means that this model became the best at both tasks, at the same time.
+
+This multi-task learning approach of using a concatenation of both datasets (Repair + Hint) offered a more diverse scenario for a model to learn from. Both of these tasks intuitively benefit from one another. During training, the model is given access to the repairs of the buggy programs, which should give it exact guidelines on what to hint at for a student. Thus a diverse dataset such as this one contributes to a hand-in-hand improvement in the model's performance on both tasks.
+
+Finally, a comparison of all evaluated Phi-3-mini models is provided with Figure \ref{fig:I.16-results}, in order to see how the SFT models fare against the base model and the CoT model from Project Part\#1.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{../images/all_models_hint_metrics_plot.pdf}
+    \caption{Comparison between all Phi-3-mini models: the base model, with CoT (both from Project Part\#1), Phi-3-SFT-Repair-r16-alpha32, Phi-3-SFT-Hints-r16-alpha32 and Phi-3-SFT-Merged-r16-alpha32 models, evaluated on the Hint generation task in terms of the \emph{HGood} metric. For \textbf{(I.16)}.}
+    \label{fig:I.16-results}
+\end{figure}
+
+\begin{table}[H]
+    \caption{Hint Quality Metrics for Phi-3-SFT-Merged-r16-alpha32. This model is fine-tuned on both Repair and Hint tasks. For \textbf{(I.16)}.}
+    \vspace{0.5\baselineskip}
+    \centering
+    \begin{tblr}{
+            colspec={X[0.3,c] X[0.2,c] X[0.2,c] X[0.3,c] X[0.2,c] X[0.4,c] X[0.15,c]},
+            row{1}={font=\bfseries},
+            colsep=4pt,
+            row{even}={bg=gray!10},
+            hlines,
+            vlines,
+            hspan=minimal,
+            vspan=center,
+        }
+        Problem                   & Program & \textit{HCorrect}  & \textit{HInformative}  & \textit{HConceal} & \textit{HComprehensible} & \textit{HGood}  \\
+        \hline
+        \SetCell[r=5]{} Problem 1       & Prog. 1 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 2 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 3 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 4 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 5 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+        \SetCell[c=2]{} Avg. Problem 1  &         & $1.0 $ & $1.0 $ & $1.0 $ & $1.0 $ & $1.0 $ \\
+        \hline
+        \SetCell[r=5]{} Problem 2       & Prog. 1 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 2 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 3 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 4 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 5 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+        \SetCell[c=2]{} Avg. Problem 2  &         & $1.0 $ & $1.0 $ & $1.0 $ & $1.0 $ & $1.0 $ \\
+        \hline
+        \SetCell[r=5]{} Problem 3       & Prog. 1 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 2 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 3 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 4 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 5 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+        \SetCell[c=2]{} Avg. Problem 3  &         & $1.0 $ & $1.0 $ & $1.0 $ & $1.0 $ & $1.0 $ \\
+        \hline
+        \SetCell[r=5]{} Problem 4       & Prog. 1 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 2 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 3 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 4 & $0   $ & $0   $ & $1   $ & $1   $ & $0   $ \\
+                                & Prog. 5 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+        \SetCell[c=2]{} Avg. Problem 4  &         & $0.8 $ & $0.8 $ & $1.0 $ & $1.0 $ & $0.8 $ \\
+        \hline
+        \SetCell[r=5]{} Problem 5       & Prog. 1 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 2 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 3 & $1   $ & $0   $ & $1   $ & $1   $ & $0   $ \\
+                                & Prog. 4 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+                                & Prog. 5 & $1   $ & $1   $ & $1   $ & $1   $ & $1   $ \\
+        \SetCell[c=2]{} Avg. Problem 5  &         & $1.0 $ & $0.8 $ & $1.0 $ & $1.0 $ & $0.8 $ \\
+        \hline
+        \SetCell[c=2]{} Overall Average &         & $0.96$ & $0.92$ & $1.0$ & $1.0$  & $0.92$
+    \end{tblr}
+    \label{I16:sft-merged-results}
+\end{table}
 
 % (I.17) Report and analyze the performance w.r.t. TrainingTime and TrainingMemory. Explain the approach you used to create the dataset and fine-tune the multi-task model, noting challenges and key observations. Discuss the performance changes compared to specialized models in Part 2.a and the possible reasons behind them.
 
@@ -260,6 +447,10 @@ On the other hand, the \emph{TrainingMemory} between the specialized model for t
     \caption{Trade-offs between the specialized models and the multi-task model in terms of loss evolution, \emph{TrainingTime}, \emph{TrainingMemory}, and number of trained parameters. The (m) indicates the multi-task model. These experiments were conducted with a GPU T4 instance on \href{https://colab.research.google.com/}{Google Colab}. For \textbf{(I.17)}.}
     \label{fig:I.17-results}
 \end{figure}
+
+As expected, the $(4, 8)$ configuration has the lowest number of parameters and thus incurs in the least \emph{TrainingMemory}. The \emph{TrainingTime} between all configurations, $(4, 8)$, $(16, 32)$ and $(64, 128)$ is the same, which is also supported by the loss evolution plot. This means that the model does not gain anything from adding $4\times$ more parameters, going from $(16, 32)$ to $(64, 128)$, as their loss curve almost overlap. And if we look at Table \ref{I15:results} again, the gain in \emph{RPass} is only $4$ points better than $(16, 32)$, but the \emph{REdit} is worse. On the other hand, the $(16, 32)$ (m) configuration has approximately $2\times$ the \emph{TrainingTime} than all the others, which is expected as the dataset grew in size.
+
+Therefore, the $(16, 32)$ configuration seems to be the best trade-off between the number of parameters, \emph{TrainingMemory}, and the loss evolution. It has a good balance between the number of parameters and \emph{TrainingMemory}, and the results from Table \ref{I15:results} shows that it is not overfitting as $(64, 128)$.
 
 Figure \ref{fig:I.17-A100-results} shows the same concepts, as Figure \ref{fig:I.17-results}, but for a GPU A100 instance. Using this GPU significantly reduced the \emph{TrainingTime} for all models, especially for the multi-task model. Nevertheless, if we take into account relative performance, the multi-task model still requires $2\times$ the \emph{TrainingTime} of the specialized model for the Repair task, i.e., $6.63$ minutes vs. $13.50$ minutes with an A100 and $42.64$ minutes vs $87.16$ minutes with a T4, respectively.
 
