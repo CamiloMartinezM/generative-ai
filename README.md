@@ -1,1 +1,3 @@
-# generative-ai
+# Generative-AI
+
+This repository contains implementations of various assignments and a project related to the [Generative AI](https://generative-ai.mpi-sws.org/course-genai-w24/index.html) course lectured by [Prof. Dr. Adish Singla](https://machineteaching.mpi-sws.org/adishsingla.html) and [Dr. Goran Radanović](https://people.mpi-sws.org/~gradanovic/) at [Saarland University](https://www.uni-saarland.de/) during the Winter Semester 2024/25. *All course materials and assignments outlines belong to the course's instructors*. *No guarantee is given to the correctness of the solution of the assignments, or any code implementation in this entire repository.*
